@@ -33,9 +33,24 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         textFieldAlertMap = [usernameTextField:usernameAlert, passwordTextField:passwordAlert, confirmPasswordTextField:confirmPasswordAlert, dateOfBirthTextField:dateOfBirthAlert, emailTextField:emailAlert]
         
         self.emailTextField.delegate = self
+        self.dateOfBirthTextField.delegate = self
+        self.confirmPasswordTextField.delegate = self
+        self.usernameTextField.delegate = self
+        self.passwordTextField.delegate = self
 
         // TODO: Date picker for DOB
         // createDatePicker()
+    }
+    
+    // Called when 'return' key pressed
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Called when the user clicks on the view outside of the UITextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func createAccountButtonPressed(_ sender: Any) {
@@ -73,10 +88,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
     
     func createDatePicker() {
         let toolbar = UIToolbar()
