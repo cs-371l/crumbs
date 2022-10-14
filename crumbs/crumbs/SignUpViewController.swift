@@ -42,6 +42,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         var validated = true
         passwordAlert.text = passwordEmptyAlert
         confirmPasswordAlert.text = confirmPasswordEmptyAlert
+        passwordAlert.isHidden = true
+        confirmPasswordAlert.isHidden = true
         for (textField, alert) in textFieldAlertMap {
             if textField.text == "" {
                 alert.isHidden = false

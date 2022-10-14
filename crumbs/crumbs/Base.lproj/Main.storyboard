@@ -110,7 +110,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <connections>
-                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="UR0-Fs-XPE"/>
+                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="Xb6-lX-ptX"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhI-8g-fov">
@@ -127,7 +127,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                 <connections>
-                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="aEk-r6-ER7"/>
+                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="iTj-Ia-I2L"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xWj-L1-Hku">
@@ -144,7 +144,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                                 <connections>
-                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="mKB-Y3-dkQ"/>
+                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="w2G-W4-GVT"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date of birth" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tu3-rp-8U5">
@@ -161,7 +161,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="Hln-Mw-WtW"/>
+                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="LJ3-er-duR"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjl-D8-K5l">
