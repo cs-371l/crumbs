@@ -63,6 +63,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     @IBAction func textFieldChanged(_ sender: Any) {
         let textField = sender as! UITextField
         if let alert = textFieldAlertMap[textField] {
