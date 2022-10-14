@@ -30,10 +30,10 @@ class LoginViewController: UIViewController {
         usernameError.text = ""
     }
     // Setups the apple button with correct logo and tint.
-    @IBAction func editingBeginUsername(_ sender: Any) {
+    @IBAction func editingChangedUsername(_ sender: Any) {
         usernameError.text = ""
     }
-    @IBAction func editingBeginPassword(_ sender: Any) {
+    @IBAction func editingChangedPassword(_ sender: Any) {
         passwordError.text = ""
     }
     

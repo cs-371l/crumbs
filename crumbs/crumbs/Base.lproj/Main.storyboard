@@ -44,7 +44,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                                 <connections>
-                                    <action selector="editingBeginUsername:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="kih-eV-nvt"/>
+                                    <action selector="editingChangedUsername:" destination="BYZ-38-t0r" eventType="editingChanged" id="Sts-oE-3Cl"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17J-S7-hdU">
@@ -63,7 +63,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <connections>
-                                    <action selector="editingBeginPassword:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="Jxo-92-AuC"/>
+                                    <action selector="editingChangedPassword:" destination="BYZ-38-t0r" eventType="editingChanged" id="Pr3-MU-vXp"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jZz-JE-46k">
