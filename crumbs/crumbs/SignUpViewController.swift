@@ -23,6 +23,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
+    let oldestAge = 120
+    let youngestAge = 13
     
     var textFieldAlertMap:[UITextField:UILabel] = [:]
     let datePicker = UIDatePicker()
@@ -30,16 +32,21 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textFieldAlertMap = [usernameTextField:usernameAlert, passwordTextField:passwordAlert, confirmPasswordTextField:confirmPasswordAlert, dateOfBirthTextField:dateOfBirthAlert, emailTextField:emailAlert]
+        textFieldAlertMap = [
+            usernameTextField:usernameAlert,
+            passwordTextField:passwordAlert,
+            confirmPasswordTextField:confirmPasswordAlert,
+            dateOfBirthTextField:dateOfBirthAlert, emailTextField:emailAlert
+        ]
         
         self.emailTextField.delegate = self
         self.dateOfBirthTextField.delegate = self
         self.confirmPasswordTextField.delegate = self
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
-
+        
         // TODO: Date picker for DOB
-        // createDatePicker()
+        createDatePicker()
     }
     
     // Called when 'return' key pressed
@@ -80,7 +87,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     @IBAction func textFieldChanged(_ sender: Any) {
         let textField = sender as! UITextField
         if let alert = textFieldAlertMap[textField] {
@@ -88,17 +94,29 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    func createDatePicker() {
+    func createToolbar() -> UIToolbar {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneWithBirthday))
         toolbar.setItems([doneButton], animated: true)
-        
-        dateOfBirthTextField.inputAccessoryView = toolbar
+        return toolbar
+    }
+    
+    func createDatePicker() {
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.datePickerMode = .date
+        datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -oldestAge, to: Date())
+        datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: -youngestAge, to: Date())
         dateOfBirthTextField.inputView = datePicker
+        dateOfBirthTextField.inputAccessoryView = createToolbar()
+    }
+
+    @objc func doneWithBirthday() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        dateOfBirthTextField.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
 
 }
