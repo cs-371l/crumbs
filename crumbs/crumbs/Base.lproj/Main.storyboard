@@ -274,6 +274,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                                 <connections>
+                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="FCf-AN-X6h"/>
                                     <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="w2G-W4-GVT"/>
                                 </connections>
                             </textField>
