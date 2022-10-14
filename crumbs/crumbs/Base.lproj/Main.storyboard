@@ -289,7 +289,7 @@
                                     <constraint firstAttribute="height" constant="40" id="jD7-Ar-weH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                 <connections>
                                     <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="LJ3-er-duR"/>
                                 </connections>
