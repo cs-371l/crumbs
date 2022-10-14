@@ -7,6 +7,14 @@
 
 import UIKit
 
+extension String {
+   var isValidEmail: Bool {
+      let regularExpressionForEmail = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+      let testEmail = NSPredicate(format:"SELF MATCHES %@", regularExpressionForEmail)
+      return testEmail.evaluate(with: self)
+   }
+}
+
 class SignUpViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var dateOfBirthTextField: UITextField!
@@ -23,6 +31,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
+    let emailEmptyAlert = "Please enter your email"
     let oldestAge = 120
     let youngestAge = 13
     
@@ -64,8 +73,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         var validated = true
         passwordAlert.text = passwordEmptyAlert
         confirmPasswordAlert.text = confirmPasswordEmptyAlert
+        emailAlert.text = emailEmptyAlert
         passwordAlert.isHidden = true
         confirmPasswordAlert.isHidden = true
+        emailAlert.isHidden = true
+        
         for (textField, alert) in textFieldAlertMap {
             if textField.text == "" {
                 alert.isHidden = false
@@ -81,6 +93,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             
             validated = false
         }
+        if emailAlert.isHidden && !self.emailTextField.text!.isValidEmail {
+            self.emailAlert.text = "Please enter a valid email"
+            self.emailAlert.isHidden = false
+            validated = false
+        }
+        
         
         if validated {
             // TODO: Direct to discover page
