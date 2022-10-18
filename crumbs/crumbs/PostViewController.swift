@@ -47,6 +47,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private final let POST_IDENTIFIER = "PostIdentifier"
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
+    private final let ESTIMATED_ROW_HEIGHT = 1000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,20 +56,21 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         postViewTable.tableHeaderView = UIView()
         
         postViewTable.rowHeight = UITableView.automaticDimension
-        postViewTable.estimatedRowHeight = 1000
-        
-
-        // Do any additional setup after loading the view.
+        postViewTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
+        
+        // First cell is the post. Assign attributes and prevent selection.
         if row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: POST_IDENTIFIER, for: indexPath) as! PostViewCell
             cell.assignAttributes(p: post)
+            cell.selectionStyle = .none
             return cell
         }
         
+        // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
         cell.assignAttributes(c: post.comments[row - 1])
         return cell
@@ -76,6 +78,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // +1 for the post.
         return 1 + post.commentCount
     }
     
@@ -86,14 +89,4 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

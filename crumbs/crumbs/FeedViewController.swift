@@ -30,7 +30,6 @@ class PostTableViewCell : UITableViewCell {
         viewsLabel.text = String(p.viewCount)
         
         activeLabel.text = p.createdAgo
-        
     }
 }
 
@@ -39,11 +38,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
     private final let FOLLOW_IDX = 1
+    private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
+
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
     
+    // Defaulted to discover active.
     var discoverActive = true
-    
     var posts : [Post] = []
 
     override func viewDidLoad() {
@@ -54,16 +55,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.posts = generatePostData()
         
         self.cardTable.rowHeight = UITableView.automaticDimension
-        self.cardTable.estimatedRowHeight = 1000
-    }
-    
-    @objc
-    func navigateNext(sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "ToDesignSegue", sender: self)
+        self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
     }
     
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
+        // Only reload data if not previously active. Scroll
+        // to the top when switching segments.
         if sender.selectedSegmentIndex == DISCOVER_IDX {
             if !discoverActive {
                 posts = generatePostData()
@@ -103,18 +101,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Going into post view, pass in the post.
         if segue.identifier == POST_VIEW_SEGUE, let nextVC = segue.destination as? PostViewController, let rowIndex = cardTable.indexPathForSelectedRow?.row  {
             nextVC.post = posts[rowIndex]
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
