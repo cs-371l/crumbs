@@ -13,6 +13,7 @@
 		6A292D5528F385670068C727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A292D5328F385670068C727 /* Main.storyboard */; };
 		6A292D5728F385680068C727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A292D5628F385680068C727 /* Assets.xcassets */; };
 		6A292D5A28F385680068C727 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A292D5828F385680068C727 /* LaunchScreen.storyboard */; };
+		6A34E9F328FF391D00699A74 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E9F228FF391D00699A74 /* SettingsViewController.swift */; };
 		6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */; };
 		886D467D28FA3B1400CB59FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D467C28FA3B1400CB59FB /* User.swift */; };
 		886D467F28FA3D6000CB59FB /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D467E28FA3D6000CB59FB /* FeedViewController.swift */; };
@@ -30,6 +31,7 @@
 		6A292D5628F385680068C727 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A292D5928F385680068C727 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A292D5B28F385680068C727 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A34E9F228FF391D00699A74 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		886D467C28FA3B1400CB59FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		886D467E28FA3D6000CB59FB /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				6A292D4F28F385670068C727 /* SceneDelegate.swift */,
 				6A292D5128F385670068C727 /* ViewController.swift */,
 				6A292D5328F385670068C727 /* Main.storyboard */,
+				6A34E9F228FF391D00699A74 /* SettingsViewController.swift */,
 				88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */,
 				6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */,
 				6A292D5628F385680068C727 /* Assets.xcassets */,
@@ -159,6 +162,7 @@
 				6A292D5228F385670068C727 /* ViewController.swift in Sources */,
 				6A292D4E28F385670068C727 /* AppDelegate.swift in Sources */,
 				886D467D28FA3B1400CB59FB /* User.swift in Sources */,
+				6A34E9F328FF391D00699A74 /* SettingsViewController.swift in Sources */,
 				6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */,
 				88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */,
 				6A292D5028F385670068C727 /* SceneDelegate.swift in Sources */,
