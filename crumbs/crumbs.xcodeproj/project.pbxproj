@@ -14,12 +14,13 @@
 		6A292D5728F385680068C727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A292D5628F385680068C727 /* Assets.xcassets */; };
 		6A292D5A28F385680068C727 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A292D5828F385680068C727 /* LaunchScreen.storyboard */; };
 		6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */; };
-		886D467B28FA3B0600CB59FB /* models in Resources */ = {isa = PBXBuildFile; fileRef = 886D467A28FA3B0600CB59FB /* models */; };
 		886D467D28FA3B1400CB59FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D467C28FA3B1400CB59FB /* User.swift */; };
 		886D467F28FA3D6000CB59FB /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D467E28FA3D6000CB59FB /* FeedViewController.swift */; };
 		886D468128FE2B6400CB59FB /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468028FE2B6400CB59FB /* HomeTabBarController.swift */; };
 		886D468328FE4CBB00CB59FB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468228FE4CBB00CB59FB /* Post.swift */; };
 		886D468528FE5AFD00CB59FB /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468428FE5AFD00CB59FB /* PostViewController.swift */; };
+		886D468728FF51F800CB59FB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468628FF51F800CB59FB /* Comment.swift */; };
+		886D468928FF542700CB59FB /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468828FF542700CB59FB /* Fixtures.swift */; };
 		88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,12 +34,13 @@
 		6A292D5928F385680068C727 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A292D5B28F385680068C727 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		886D467A28FA3B0600CB59FB /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
 		886D467C28FA3B1400CB59FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		886D467E28FA3D6000CB59FB /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		886D468028FE2B6400CB59FB /* HomeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
 		886D468228FE4CBB00CB59FB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		886D468428FE5AFD00CB59FB /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		886D468628FF51F800CB59FB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		886D468828FF542700CB59FB /* Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 		88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,7 +74,6 @@
 		6A292D4C28F385670068C727 /* crumbs */ = {
 			isa = PBXGroup;
 			children = (
-				886D467A28FA3B0600CB59FB /* models */,
 				886D467C28FA3B1400CB59FB /* User.swift */,
 				6A292D4D28F385670068C727 /* AppDelegate.swift */,
 				6A292D4F28F385670068C727 /* SceneDelegate.swift */,
@@ -87,6 +88,8 @@
 				886D468028FE2B6400CB59FB /* HomeTabBarController.swift */,
 				886D468228FE4CBB00CB59FB /* Post.swift */,
 				886D468428FE5AFD00CB59FB /* PostViewController.swift */,
+				886D468628FF51F800CB59FB /* Comment.swift */,
+				886D468828FF542700CB59FB /* Fixtures.swift */,
 			);
 			path = crumbs;
 			sourceTree = "<group>";
@@ -151,7 +154,6 @@
 			files = (
 				6A292D5A28F385680068C727 /* LaunchScreen.storyboard in Resources */,
 				6A292D5728F385680068C727 /* Assets.xcassets in Resources */,
-				886D467B28FA3B0600CB59FB /* models in Resources */,
 				6A292D5528F385670068C727 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,7 +174,9 @@
 				6A292D5028F385670068C727 /* SceneDelegate.swift in Sources */,
 				886D468328FE4CBB00CB59FB /* Post.swift in Sources */,
 				886D468128FE2B6400CB59FB /* HomeTabBarController.swift in Sources */,
+				886D468728FF51F800CB59FB /* Comment.swift in Sources */,
 				886D467F28FA3D6000CB59FB /* FeedViewController.swift in Sources */,
+				886D468928FF542700CB59FB /* Fixtures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

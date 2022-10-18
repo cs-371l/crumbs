@@ -29,7 +29,7 @@ class PostTableViewCell : UITableViewCell {
         commentsLabel.text = String(p.commentCount)
         viewsLabel.text = String(p.viewCount)
         
-        activeLabel.text = p.active
+        activeLabel.text = p.createdAgo
         
     }
 }
@@ -51,14 +51,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.cardTable.delegate = self
         self.cardTable.dataSource = self
         
-        for _ in 1...10 {
-            posts.append(Post(author: "@author", description: """
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada consectetur metus, at sagittis nibh eleifend et. Praesent quis nisl dignissim, interdum dolor vitae, pulvinar nulla. Donec eu nisi quis nunc sagittis viverra et vitae augue. Integer ac dapibus elit, tempor ullamcorper est. In porta ut sem ut efficitur. Sed mollis eget dolor vel tempor. Nullam sem neque, luctus in dolor sit amet, vehicula porttitor nisi. Phasellus a nisi leo. Duis maximus gravida tellus, quis pulvinar lectus vulputate a. Sed non rhoncus tortor. Cras augue dolor, malesuada id imperdiet quis, dapibus dictum diam. Sed non orci id ligula varius vulputate ac quis mauris. Nullam dignissim lectus dui. Duis arcu ante, scelerisque sit amet volutpat consequat, vulputate eget massa. Cras nec nulla egestas, feugiat risus in, aliquet elit. Morbi nisi felis, porta ut gravida non, aliquam eget ex.
-
-            Pellentesque ante felis, placerat a rutrum at, mattis quis leo. Maecenas tincidunt massa est, quis lacinia magna convallis sit amet. Maecenas nec nunc arcu. Praesent sed velit fermentum, volutpat felis ac, sodales sem. Integer sagittis cursus elit, id posuere massa placerat nec. Morbi et turpis ac urna tristique semper in et sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam elementum pellentesque purus, sed pretium dolor luctus ac. Nulla quis ex dapibus, malesuada ante nec, imperdiet neque. Aliquam eget nisl metus. Donec iaculis nec erat eu vestibulum.
-
-            """, title: "some title", active: "1 hour ago", likeCount: 10000, commentCount: 1, viewCount: 1))
-        }
+        self.posts = generatePostData()
         
         self.cardTable.rowHeight = UITableView.automaticDimension
         self.cardTable.estimatedRowHeight = 1000
@@ -72,10 +65,20 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == DISCOVER_IDX {
+            if !discoverActive {
+                posts = generatePostData()
+                cardTable.reloadData()
+            }
             discoverActive = true
+            cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             
         } else if sender.selectedSegmentIndex == FOLLOW_IDX {
+            if discoverActive {
+                posts = generatePostData()
+                cardTable.reloadData()
+            }
             discoverActive = false
+            cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
         }
     }
     
