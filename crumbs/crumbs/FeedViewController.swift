@@ -40,6 +40,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     private final let DISCOVER_IDX = 0
     private final let FOLLOW_IDX = 1
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
+    private final let POST_VIEW_SEGUE = "FeedToPostSegue"
     
     var discoverActive = true
     
@@ -51,7 +52,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.cardTable.dataSource = self
         
         for _ in 1...10 {
-            posts.append(Post(author: "@author", description: "description", title: "some title", active: "1 hour ago", likeCount: 10000, commentCount: 1, viewCount: 1))
+            posts.append(Post(author: "@author", description: """
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada consectetur metus, at sagittis nibh eleifend et. Praesent quis nisl dignissim, interdum dolor vitae, pulvinar nulla. Donec eu nisi quis nunc sagittis viverra et vitae augue. Integer ac dapibus elit, tempor ullamcorper est. In porta ut sem ut efficitur. Sed mollis eget dolor vel tempor. Nullam sem neque, luctus in dolor sit amet, vehicula porttitor nisi. Phasellus a nisi leo. Duis maximus gravida tellus, quis pulvinar lectus vulputate a. Sed non rhoncus tortor. Cras augue dolor, malesuada id imperdiet quis, dapibus dictum diam. Sed non orci id ligula varius vulputate ac quis mauris. Nullam dignissim lectus dui. Duis arcu ante, scelerisque sit amet volutpat consequat, vulputate eget massa. Cras nec nulla egestas, feugiat risus in, aliquet elit. Morbi nisi felis, porta ut gravida non, aliquam eget ex.
+
+            Pellentesque ante felis, placerat a rutrum at, mattis quis leo. Maecenas tincidunt massa est, quis lacinia magna convallis sit amet. Maecenas nec nunc arcu. Praesent sed velit fermentum, volutpat felis ac, sodales sem. Integer sagittis cursus elit, id posuere massa placerat nec. Morbi et turpis ac urna tristique semper in et sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam elementum pellentesque purus, sed pretium dolor luctus ac. Nulla quis ex dapibus, malesuada ante nec, imperdiet neque. Aliquam eget nisl metus. Donec iaculis nec erat eu vestibulum.
+
+            """, title: "some title", active: "1 hour ago", likeCount: 10000, commentCount: 1, viewCount: 1))
         }
         
         self.cardTable.rowHeight = UITableView.automaticDimension
@@ -91,6 +97,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == POST_VIEW_SEGUE, let nextVC = segue.destination as? PostViewController, let rowIndex = cardTable.indexPathForSelectedRow?.row  {
+            nextVC.post = posts[rowIndex]
+        }
     }
     /*
     // MARK: - Navigation

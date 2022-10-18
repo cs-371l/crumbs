@@ -3,6 +3,7 @@
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -467,7 +468,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xfv-gx-RjV">
-                                                    <rect key="frame" x="170" y="113" width="31" height="16.666666666666671"/>
+                                                    <rect key="frame" x="170" y="113" width="31" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -568,6 +569,7 @@ All I did was make the default label size larger than the content potentially co
                                             <outlet property="likesLabel" destination="UcA-dL-ejk" id="HEF-RV-vHQ"/>
                                             <outlet property="titleLabel" destination="8uO-Og-CvM" id="rzT-SG-F72"/>
                                             <outlet property="viewsLabel" destination="Xfv-gx-RjV" id="Lix-I6-vgd"/>
+                                            <segue destination="1fy-mM-FoU" kind="show" identifier="FeedToPostSegue" id="k22-QV-OfU"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -588,6 +590,121 @@ All I did was make the default label size larger than the content potentially co
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jDe-GP-22C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1045.7943925233644" y="1445.5723542116632"/>
+        </scene>
+        <!--Post View Controller-->
+        <scene sceneID="6w8-dC-0Wl">
+            <objects>
+                <viewController id="1fy-mM-FoU" customClass="PostViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IAM-w2-217">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rUQ-Nw-obM">
+                                <rect key="frame" x="30" y="98" width="368" height="28.666666666666671"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6V-W4-cQV">
+                                <rect key="frame" x="30" y="163" width="368" height="20.333333333333343"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bjr-pt-uRY">
+                                <rect key="frame" x="30" y="130.99999999999909" width="20" height="21"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="veF-XQ-qzH">
+                                <rect key="frame" x="56" y="131" width="352" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="Hye-MX-kXN">
+                                <rect key="frame" x="102" y="221" width="225" height="20.333333333333343"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ftV-K1-bkt">
+                                        <rect key="frame" x="0.0" y="0.0" width="69" height="20.333333333333332"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="puI-9C-8Uf">
+                                                <rect key="frame" x="0.0" y="-2.3333333333333357" width="25.666666666666668" height="25.666666666666668"/>
+                                                <imageReference key="image" image="bubble.right.circle" catalog="system" symbolScale="large"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9J-Zb-2Bs">
+                                                <rect key="frame" x="27.666666666666675" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="YB2-k7-JGM">
+                                        <rect key="frame" x="77.999999999999986" y="0.0" width="69.000000000000014" height="20.333333333333332"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="vPa-dT-qFz">
+                                                <rect key="frame" x="0.0" y="-2.3333333333333357" width="25.666666666666668" height="25.666666666666668"/>
+                                                <imageReference key="image" image="heart.circle" catalog="system" symbolScale="large"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60i-7w-EFL">
+                                                <rect key="frame" x="27.666666666666689" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="CO0-sS-PG2">
+                                        <rect key="frame" x="156" y="0.0" width="69" height="20.333333333333332"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="pPv-by-DJ8">
+                                                <rect key="frame" x="0.0" y="-2.3333333333333357" width="25.666666666666668" height="25.666666666666668"/>
+                                                <imageReference key="image" image="eye.circle" catalog="system" symbolScale="large"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rK-Ox-0F2">
+                                                <rect key="frame" x="27.666666666666632" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vbR-kj-tEk">
+                                <rect key="frame" x="20" y="98" width="388" height="794"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LRi-U9-rR6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="d6V-W4-cQV" secondAttribute="trailing" constant="30" id="AeW-pJ-eKH"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="vbR-kj-tEk" secondAttribute="trailing" constant="20" id="B4h-Qu-pXe"/>
+                            <constraint firstItem="d6V-W4-cQV" firstAttribute="top" secondItem="bjr-pt-uRY" secondAttribute="bottom" constant="11.666666666666686" id="FOd-Hb-XnY"/>
+                            <constraint firstItem="rUQ-Nw-obM" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" constant="30" id="GFr-s6-gfB"/>
+                            <constraint firstItem="bjr-pt-uRY" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" constant="30" id="GvE-5b-h8V"/>
+                            <constraint firstItem="rUQ-Nw-obM" firstAttribute="top" secondItem="LRi-U9-rR6" secondAttribute="top" constant="10" id="Mad-rX-iX8"/>
+                            <constraint firstItem="Hye-MX-kXN" firstAttribute="top" secondItem="d6V-W4-cQV" secondAttribute="bottom" constant="37.666666666666657" id="bJf-qv-uzN"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="rUQ-Nw-obM" secondAttribute="trailing" constant="30" id="eY7-5v-W3c"/>
+                            <constraint firstItem="vbR-kj-tEk" firstAttribute="top" secondItem="LRi-U9-rR6" secondAttribute="top" constant="10" id="fQh-DH-ucE"/>
+                            <constraint firstItem="veF-XQ-qzH" firstAttribute="leading" secondItem="bjr-pt-uRY" secondAttribute="trailing" constant="6" id="i0v-23-HwI"/>
+                            <constraint firstItem="Hye-MX-kXN" firstAttribute="centerX" secondItem="LRi-U9-rR6" secondAttribute="centerX" id="kA1-UV-4yd"/>
+                            <constraint firstItem="vbR-kj-tEk" firstAttribute="bottom" secondItem="LRi-U9-rR6" secondAttribute="bottom" id="o91-dT-4WA"/>
+                            <constraint firstItem="veF-XQ-qzH" firstAttribute="top" secondItem="rUQ-Nw-obM" secondAttribute="bottom" constant="3.3333333333333286" id="rbA-Ar-I4R"/>
+                            <constraint firstItem="bjr-pt-uRY" firstAttribute="top" secondItem="rUQ-Nw-obM" secondAttribute="bottom" constant="2.3333333333333286" id="uUJ-yp-DNf"/>
+                            <constraint firstItem="d6V-W4-cQV" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" constant="30" id="xu4-0P-yh7"/>
+                            <constraint firstItem="vbR-kj-tEk" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" constant="20" id="y4E-zf-bNF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="authorLabel" destination="veF-XQ-qzH" id="kLo-7Q-TKA"/>
+                        <outlet property="descriptionLabel" destination="d6V-W4-cQV" id="iTg-Je-qbn"/>
+                        <outlet property="titleLabel" destination="rUQ-Nw-obM" id="JcM-yj-iCe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IOB-1m-ZZ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2004.6728971962616" y="1450.7559395248381"/>
         </scene>
         <!--Profile-->
         <scene sceneID="e8V-jD-d3l">
@@ -649,7 +766,6 @@ All I did was make the default label size larger than the content potentially co
         <!--Navigation Controller-->
         <scene sceneID="foA-wL-Dht">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VoW-zY-2El" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zup-sh-bmX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZGB-25-5Nl">
@@ -661,6 +777,7 @@ All I did was make the default label size larger than the content potentially co
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="xXV-cM-nbf"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VoW-zY-2El" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1288" y="98"/>
         </scene>
@@ -673,6 +790,7 @@ All I did was make the default label size larger than the content potentially co
         <image name="gearshape.circle.fill" catalog="system" width="128" height="121"/>
         <image name="heart.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="secondaryLabelColor">
