@@ -1,4 +1,4 @@
-//
+	//
 //  SignUpViewController.swift
 //  crumbs
 //
@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 extension String {
    var isValidEmail: Bool {
@@ -29,6 +32,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dateOfBirthAlert: UILabel!
     @IBOutlet weak var emailAlert: UILabel!
         
+    @IBOutlet weak var createAccountAlert: UILabel!
+    
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
     let emailEmptyAlert = "Please enter your email"
@@ -37,6 +42,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     var textFieldAlertMap:[UITextField:UILabel] = [:]
     let datePicker = UIDatePicker()
+    
+    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +109,30 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         if validated {
             // TODO: Direct to discover page
+            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
+                if let error = error as NSError? {
+                    self.createAccountAlert.text = "\(error.localizedDescription)"
+                } else {
+                    self.createAccountAlert.text = "Success"
+                }
+                
+//                if error == nil {
+//                    Auth.auth().signIn(
+//                        withEmail: self.emailTextField.text!,
+//                        password: self.passwordTextField.text!) {
+//                            authResult, error in
+//
+//                            let ref = Database.database().reference()
+//                            ref.childByAutoId().setValue(["username": self.usernameTextField.text!])
+//
+//                            if let error = error as NSError? {
+//                                self.createAccountAlert.text! = "\(error.localizedDescription)"
+//                            } else {
+//                                self.createAccountAlert.text = "Success"
+//                            }
+//                        }
+//                }
+            }
         }
     }
     

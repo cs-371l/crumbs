@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -19,6 +20,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
 
+    @IBOutlet weak var errorTextField: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.delegate = self
@@ -70,6 +73,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if checkTextFieldEmpty(textField: passwordTextField) {
             passwordError.text = missingPasswordError
+        }
+        
+        if !checkTextFieldEmpty(textField: usernameTextField) && !checkTextFieldEmpty(textField: passwordTextField) {
+            Auth.auth().signIn(
+                withEmail: self.usernameTextField.text!,
+                password: self.passwordTextField.text!) {
+                    authResult, error in
+                    if let error = error as NSError? {
+                        self.errorTextField.text! = "\(error.localizedDescription)"
+                    } else {
+                        self.errorTextField.text = "Success"
+                    }
+                }
         }
     }
     
