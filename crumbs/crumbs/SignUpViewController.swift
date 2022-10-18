@@ -136,5 +136,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         dateOfBirthTextField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        segue.destination.hidesBottomBarWhenPushed = true
+    }
 
 }
