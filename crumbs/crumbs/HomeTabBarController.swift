@@ -15,6 +15,7 @@ class HomeTabBarController: UITabBarController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         self.selectedIndex = DISCOVER_INDEX
+        self.tabBar.barTintColor = UIColor.systemGray2
     }
     
 
