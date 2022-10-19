@@ -65,44 +65,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="foo" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gww-23-8iE">
-                                <rect key="frame" x="20" y="166" width="388" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3MI-em-41o">
-                                <rect key="frame" x="20" y="126" width="388" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Write a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3MI-em-41o">
+                                <rect key="frame" x="32" y="91" width="350" height="25.666666666666671"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="359" id="7wS-qE-wOF"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="350" id="L5n-kr-3dz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="575-IV-gdk">
-                                <rect key="frame" x="60" y="771" width="55" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="photo.artframe" catalog="system"/>
-                                <connections>
-                                    <action selector="addImagePressed:" destination="Fq0-Uk-bww" eventType="touchUpInside" id="bKj-T9-dAC"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oct-ma-KLD">
-                                <rect key="frame" x="292" y="771" width="52" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="chart.bar.xaxis" catalog="system"/>
-                                <connections>
-                                    <action selector="addPollPressed:" destination="Fq0-Uk-bww" eventType="touchUpInside" id="2rZ-38-t3Y"/>
-                                </connections>
-                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="foo" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gww-23-8iE">
+                                <rect key="frame" x="20" y="141" width="350" height="730"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="350" id="vNY-U8-bv4"/>
+                                    <constraint firstAttribute="height" constant="730" id="zIg-1A-7IQ"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PLp-2w-ugY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="3MI-em-41o" firstAttribute="leading" secondItem="PLp-2w-ugY" secondAttribute="leading" constant="20" id="Nbm-h0-7as"/>
-                            <constraint firstItem="3MI-em-41o" firstAttribute="top" secondItem="PLp-2w-ugY" secondAttribute="top" constant="35" id="Nxj-9j-Jof"/>
-                            <constraint firstItem="3MI-em-41o" firstAttribute="centerX" secondItem="PLp-2w-ugY" secondAttribute="centerX" id="r73-lj-6nv"/>
+                            <constraint firstItem="3MI-em-41o" firstAttribute="centerX" secondItem="PLp-2w-ugY" secondAttribute="centerX" id="CXw-fV-N6U"/>
+                            <constraint firstItem="3MI-em-41o" firstAttribute="top" secondItem="PLp-2w-ugY" secondAttribute="top" id="TWG-EB-RAu"/>
+                            <constraint firstItem="Gww-23-8iE" firstAttribute="top" secondItem="3MI-em-41o" secondAttribute="bottom" constant="24.333333333333329" id="UfE-oM-Hry"/>
+                            <constraint firstItem="Gww-23-8iE" firstAttribute="leading" secondItem="PLp-2w-ugY" secondAttribute="leading" constant="20" id="hJp-g9-R2D"/>
+                            <constraint firstItem="3MI-em-41o" firstAttribute="leading" secondItem="PLp-2w-ugY" secondAttribute="leading" constant="32" id="jyA-fK-ZkF"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -119,8 +110,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.bar.xaxis" catalog="system" width="128" height="99"/>
-        <image name="photo.artframe" catalog="system" width="128" height="93"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

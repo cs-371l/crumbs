@@ -24,7 +24,6 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
         descriptionText.text = "Share your thoughts!"
         descriptionText.textColor = UIColor.lightGray
         descriptionText.delegate = self
-//        descriptionText.isScrollEnabled = false
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -46,12 +45,6 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
         let descriptionTextStored = descriptionText.text!
         print(titleTextStored)
         print(descriptionTextStored)
-    }
-    
-    @IBAction func addImagePressed(_ sender: Any) {
-    }
-    
-    @IBAction func addPollPressed(_ sender: Any) {
     }
     
     // Dismiss keyboard
