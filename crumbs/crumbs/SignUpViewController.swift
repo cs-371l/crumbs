@@ -101,7 +101,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         
         if validated {
-            // TODO: Direct to discover page
+            let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
+            self.view.window?.rootViewController = homeViewController
+            self.view.window?.makeKeyAndVisible()
         }
     }
     
