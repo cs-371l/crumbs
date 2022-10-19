@@ -34,7 +34,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
-        performSegue(withIdentifier: LOGOUT_TO_LOGIN_SEGUE_IDENTIFIER, sender: self)
+        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController")
+        self.view.window?.rootViewController = loginViewController
+        self.view.window?.makeKeyAndVisible()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
