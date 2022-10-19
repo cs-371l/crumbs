@@ -311,7 +311,6 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Create Account"/>
                                 <connections>
                                     <action selector="createAccountButtonPressed:" destination="N0M-aa-Pv4" eventType="touchUpInside" id="S1A-JN-kiq"/>
-                                    <segue destination="y7e-ls-aoD" kind="show" id="x5D-fe-3fL"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nj-zH-Vcc">
@@ -429,13 +428,13 @@
         <!--Feed-->
         <scene sceneID="hwS-zR-8hb">
             <objects>
-                <viewController id="mQh-l7-ydg" customClass="FeedViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FeedViewController" id="mQh-l7-ydg" customClass="FeedViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z5Z-fu-bbp">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="AiD-sv-hgi">
-                                <rect key="frame" x="89" y="14" width="250" height="31"/>
+                                <rect key="frame" x="89" y="58" width="250" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Wwh-TF-ugE"/>
                                     <constraint firstAttribute="width" constant="250" id="kKz-lL-bk6"/>
@@ -594,7 +593,7 @@ All I did was make the default label size larger than the content potentially co
             <objects>
                 <viewController id="rE7-L5-Os6" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MM9-4o-bj4">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Vw5-co-aIJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -610,11 +609,11 @@ All I did was make the default label size larger than the content potentially co
             <objects>
                 <viewController id="Ch5-qw-xVh" customClass="SettingsViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vhc-TI-2IP">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lAD-82-dSX">
-                                <rect key="frame" x="20" y="0.0" width="388" height="701"/>
+                                <rect key="frame" x="20" y="44" width="388" height="677"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingCellIdentifier" id="iln-D6-ajM" customClass="SettingsTableViewCell" customModule="crumbs" customModuleProvider="target">
@@ -649,7 +648,7 @@ All I did was make the default label size larger than the content potentially co
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agx-cW-gR7">
-                                <rect key="frame" x="152.66666666666666" y="772" width="122.99999999999997" height="31"/>
+                                <rect key="frame" x="152.66666666666666" y="792" width="122.99999999999997" height="31"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete Account"/>
@@ -658,7 +657,7 @@ All I did was make the default label size larger than the content potentially co
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1E-tL-567">
-                                <rect key="frame" x="176" y="721" width="76" height="31"/>
+                                <rect key="frame" x="176" y="741" width="76" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Log Out"/>
                                 <connections>
@@ -694,7 +693,7 @@ All I did was make the default label size larger than the content potentially co
         <!--Home Tab Bar Controller-->
         <scene sceneID="7Mc-Ld-JBR">
             <objects>
-                <tabBarController id="y7e-ls-aoD" customClass="HomeTabBarController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeTabBarController" id="y7e-ls-aoD" customClass="HomeTabBarController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="0Qp-op-2ai"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jHq-yp-Nuw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
