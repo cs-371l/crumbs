@@ -45,9 +45,6 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
              print(descriptionTextStored)
          }
 
-         // Dismiss keyboard
-         // Called when 'return' key pressed
-
          func textFieldShouldReturn(_ textField:UITextField) -> Bool {
              textField.resignFirstResponder()
              return true
