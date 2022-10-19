@@ -29,37 +29,67 @@ let COUNT_BOUND = 100
 let COMMENT_BOUND = 50
 let POST_BOUND = 50
 
+func randomString(length: Int) -> String {
+  let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  return String((0..<length).map{ _ in letters.randomElement()! })
+}
+
+func generateUsersWithPosts(userBound: Int = COUNT_BOUND, postsBound: Int = COUNT_BOUND, countBound: Int = COUNT_BOUND) -> [User]{
+    let users = generateUsers(userBound: 1)
+    generatePostData(bound: postsBound, users: users)
+    
+   return users
+}
+
+func generateUsers(userBound: Int = COUNT_BOUND, bound: Int = COUNT_BOUND) -> [User] {
+    let numUsers = Int.random(in: 1...userBound)
+    var ret: [User] = []
+    
+    for _ in 1...numUsers {
+        let username = randomString(length: 5)
+        let firstname = randomString(length: 5)
+        let lastname = randomString(length: 5)
+        let biography = TEXT_FIXTURES.randomElement()!
+        let age = Int.random(in: 1...bound)
+        let karma = Int.random(in: 1...bound)
+        let views = Int.random(in: 1...bound)
+        ret.append(User(username: username, firstName: firstname, lastName: lastname, biography: biography, age: age, karma: karma, views: views))
+    }
+    return ret
+}
+
 /**
  Generates fixtures for `Posts`, returns anywhere between 1 and `bound` posts.
  */
-func generatePostData(bound: Int = POST_BOUND, commentBound: Int = COMMENT_BOUND, countBound: Int = COUNT_BOUND) -> [Post] {
-    let numPosts = Int.random(in: 1..<bound)
+func generatePostData(bound: Int = POST_BOUND, commentBound: Int = COMMENT_BOUND, countBound: Int = COUNT_BOUND, users: [User] = generateUsers()) -> [Post] {
+    let numPosts = Int.random(in: 1...bound)
     var ret: [Post] = []
     
-    for i in 1...numPosts {
+    for _ in 1...numPosts {
         let description = TEXT_FIXTURES.randomElement()!
         let title = TITLE_FIXTURES.randomElement()!
-        let likes = Int.random(in: 1..<countBound)
-        let views = Int.random(in: 1..<countBound)
-        let comments = generateCommentData(bound: commentBound, countBound: countBound)
-        ret.append(
-            Post(author: "\(AUTHOR)\(String(i))", description: description, title: title, date: Date(), likeCount: likes, viewCount: views, comments: comments)
-        )
+        let likes = Int.random(in: 1...countBound)
+        let views = Int.random(in: 1...countBound)
+        let comments = generateCommentData(bound: commentBound, countBound: countBound, users: users)
+        let user = users.randomElement()!
+        let newPost = Post(creator: user, description: description, title: title, date: Date(), likeCount: likes, viewCount: views, comments: comments)
+        ret.append(newPost)
+        user.addPost(p: newPost)
     }
     return ret
 }
 /**
  Generates fixtures for comments. returns anywhere between 1 and `bound` comments.
  */
-func generateCommentData(bound: Int = COMMENT_BOUND, countBound: Int = COUNT_BOUND) -> [Comment] {
-    let numComments = Int.random(in: 1..<bound)
+func generateCommentData(bound: Int = COMMENT_BOUND, countBound: Int = COUNT_BOUND, users: [User]) -> [Comment] {
+    let numComments = Int.random(in: 1...bound)
     var ret: [Comment] = []
-    for i in 1...numComments {
+    for _ in 1...numComments {
         let comment = TEXT_FIXTURES.randomElement()!
-        let author = "\(AUTHOR)\(String(i))"
-        let upvotes = Int.random(in: 1..<countBound)
+        let upvotes = Int.random(in: 1...countBound)
         let date = Date()
-        ret.append(Comment(comment: comment, upvotes: upvotes, author: author, date: date))
+        let user = users.randomElement()!
+        ret.append(Comment(comment: comment, upvotes: upvotes, creator: user, date: date))
     }
     return ret
 }

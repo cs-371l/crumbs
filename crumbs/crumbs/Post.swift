@@ -8,7 +8,10 @@
 import Foundation
 
 class Post {
-    var author : String
+    var creator : User
+    var author : String {
+        return creator.username
+    }
     var description: String
     var title: String
     var date: Date
@@ -22,9 +25,9 @@ class Post {
         return date.timeAgoDisplay()
     }
     
-    init(author: String, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = []) {
+    init(creator: User, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = []) {
         self.title = title
-        self.author = author
+        self.creator = creator
         self.description = description
         self.date = date
         self.likeCount = likeCount

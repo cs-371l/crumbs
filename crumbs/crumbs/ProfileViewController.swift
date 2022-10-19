@@ -16,10 +16,12 @@ extension UIImageView {
    }
 }
 
-//this will be replaced by a global variable once we have firebase set up properly
-var user = User(username: "j.doe", firstName: "John", lastName: "Doe", biography: "I am awesome", age: 22, karma: 12, postsCreated: 1, views: 20)
-
 class ProfileViewController: UIViewController {
+    
+    var user = generateUsersWithPosts(userBound: 1)[0]
+    
+    private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
+    private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,14 +51,14 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var biography: UILabel!
     @IBOutlet weak var image: UIImageView!
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        // Going into post view, pass in the post.
+        if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
+            nextVC.posts = self.user.posts
+        } else if segue.identifier == ABOUT_EMBED_SEGUE , let nextVC = segue.destination as? AboutViewController {
+            nextVC.user = self.user
+        }
     }
-    */
 
 }

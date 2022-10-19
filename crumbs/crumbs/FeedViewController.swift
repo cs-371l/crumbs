@@ -33,77 +33,44 @@ class PostTableViewCell : UITableViewCell {
     }
 }
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController {
     
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
     private final let FOLLOW_IDX = 1
-    private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
 
-    private final let POST_VIEW_SEGUE = "FeedToPostSegue"
-    
+    private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
+    private var embeddedView: PostCardViewController!
     // Defaulted to discover active.
     var discoverActive = true
-    var posts : [Post] = []
+    var discoverPosts : [Post] = generatePostData()
+    var followPosts : [Post]  = generatePostData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.cardTable.delegate = self
-        self.cardTable.dataSource = self
-        
-        self.posts = generatePostData()
-        
-        self.cardTable.rowHeight = UITableView.automaticDimension
-        self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
     }
     
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
-        // Only reload data if not previously active. Scroll
-        // to the top when switching segments.
         if sender.selectedSegmentIndex == DISCOVER_IDX {
-            if !discoverActive {
-                posts = generatePostData()
-                cardTable.reloadData()
-            }
-            discoverActive = true
-            cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            embeddedView.posts = self.discoverPosts
+            embeddedView.cardTable.reloadData()
+            embeddedView.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             
         } else if sender.selectedSegmentIndex == FOLLOW_IDX {
-            if discoverActive {
-                posts = generatePostData()
-                cardTable.reloadData()
-            }
-            discoverActive = false
-            cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            embeddedView.posts = self.followPosts
+            embeddedView.cardTable.reloadData()
+            embeddedView.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CARD_IDENTIFIER, for: indexPath) as! PostTableViewCell
-        let row = indexPath.row
-        let p = posts[row]
-        cell.assignAttributes(p: p)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Going into post view, pass in the post.
-        if segue.identifier == POST_VIEW_SEGUE, let nextVC = segue.destination as? PostViewController, let rowIndex = cardTable.indexPathForSelectedRow?.row  {
-            nextVC.post = posts[rowIndex]
+        if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
+            self.embeddedView = nextVC
+            nextVC.posts = self.discoverActive ? self.discoverPosts : self.followPosts
         }
     }
 }
