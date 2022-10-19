@@ -27,6 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(document.data())
             }
         })
+        // Add a new document with a generated id.
+        var ref: DocumentReference? = nil
+        ref = db.collection("posts").addDocument(data: [
+            "title": "Tokyo is a city",
+            "content": "Tokyo is located in Japan :)",
+            "timestamp": FieldValue.serverTimestamp(),
+            "comments": [],
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
         return true
     }
 
