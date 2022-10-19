@@ -8,7 +8,6 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-import FirebaseDatabase
 
 extension String {
    var isValidEmail: Bool {
@@ -42,8 +41,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     var textFieldAlertMap:[UITextField:UILabel] = [:]
     let datePicker = UIDatePicker()
-    
-    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()

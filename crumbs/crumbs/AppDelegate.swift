@@ -7,6 +7,9 @@
 
 import UIKit
 import FirebaseCore
+import FirebaseFirestore
+import CoreAudio
+import simd
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        let db = Firestore.firestore()
+        let posts = db.collection("posts").whereField("image", isEqualTo: "")
+        posts.getDocuments(completion: {
+            (snapshot, err) -> Void in
+            for document in snapshot!.documents {
+                print(document.data())
+            }
+        })
         return true
     }
 
