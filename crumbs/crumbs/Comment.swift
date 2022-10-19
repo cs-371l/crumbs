@@ -8,18 +8,21 @@
 import Foundation
 
 class Comment {
+    var creator : User
     var comment: String
     var upvotes: Int
-    var author: String
+    var author: String {
+        return creator.username
+    }
     var date: Date
     var timeAgo: String {
         return date.timeAgoDisplay()
     }
     
-    init(comment: String, upvotes: Int, author: String, date: Date) {
+    init(comment: String, upvotes: Int, creator: User, date: Date) {
         self.comment = comment
         self.upvotes = upvotes
-        self.author = author
+        self.creator = creator
         self.date = date
     }
 }
