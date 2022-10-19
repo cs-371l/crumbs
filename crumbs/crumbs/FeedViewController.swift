@@ -41,6 +41,7 @@ class FeedViewController: UIViewController {
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
 
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
+    private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
     private var embeddedView: PostCardViewController!
     // Defaulted to discover active.
     var discoverActive = true
@@ -49,8 +50,9 @@ class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToPostCreate))
     }
-    
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == DISCOVER_IDX {
@@ -72,5 +74,9 @@ class FeedViewController: UIViewController {
             self.embeddedView = nextVC
             nextVC.posts = self.discoverActive ? self.discoverPosts : self.followPosts
         }
+    }
+    
+    @objc func goToPostCreate() {
+        performSegue(withIdentifier: POST_CREATION_SEGUE, sender: self)
     }
 }
