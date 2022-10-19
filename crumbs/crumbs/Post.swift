@@ -7,24 +7,29 @@
 
 import Foundation
 
-
 class Post {
     var author : String
     var description: String
     var title: String
-    var active: String
+    var date: Date
     var likeCount: Int
-    var commentCount: Int
+    var commentCount: Int {
+        return comments.count
+    }
     var viewCount: Int
+    var comments: [Comment]
+    var createdAgo: String {
+        return date.timeAgoDisplay()
+    }
     
-    init(author: String, description: String, title: String, active: String, likeCount: Int, commentCount: Int, viewCount: Int) {
+    init(author: String, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = []) {
         self.title = title
         self.author = author
         self.description = description
-        self.active = active
+        self.date = date
         self.likeCount = likeCount
-        self.commentCount = commentCount
         self.viewCount = viewCount
+        self.comments = comments
     }
     
 }
