@@ -1,6 +1,8 @@
 
  # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
  .DS_Store
+ crumbs/crumbs/.DS_Store
+ crumbs/crumbs/crumbs.xcodeproj/xcuserdata/*
  crumbs/.DS_Store
  crumbs.xcodeproj/xcuserdata/
  ## User settings
