@@ -27,6 +27,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         setupAppleButton()
         setupErrors()
+        listenToSignInChange()
+    }
+    
+    func listenToSignInChange() {
+        Auth.auth().addStateDidChangeListener() {
+            auth, user in
+            if user != nil {
+                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
+                self.view.window?.rootViewController = homeViewController
+                self.view.window?.makeKeyAndVisible()
+//                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+//                self.emailField.text = nil
+//                self.passwordField.text = nil
+            }
+        }
+
     }
     
     // Called when 'return' key pressed
@@ -83,9 +99,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 self.errorTextField.text! = "\(error.localizedDescription)"
                             } else {
                                 self.errorTextField.text = "Success"
-                                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
-                                self.view.window?.rootViewController = homeViewController
-                                self.view.window?.makeKeyAndVisible()
                             }
                         }
                 }
