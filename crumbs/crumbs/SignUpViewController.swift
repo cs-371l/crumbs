@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 extension String {
    var isValidEmail: Bool {
@@ -28,7 +30,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordAlert: UILabel!
     @IBOutlet weak var dateOfBirthAlert: UILabel!
     @IBOutlet weak var emailAlert: UILabel!
-        
+    @IBOutlet weak var createAccountAlert: UILabel!
+    
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
     let emailEmptyAlert = "Please enter your email"
@@ -101,9 +104,16 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         
         if validated {
-            let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
-            self.view.window?.rootViewController = homeViewController
-            self.view.window?.makeKeyAndVisible()
+            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
+                if let error = error as NSError? {
+                    self.createAccountAlert.text = "\(error.localizedDescription)"
+                } else {
+                    self.createAccountAlert.text = "Success"
+                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
+                    self.view.window?.rootViewController = homeViewController
+                    self.view.window?.makeKeyAndVisible()
+                }
+            }
         }
     }
     

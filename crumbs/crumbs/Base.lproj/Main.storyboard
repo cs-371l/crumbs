@@ -12,7 +12,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,7 +112,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wtv-5D-1Pu">
-                                <rect key="frame" x="149" y="611" width="130" height="40"/>
+                                <rect key="frame" x="149" y="660" width="130" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="Cgg-2l-N6G"/>
                                     <constraint firstAttribute="height" constant="40" id="fYz-FR-NA7"/>
@@ -123,12 +123,20 @@
                                     <action selector="signUpPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WIG-bg-4o1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKU-oX-sdy">
+                                <rect key="frame" x="214" y="720" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="oKU-oX-sdy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="766-Ot-4Yt"/>
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="top" secondItem="jZz-JE-46k" secondAttribute="bottom" constant="2" id="EUM-WU-MeA"/>
                             <constraint firstItem="Owd-uq-D2z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="EdU-B5-OgD"/>
+                            <constraint firstItem="oKU-oX-sdy" firstAttribute="top" secondItem="Wtv-5D-1Pu" secondAttribute="bottom" constant="20" id="EgA-Cj-90s"/>
                             <constraint firstItem="zK4-1B-B3R" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="HVR-yb-PoM"/>
                             <constraint firstItem="EmD-RT-CN2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="IAP-ZB-YBt"/>
                             <constraint firstItem="17J-S7-hdU" firstAttribute="leading" secondItem="utG-hm-2wt" secondAttribute="leading" id="JcZ-5K-bf6"/>
@@ -161,6 +169,7 @@
                     <navigationItem key="navigationItem" id="mZl-Bv-5nq"/>
                     <connections>
                         <outlet property="appleButton" destination="gW5-xa-il9" id="vWI-A5-uXQ"/>
+                        <outlet property="errorTextField" destination="oKU-oX-sdy" id="xV7-K5-o6v"/>
                         <outlet property="passwordError" destination="Owd-uq-D2z" id="I5c-0R-HoZ"/>
                         <outlet property="passwordTextField" destination="tfV-VQ-53a" id="JLR-Pg-TjF"/>
                         <outlet property="usernameError" destination="rKn-zw-zFF" id="LJr-TT-Ox7"/>
@@ -320,6 +329,12 @@
                                 <color key="textColor" systemColor="systemPinkColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur2-GX-fCx">
+                                <rect key="frame" x="214" y="695" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cHQ-cZ-4UG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -335,11 +350,13 @@
                             <constraint firstItem="UNq-xb-CP1" firstAttribute="top" secondItem="lhI-8g-fov" secondAttribute="bottom" constant="2" id="Eyf-OT-kwp"/>
                             <constraint firstItem="NCf-ZO-Uet" firstAttribute="centerX" secondItem="cHQ-cZ-4UG" secondAttribute="centerX" id="Fub-ce-rIl"/>
                             <constraint firstItem="fKO-BN-DcC" firstAttribute="leading" secondItem="asA-h6-TGg" secondAttribute="leading" id="Gk7-N4-FwB"/>
+                            <constraint firstItem="Ur2-GX-fCx" firstAttribute="centerX" secondItem="cHQ-cZ-4UG" secondAttribute="centerX" id="LJz-0O-Y4z"/>
                             <constraint firstItem="Tu3-rp-8U5" firstAttribute="leading" secondItem="asA-h6-TGg" secondAttribute="leading" id="M2T-TD-szE"/>
                             <constraint firstItem="UNq-xb-CP1" firstAttribute="top" secondItem="edj-tX-t8J" secondAttribute="bottom" constant="35" id="Mc7-fr-ctv"/>
                             <constraint firstItem="QbT-Zn-U7Z" firstAttribute="leading" secondItem="fTu-XH-dI4" secondAttribute="leading" id="Oez-RN-N4T"/>
                             <constraint firstItem="N4g-tl-dgx" firstAttribute="leading" secondItem="edj-tX-t8J" secondAttribute="leading" id="QD6-Nw-nxk"/>
                             <constraint firstItem="fKO-BN-DcC" firstAttribute="top" secondItem="hjl-D8-K5l" secondAttribute="bottom" constant="2" id="QJI-uX-idE"/>
+                            <constraint firstItem="Ur2-GX-fCx" firstAttribute="top" secondItem="NCf-ZO-Uet" secondAttribute="bottom" constant="20" id="Uko-Gg-KRp"/>
                             <constraint firstItem="fTu-XH-dI4" firstAttribute="top" secondItem="xWj-L1-Hku" secondAttribute="bottom" constant="2" id="V39-GW-UCm"/>
                             <constraint firstItem="cHQ-cZ-4UG" firstAttribute="trailing" secondItem="edj-tX-t8J" secondAttribute="trailing" constant="20" id="YIT-Aa-Txr"/>
                             <constraint firstItem="fKO-BN-DcC" firstAttribute="top" secondItem="asA-h6-TGg" secondAttribute="bottom" constant="35" id="YZE-UU-cCM"/>
@@ -371,6 +388,7 @@
                     <connections>
                         <outlet property="confirmPasswordAlert" destination="QbT-Zn-U7Z" id="F79-c5-G0k"/>
                         <outlet property="confirmPasswordTextField" destination="fTu-XH-dI4" id="F7A-De-Xhd"/>
+                        <outlet property="createAccountAlert" destination="Ur2-GX-fCx" id="oGl-kh-dD8"/>
                         <outlet property="dateOfBirthAlert" destination="tqi-4Y-Xlb" id="LUJ-lJ-EDI"/>
                         <outlet property="dateOfBirthTextField" destination="asA-h6-TGg" id="JhZ-Cn-lQh"/>
                         <outlet property="emailAlert" destination="3Nj-zH-Vcc" id="kTi-el-i6f"/>
@@ -535,14 +553,14 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lQl-pb-AB3">
                                                     <rect key="frame" x="135" y="118" width="159" height="20.333333333333329"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="i1C-Vw-dw5">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="i1C-Vw-dw5">
                                                             <rect key="frame" x="0.0" y="0.0" width="72" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-jv-nhX">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-jv-nhX">
                                                                     <rect key="frame" x="0.0" y="-1.3333333333333357" width="26.666666666666668" height="23.666666666666668"/>
                                                                     <imageReference key="image" image="suit.heart.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yO-uY-qV2">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yO-uY-qV2">
                                                                     <rect key="frame" x="30.666666666666675" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -550,14 +568,14 @@
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
                                                             <rect key="frame" x="79.999999999999986" y="0.0" width="79.000000000000014" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
                                                                     <rect key="frame" x="0.0" y="-1" width="33.666666666666664" height="22.333333333333332"/>
                                                                     <imageReference key="image" image="eye.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
                                                                     <rect key="frame" x="37.666666666666686" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -806,6 +824,7 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Log Out"/>
                                 <connections>
                                     <action selector="buttonPressed:" destination="Ch5-qw-xVh" eventType="touchUpInside" id="GnZ-6P-1Mc"/>
+                                    <action selector="logOutPressed:" destination="Ch5-qw-xVh" eventType="touchUpInside" id="wXC-52-ulP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -827,7 +846,6 @@
                         <outlet property="deleteAccountButton" destination="Agx-cW-gR7" id="PVo-iK-TdQ"/>
                         <outlet property="logoutButton" destination="y1E-tL-567" id="mAn-vr-TTb"/>
                         <outlet property="settingsTable" destination="lAD-82-dSX" id="5N2-8F-jsG"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="LogoutToLoginSegueIdentifier" id="ot5-Q5-hHg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="giu-y1-dVR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1167,7 +1185,6 @@ All I did was make the default label size larger than the content potentially co
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lff-NI-xgJ"/>
-        <segue reference="ot5-Q5-hHg"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowtriangle.down.circle.fill" catalog="system" width="128" height="121"/>

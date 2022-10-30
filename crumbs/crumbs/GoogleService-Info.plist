@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CLIENT_ID</key>
+    <string>1063319301324-j9rm8hkkb59csa8sfkicg3r1dmrlpe4d.apps.googleusercontent.com</string>
+    <key>REVERSED_CLIENT_ID</key>
+    <string>com.googleusercontent.apps.1063319301324-j9rm8hkkb59csa8sfkicg3r1dmrlpe4d</string>
+    <key>API_KEY</key>
+    <string>AIzaSyCKAsLqx6Kpzo0mSzJjA_0ri7RJ4juLxdI</string>
+    <key>GCM_SENDER_ID</key>
+    <string>1063319301324</string>
+    <key>PLIST_VERSION</key>
+    <string>1</string>
+    <key>BUNDLE_ID</key>
+    <string>cs371.crumbs</string>
+    <key>PROJECT_ID</key>
+    <string>crumbs-2a17b</string>
+    <key>STORAGE_BUCKET</key>
+    <string>crumbs-2a17b.appspot.com</string>
+    <key>IS_ADS_ENABLED</key>
+    <false></false>
+    <key>IS_ANALYTICS_ENABLED</key>
+    <false></false>
+    <key>IS_APPINVITE_ENABLED</key>
+    <true></true>
+    <key>IS_GCM_ENABLED</key>
+    <true></true>
+    <key>IS_SIGNIN_ENABLED</key>
+    <true></true>
+    <key>GOOGLE_APP_ID</key>
+    <string>1:1063319301324:ios:1cfb0c8a59323b52b16669</string>
+    <key>DATABASE_URL</key>
+    <string>https://crumbs-2a17b-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

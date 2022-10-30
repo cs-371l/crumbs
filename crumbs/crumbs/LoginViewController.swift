@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -18,13 +19,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-
+    @IBOutlet weak var errorTextField: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         setupAppleButton()
         setupErrors()
+        listenToSignInChange()
+    }
+    
+    func listenToSignInChange() {
+        Auth.auth().addStateDidChangeListener() {
+            auth, user in
+            if user != nil {
+                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
+                self.view.window?.rootViewController = homeViewController
+                self.view.window?.makeKeyAndVisible()
+            }
+        }
+
     }
     
     // Called when 'return' key pressed
@@ -71,6 +86,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if checkTextFieldEmpty(textField: passwordTextField) {
             passwordError.text = missingPasswordError
         }
+        
+        if !checkTextFieldEmpty(textField: usernameTextField) && !checkTextFieldEmpty(textField: passwordTextField) {
+                    Auth.auth().signIn(
+                        withEmail: self.usernameTextField.text!,
+                        password: self.passwordTextField.text!) {
+                            authResult, error in
+                            if let error = error as NSError? {
+                                self.errorTextField.text! = "\(error.localizedDescription)"
+                            } else {
+                                self.errorTextField.text = "Success"
+                            }
+                        }
+                }
     }
     
     // Setups the apple button with correct logo and tint.

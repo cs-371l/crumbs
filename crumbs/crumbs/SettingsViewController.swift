@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 let settings:[String] = ["Notifications", "Dark Mode", "App Version"]
 
@@ -34,7 +35,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
-        performSegue(withIdentifier: LOGOUT_TO_LOGIN_SEGUE_IDENTIFIER, sender: self)
+        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController")
+        self.view.window?.rootViewController = loginViewController
+        self.view.window?.makeKeyAndVisible()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,5 +56,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         return cell
     }
-
+    
+    @IBAction func logOutPressed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
 }
