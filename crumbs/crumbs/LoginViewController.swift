@@ -37,9 +37,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
                 self.view.window?.rootViewController = homeViewController
                 self.view.window?.makeKeyAndVisible()
-//                self.performSegue(withIdentifier: "loginSegue", sender: nil)
-//                self.emailField.text = nil
-//                self.passwordField.text = nil
             }
         }
 
