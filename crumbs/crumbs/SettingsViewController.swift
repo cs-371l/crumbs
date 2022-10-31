@@ -17,14 +17,11 @@ class SettingsTableViewCell: UITableViewCell {
     
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingsViewController: SignOutListenerViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var settingsTable: UITableView!
-    @IBOutlet weak var logoutButton: UIButton!
-    @IBOutlet weak var deleteAccountButton: UIButton!
     
     private final let SETTING_CELL_IDENTIFIER = "SettingCellIdentifier"
-    
     private final let LOGOUT_TO_LOGIN_SEGUE_IDENTIFIER = "LogoutToLoginSegueIdentifier"
     
     override func viewDidLoad() {
@@ -32,12 +29,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.settingsTable.delegate = self
         self.settingsTable.dataSource = self
         self.settingsTable.allowsSelection = false
-    }
-    
-    @IBAction func buttonPressed(_ sender: Any) {
-        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController")
-        self.view.window?.rootViewController = loginViewController
-        self.view.window?.makeKeyAndVisible()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

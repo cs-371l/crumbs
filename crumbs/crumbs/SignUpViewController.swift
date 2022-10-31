@@ -17,7 +17,7 @@ extension String {
    }
 }
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
 
     @IBOutlet weak var dateOfBirthTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -109,9 +109,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     self.createAccountAlert.text = "\(error.localizedDescription)"
                 } else {
                     self.createAccountAlert.text = "Success"
-                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
-                    self.view.window?.rootViewController = homeViewController
-                    self.view.window?.makeKeyAndVisible()
                 }
             }
         }

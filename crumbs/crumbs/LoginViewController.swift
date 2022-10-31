@@ -8,12 +8,9 @@
 import UIKit
 import FirebaseAuth
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: SignInListenerViewController, UITextFieldDelegate {
 
     @IBOutlet weak var appleButton: UIButton!
-    let signupSegueIdentifier = "SignUpPageSegue"
-    let missingPasswordError = "Please enter a password."
-    let missingUsernameError = "Please enter a username."
     @IBOutlet weak var passwordError: UILabel!
     @IBOutlet weak var usernameError: UILabel!
 
@@ -21,25 +18,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorTextField: UILabel!
     
+    let signupSegueIdentifier = "SignUpPageSegue"
+    let missingPasswordError = "Please enter a password."
+    let missingUsernameError = "Please enter a username."
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         setupAppleButton()
         setupErrors()
-        listenToSignInChange()
-    }
-    
-    func listenToSignInChange() {
-        Auth.auth().addStateDidChangeListener() {
-            auth, user in
-            if user != nil {
-                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
-                self.view.window?.rootViewController = homeViewController
-                self.view.window?.makeKeyAndVisible()
-            }
-        }
-
     }
     
     // Called when 'return' key pressed
