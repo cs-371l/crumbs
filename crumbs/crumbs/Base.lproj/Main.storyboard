@@ -1182,7 +1182,7 @@ All I did was make the default label size larger than the content potentially co
         <!--Delete Account View Controller-->
         <scene sceneID="vnk-hF-0dX">
             <objects>
-                <viewController id="mLZ-2J-BAZ" customClass="DeleteAccountViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="mLZ-2J-BAZ" customClass="DeleteAccountViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gSY-W3-ALF">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
