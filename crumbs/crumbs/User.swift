@@ -6,39 +6,68 @@
 //
 
 import Foundation
+import FirebaseAuth
+import FirebaseFirestore
 
 class User {
-    var username : String
-    var firstName : String
-    var lastName : String
-    var biography : String
-    var age : Int
-    var karma : Int
-    var postsCreated : Int {
-        return posts.count
-    }
-    var views : Int
+    var username: String
+    var biography: String
+    var dateJoined: Date
+    var karma: Int
+    var views: Int
     var posts: [Post]
+    
+    convenience init(firebaseUser: FirebaseAuth.User) {
+        let db = Firestore.firestore()
+        let username = ""
+        let biography = ""
+        let dateJoined = Date()
+        let karma = 0
+        let views = 0
+        self.init(username: username, biography: biography, dateJoined: dateJoined, karma: karma, views: views)
+        db.collection("users").document(firebaseUser.uid).getDocument() { (snapshot, err) in
+            if let err = err {
+                print("Error getting user \(err)")
+            } else {
+                self.username = snapshot!.get("username") as! String
+                self.biography = snapshot!.get("bio") as! String
+                let creationTimestamp = snapshot!.get("creation_timestamp") as! Timestamp
+                self.dateJoined = creationTimestamp.dateValue()
+                self.karma = snapshot!.get("karma") as! Int
+                self.views = snapshot!.get("views") as! Int
+            }
+        }
+    }
 
-    init(username:String, firstName:String, lastName:String, biography:String, age:Int, karma : Int, views : Int) {
+    init(username: String, biography: String, dateJoined: Date, karma: Int, views: Int) {
+        
         self.username = username
-        self.firstName = firstName
-        self.lastName = lastName
         self.biography = biography
-        self.age = age
+        self.dateJoined = dateJoined
         self.karma = karma
         self.views = views
         self.posts = []
+        
+        let db = Firestore.firestore()
+        let uid = Auth.auth().currentUser!.uid
+        let userRef = db.collection("users").document(uid)
+        db.collection("posts").whereField("user", isEqualTo: userRef).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                self.posts = self.parseDocumentsToPosts(documents: querySnapshot!.documents)
+            }
+        }
     }
     
-    convenience init(username:String, firstName:String, lastName:String, biography:String, age:Int, karma : Int, views : Int, posts: Int) {
-        self.init(username: username, firstName: firstName, lastName: lastName, biography: biography, age: age, karma: karma, views: views)
-        
-        let posts = generatePostData(users: [self])
-        
-        for p in posts {
-            self.addPost(p: p)
+    func parseDocumentsToPosts(documents: [QueryDocumentSnapshot]) -> [Post] {
+        var posts:[Post] = []
+        for document in documents {
+            let timestamp = document.get("timestamp") as! Timestamp
+            let post = Post(creator: self, description: document.get("content") as! String, title: document.get("title") as! String, date: timestamp.dateValue(), likeCount: document.get("likes") as! Int, viewCount: document.get("views") as! Int)
+            posts.append(post)
         }
+        return posts
     }
     
     func addPost(p: Post) {
