@@ -79,7 +79,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         db.collection("users").document(uid).setData([
             "username": username,
             "birthday": Timestamp(date: self.datePicker.date),
-            "creation_timestamp": FieldValue.serverTimestamp()
+            "creation_timestamp": FieldValue.serverTimestamp(),
+            "bio": "",
+            "karma": 0,
+            "views": 0
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
