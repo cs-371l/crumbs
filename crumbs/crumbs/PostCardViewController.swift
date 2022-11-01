@@ -27,17 +27,6 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.populatePosts()
     }
     
-    func parseDocumentsToPosts(documents: [QueryDocumentSnapshot]) -> [Post] {
-        var posts:[Post] = []
-        for document in documents {
-            let user = User(username: "username", firstName: "firstName", lastName: "lastName", biography: "biography", age: 19, karma: 10, views: 30)
-            let timestamp = document.get("timestamp") as! Timestamp
-            let post = Post(creator: user, description: document.get("content") as! String, title: document.get("title") as! String, date: timestamp.dateValue(), likeCount: document.get("likes") as! Int, viewCount: document.get("views") as! Int)
-            posts.append(post)
-        }
-        return posts
-    }
-    
     func populatePosts() {
         let db = Firestore.firestore()
         if !self.discoverActive {
@@ -50,7 +39,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                self.posts = self.parseDocumentsToPosts(documents: querySnapshot!.documents)
+                self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
                 self.cardTable.reloadData()
                 self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }

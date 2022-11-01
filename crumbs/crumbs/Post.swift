@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class Post {
     var creator : User
@@ -33,6 +34,27 @@ class Post {
         self.likeCount = likeCount
         self.viewCount = viewCount
         self.comments = comments
+    }
+    
+    convenience init(snapshot: QueryDocumentSnapshot) {
+        let user = User(
+            username: "username",
+            firstName: "firstName",
+            lastName: "lastName",
+            biography: "biography",
+            age: 19,
+            karma: 10,
+            views: 30
+        )
+        let timestamp = snapshot.get("timestamp") as! Timestamp
+        self.init(
+            creator: user,
+            description: snapshot.get("content") as! String,
+            title: snapshot.get("title") as! String,
+            date: timestamp.dateValue(),
+            likeCount: snapshot.get("likes") as! Int,
+            viewCount: snapshot.get("views") as! Int
+        )
     }
     
 }
