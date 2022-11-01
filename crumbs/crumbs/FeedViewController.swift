@@ -66,7 +66,6 @@ class FeedViewController: UIViewController {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
-            self.embeddedView.discoverActive = true
         }
     }
     
