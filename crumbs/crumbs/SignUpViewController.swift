@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 
 extension String {
    var isValidEmail: Bool {
@@ -32,6 +33,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailAlert: UILabel!
     @IBOutlet weak var createAccountAlert: UILabel!
     
+    let usernameEmptyAlert = "Please enter a username"
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
     let emailEmptyAlert = "Please enter your email"
@@ -72,8 +74,24 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    func storeUserInFirestore(uid: String, username: String, birthday: Date) {
+        let db = Firestore.firestore()
+        db.collection("users").document(uid).setData([
+            "username": username,
+            "birthday": Timestamp(date: self.datePicker.date),
+            "creation_timestamp": FieldValue.serverTimestamp()
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with username: \(username)")
+            }
+        }
+    }
+    
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         var validated = true
+        usernameAlert.text = usernameEmptyAlert
         passwordAlert.text = passwordEmptyAlert
         confirmPasswordAlert.text = confirmPasswordEmptyAlert
         emailAlert.text = emailEmptyAlert
@@ -104,14 +122,34 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         
         if validated {
+            let username = usernameTextField.text!
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
                 if let error = error as NSError? {
                     self.createAccountAlert.text = "\(error.localizedDescription)"
                 } else {
+                    self.storeUserInFirestore(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date)
                     self.createAccountAlert.text = "Success"
                     let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController")
                     self.view.window?.rootViewController = homeViewController
                     self.view.window?.makeKeyAndVisible()
+                }
+            }
+        }
+    }
+    
+    @IBAction func editingEnded(_ sender: Any) {
+        let textField = sender as! UITextField
+        let username = textField.text!
+        let db = Firestore.firestore()
+        db.collection("users").whereField("username", isEqualTo: username).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                if querySnapshot!.documents.count > 0 {
+                    self.usernameAlert.text = "Username taken"
+                    self.usernameAlert.isHidden = false
+                } else {
+                    self.usernameAlert.isHidden = true
                 }
             }
         }
