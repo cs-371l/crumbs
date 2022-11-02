@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -13,16 +14,37 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
-    var posts: [Post]!
-
+    var discoverActive = true
+    var posts: [Post] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.cardTable.delegate = self
         self.cardTable.dataSource = self
         self.cardTable.rowHeight = UITableView.automaticDimension
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
+        self.populatePosts()
     }
     
+    func populatePosts() {
+        let db = Firestore.firestore()
+        if !self.discoverActive {
+            self.posts = generatePostData()
+            self.cardTable.reloadData()
+            self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            return
+        }
+        db.collection("posts").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
+                self.cardTable.reloadData()
+                self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CARD_IDENTIFIER, for: indexPath) as! PostTableViewCell
