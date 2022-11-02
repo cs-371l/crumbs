@@ -36,7 +36,7 @@ class Post {
         self.comments = comments
     }
     
-    func serialize(userRef: DocumentReference) -> [String: Any]{
+    func serialize(userRef: DocumentReference) -> [String: Any] {
         // TODO: Include image URL in serialization
         // TODO: Link user properly
         return [
