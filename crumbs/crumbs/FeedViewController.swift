@@ -52,13 +52,8 @@ class FeedViewController: UIViewController {
     }
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == DISCOVER_IDX {
-            self.embeddedView.discoverActive = true
-            self.embeddedView.populatePosts()
-        } else if sender.selectedSegmentIndex == FOLLOW_IDX {
-            self.embeddedView.discoverActive = false
-            self.embeddedView.populatePosts()
-        }
+        self.embeddedView.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
+        self.embeddedView.populatePosts()
     }
     
     
