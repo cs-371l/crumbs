@@ -47,21 +47,14 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
              let uid = Auth.auth().currentUser!.uid
              let userRef = db.collection("users").document(uid)
              var ref: DocumentReference? = nil
-             ref = db.collection("posts").addDocument(data: [
-                 "title": titleTextStored,
-                 "content": descriptionTextStored,
-                 "likes": 0,
-                 "views": 1,
-                 "comments": [],
-                 "image": "",
-                 "timestamp": FieldValue.serverTimestamp(),
-                 "user": userRef
-             ]) { err in
+             
+             // TODO: Link current user to post
+             let user = User(username: "username", firstName: "first", lastName: "last", biography: "", age: 19, karma: 10, views: 1)
+             let post = Post(creator: user, description: descriptionTextStored, title: titleTextStored, date: Date(), likeCount: 0, viewCount: 1)
+             ref = db.collection("posts").addDocument(data: post.serialize(userRef: userRef)) { err in
                  if let err = err {
                      print("Error adding document: \(err)")
                  } else {
-                     let user = User(username: "username", firstName: "first", lastName: "last", biography: "", age: 19, karma: 10, views: 1)
-                     let post = Post(creator: user, description: descriptionTextStored, title: titleTextStored, date: Date(), likeCount: 0, viewCount: 1)
                      
                      let postViewController = (self.storyboard?.instantiateViewController(withIdentifier: "PostViewController")) as! PostViewController
                      postViewController.post = post

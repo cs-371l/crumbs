@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class Post {
     var creator : User
@@ -33,6 +34,21 @@ class Post {
         self.likeCount = likeCount
         self.viewCount = viewCount
         self.comments = comments
+    }
+    
+    func serialize(userRef: DocumentReference) -> [String: Any]{
+        // TODO: Include image URL in serialization
+        // TODO: Link user properly
+        return [
+            "title": self.title,
+            "content": self.description,
+            "likes": self.likeCount,
+            "views": self.viewCount,
+            "comments": self.comments,
+            "image": "",
+            "timestamp": Timestamp(date: self.date),
+            "user": userRef
+        ]
     }
     
 }
