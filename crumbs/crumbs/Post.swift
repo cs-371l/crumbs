@@ -36,6 +36,25 @@ class Post {
         self.comments = comments
     }
     
+    convenience init(snapshot: QueryDocumentSnapshot) {
+        let timestamp = snapshot.get("timestamp") as! Timestamp
+        let user = User(
+            username: "username",
+            biography: "biography",
+            dateJoined: timestamp.dateValue(),
+            karma: 10,
+            views: 30
+        )
+        self.init(
+            creator: user,
+            description: snapshot.get("content") as! String,
+            title: snapshot.get("title") as! String,
+            date: timestamp.dateValue(),
+            likeCount: snapshot.get("likes") as! Int,
+            viewCount: snapshot.get("views") as! Int
+        )
+    }
+    
     func serialize(userRef: DocumentReference) -> [String: Any]{
         // TODO: Include image URL in serialization
         // TODO: Link user properly

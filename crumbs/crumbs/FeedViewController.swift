@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseFirestore
 
 class PostTableViewCell : UITableViewCell {
     
@@ -43,28 +45,15 @@ class FeedViewController: UIViewController {
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
     private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
     private var embeddedView: PostCardViewController!
-    // Defaulted to discover active.
-    var discoverActive = true
-    var discoverPosts : [Post] = generatePostData()
-    var followPosts : [Post]  = generatePostData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToPostCreate))
     }
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == DISCOVER_IDX {
-            embeddedView.posts = self.discoverPosts
-            embeddedView.cardTable.reloadData()
-            embeddedView.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-            
-        } else if sender.selectedSegmentIndex == FOLLOW_IDX {
-            embeddedView.posts = self.followPosts
-            embeddedView.cardTable.reloadData()
-            embeddedView.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-        }
+        self.embeddedView.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
+        self.embeddedView.populatePosts()
     }
     
     
@@ -72,7 +61,6 @@ class FeedViewController: UIViewController {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
-            nextVC.posts = self.discoverActive ? self.discoverPosts : self.followPosts
         }
     }
     

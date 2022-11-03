@@ -49,8 +49,22 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
              var ref: DocumentReference? = nil
              
              // TODO: Link current user to post
-             let user = User(username: "username", firstName: "first", lastName: "last", biography: "", age: 19, karma: 10, views: 1)
-             let post = Post(creator: user, description: descriptionTextStored, title: titleTextStored, date: Date(), likeCount: 0, viewCount: 1)
+             // TODO: Correctly set date joined, karma, and views
+             let user = User(
+                username: "username",
+                biography: "",
+                dateJoined: Date(),
+                karma: 10,
+                views: 1
+             )
+             let post = Post(
+                creator: user,
+                description: descriptionTextStored,
+                title: titleTextStored,
+                date: Date(),
+                likeCount: 0,
+                viewCount: 1
+             )
              ref = db.collection("posts").addDocument(data: post.serialize(userRef: userRef)) { err in
                  if let err = err {
                      print("Error adding document: \(err)")

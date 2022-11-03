@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 extension UIImageView {
 
@@ -18,7 +19,7 @@ extension UIImageView {
 
 class ProfileViewController: UIViewController {
     
-    var user = generateUsersWithPosts(userBound: 1)[0]
+    var user:User = User(firebaseUser: Auth.auth().currentUser!)
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
     private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"
@@ -35,8 +36,8 @@ class ProfileViewController: UIViewController {
     }
     
     @IBOutlet weak var aboutView: UIView!
-    
     @IBOutlet weak var postsView: UIView!
+    
     @IBAction func segmentSelect(_ sender: Any) {
         postsView.isHidden = true
         aboutView.isHidden = true

@@ -209,7 +209,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                                 <connections>
-                                    <action selector="textFieldChanged:" destination="N0M-aa-Pv4" eventType="editingChanged" id="RH4-pQ-VTO"/>
+                                    <action selector="editingEnded:" destination="N0M-aa-Pv4" eventType="editingDidEnd" id="I64-oO-YOl"/>
                                 </connections>
                             </textField>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter a username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyD-gk-O72">
@@ -815,7 +815,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete Account"/>
                                 <connections>
-                                    <action selector="buttonPressed:" destination="Ch5-qw-xVh" eventType="touchUpInside" id="3Pd-zb-4eM"/>
+                                    <segue destination="mLZ-2J-BAZ" kind="show" id="XYs-SI-nvZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1E-tL-567">
@@ -823,7 +823,6 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Log Out"/>
                                 <connections>
-                                    <action selector="buttonPressed:" destination="Ch5-qw-xVh" eventType="touchUpInside" id="GnZ-6P-1Mc"/>
                                     <action selector="logOutPressed:" destination="Ch5-qw-xVh" eventType="touchUpInside" id="wXC-52-ulP"/>
                                 </connections>
                             </button>
@@ -843,8 +842,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="uuB-fr-pjR"/>
                     <connections>
-                        <outlet property="deleteAccountButton" destination="Agx-cW-gR7" id="PVo-iK-TdQ"/>
-                        <outlet property="logoutButton" destination="y1E-tL-567" id="mAn-vr-TTb"/>
                         <outlet property="settingsTable" destination="lAD-82-dSX" id="5N2-8F-jsG"/>
                     </connections>
                 </viewController>
@@ -1181,6 +1178,77 @@ All I did was make the default label size larger than the content potentially co
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vSA-kB-3Xc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1045.7943925233644" y="2135.6371490280781"/>
+        </scene>
+        <!--Delete Account View Controller-->
+        <scene sceneID="vnk-hF-0dX">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="mLZ-2J-BAZ" customClass="DeleteAccountViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gSY-W3-ALF">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8d-7k-jyT">
+                                <rect key="frame" x="20" y="108" width="277" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J1I-Nz-hzK">
+                                <rect key="frame" x="20" y="186" width="388" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <action selector="passwordFieldChanged:" destination="mLZ-2J-BAZ" eventType="editingChanged" id="Uor-cP-Wzm"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teP-Gi-Qj4">
+                                <rect key="frame" x="20" y="167" width="100" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w34-Yw-pVz">
+                                <rect key="frame" x="152.66666666666666" y="260" width="122.99999999999997" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Delete Account">
+                                    <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="deleteAccountPressed:" destination="mLZ-2J-BAZ" eventType="touchUpInside" id="oNb-4e-WE4"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sip-17-gKa">
+                                <rect key="frame" x="20" y="222" width="29" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" systemColor="systemPinkColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="XrG-0d-DBB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="teP-Gi-Qj4" firstAttribute="leading" secondItem="J1I-Nz-hzK" secondAttribute="leading" id="84w-JF-jtU"/>
+                            <constraint firstItem="sip-17-gKa" firstAttribute="top" secondItem="J1I-Nz-hzK" secondAttribute="bottom" constant="2" id="8GT-AO-lKM"/>
+                            <constraint firstItem="J1I-Nz-hzK" firstAttribute="leading" secondItem="XrG-0d-DBB" secondAttribute="leading" constant="20" id="9LS-xp-tYj"/>
+                            <constraint firstItem="w34-Yw-pVz" firstAttribute="centerX" secondItem="XrG-0d-DBB" secondAttribute="centerX" id="Bat-rN-oZ5"/>
+                            <constraint firstItem="w34-Yw-pVz" firstAttribute="top" secondItem="J1I-Nz-hzK" secondAttribute="bottom" constant="40" id="CdJ-Lu-gFC"/>
+                            <constraint firstItem="XrG-0d-DBB" firstAttribute="trailing" secondItem="J1I-Nz-hzK" secondAttribute="trailing" constant="20" id="EVh-da-ITw"/>
+                            <constraint firstItem="o8d-7k-jyT" firstAttribute="top" secondItem="XrG-0d-DBB" secondAttribute="top" constant="20" id="Gr7-3e-ogN"/>
+                            <constraint firstItem="sip-17-gKa" firstAttribute="leading" secondItem="J1I-Nz-hzK" secondAttribute="leading" id="QVZ-RF-je0"/>
+                            <constraint firstItem="J1I-Nz-hzK" firstAttribute="top" secondItem="o8d-7k-jyT" secondAttribute="bottom" constant="30" id="QbK-gl-fqq"/>
+                            <constraint firstItem="o8d-7k-jyT" firstAttribute="leading" secondItem="XrG-0d-DBB" secondAttribute="leading" constant="20" id="bAY-j4-OAl"/>
+                            <constraint firstItem="J1I-Nz-hzK" firstAttribute="top" secondItem="teP-Gi-Qj4" secondAttribute="bottom" constant="2" id="oaw-eW-GjU"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2va-GU-g3t"/>
+                    <connections>
+                        <outlet property="passwordErrorLabel" destination="sip-17-gKa" id="0xe-MA-IZ7"/>
+                        <outlet property="passwordTextField" destination="J1I-Nz-hzK" id="Hit-Kn-kYM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ign-yf-mOF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2713" y="2136"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

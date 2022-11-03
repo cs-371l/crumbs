@@ -16,9 +16,10 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
 
         karma.text = String(user.karma)
-        age.text = String(user.age)
+        // TODO: Calculate and display age
+        age.text = "1d"
         views.text = String(user.views)
-        crumbsCreated.text = String(user.postsCreated)
+        crumbsCreated.text = String(user.posts.count)
     }
     
 

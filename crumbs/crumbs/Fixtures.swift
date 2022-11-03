@@ -36,7 +36,6 @@ func randomString(length: Int) -> String {
 
 func generateUsersWithPosts(userBound: Int = COUNT_BOUND, postsBound: Int = COUNT_BOUND, countBound: Int = COUNT_BOUND) -> [User]{
     let users = generateUsers(userBound: 1)
-    generatePostData(bound: postsBound, users: users)
     
    return users
 }
@@ -47,13 +46,10 @@ func generateUsers(userBound: Int = COUNT_BOUND, bound: Int = COUNT_BOUND) -> [U
     
     for _ in 1...numUsers {
         let username = randomString(length: 5)
-        let firstname = randomString(length: 5)
-        let lastname = randomString(length: 5)
         let biography = TEXT_FIXTURES.randomElement()!
-        let age = Int.random(in: 1...bound)
         let karma = Int.random(in: 1...bound)
         let views = Int.random(in: 1...bound)
-        ret.append(User(username: username, firstName: firstname, lastName: lastname, biography: biography, age: age, karma: karma, views: views))
+        ret.append(User(username: username, biography: biography, dateJoined: Date(), karma: karma, views: views))
     }
     return ret
 }
