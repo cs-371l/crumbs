@@ -502,7 +502,7 @@
         <!--Post View Controller-->
         <scene sceneID="6w8-dC-0Wl">
             <objects>
-                <viewController id="1fy-mM-FoU" customClass="PostViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PostViewController" id="1fy-mM-FoU" customClass="PostViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IAM-w2-217">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="428"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

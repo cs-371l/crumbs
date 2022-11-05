@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
@@ -39,10 +41,46 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
          }
 
          @objc func postPressed() {
+             let db = Firestore.firestore()
              let titleTextStored = titleText.text!
              let descriptionTextStored = descriptionText.text!
-             print(titleTextStored)
-             print(descriptionTextStored)
+             let uid = Auth.auth().currentUser!.uid
+             let userRef = db.collection("users").document(uid)
+             var ref: DocumentReference? = nil
+             
+             // TODO: Link current user to post
+             // TODO: Correctly set date joined, karma, and views
+             let user = User(
+                username: "username",
+                biography: "",
+                dateJoined: Date(),
+                karma: 10,
+                views: 1
+             )
+             let post = Post(
+                creator: user,
+                description: descriptionTextStored,
+                title: titleTextStored,
+                date: Date(),
+                likeCount: 0,
+                viewCount: 1
+             )
+             ref = db.collection("posts").addDocument(data: post.serialize(userRef: userRef)) { err in
+                 if let err = err {
+                     print("Error adding document: \(err)")
+                 } else {
+                     
+                     let postViewController = (self.storyboard?.instantiateViewController(withIdentifier: "PostViewController")) as! PostViewController
+                     postViewController.post = post
+                     self.navigationController?.pushViewController(postViewController, animated: true)
+                     var viewControllerStack = self.navigationController!.viewControllers
+                     viewControllerStack.remove(at: viewControllerStack.count - 2)
+                     self.navigationController?.setViewControllers(viewControllerStack, animated: false)
+                     
+                     print(self.navigationController!.viewControllers)
+                     print("Document added with ID: \(ref!.documentID)")
+                 }
+             }
          }
 
          func textFieldShouldReturn(_ textField:UITextField) -> Bool {

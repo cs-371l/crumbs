@@ -37,16 +37,14 @@ class Post {
     }
     
     convenience init(snapshot: QueryDocumentSnapshot) {
+        let timestamp = snapshot.get("timestamp") as! Timestamp
         let user = User(
             username: "username",
-            firstName: "firstName",
-            lastName: "lastName",
             biography: "biography",
-            age: 19,
+            dateJoined: timestamp.dateValue(),
             karma: 10,
             views: 30
         )
-        let timestamp = snapshot.get("timestamp") as! Timestamp
         self.init(
             creator: user,
             description: snapshot.get("content") as! String,
@@ -55,6 +53,21 @@ class Post {
             likeCount: snapshot.get("likes") as! Int,
             viewCount: snapshot.get("views") as! Int
         )
+    }
+    
+    func serialize(userRef: DocumentReference) -> [String: Any] {
+        // TODO: Include image URL in serialization
+        // TODO: Link user properly
+        return [
+            "title": self.title,
+            "content": self.description,
+            "likes": self.likeCount,
+            "views": self.viewCount,
+            "comments": self.comments,
+            "image": "",
+            "timestamp": Timestamp(date: self.date),
+            "user": userRef
+        ]
     }
     
 }
