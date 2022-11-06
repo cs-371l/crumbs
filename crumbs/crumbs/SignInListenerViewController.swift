@@ -27,9 +27,15 @@ class SignInListenerViewController: UIViewController {
         self.authListener = Auth.auth().addStateDidChangeListener() {
             auth, user in
             if user != nil {
-                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: self.HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
-                self.view.window?.rootViewController = homeViewController
-                self.view.window?.makeKeyAndVisible()
+                self.showSpinner(onView: self.view)
+                
+                CUR_USER = User(firebaseUser: user!, callback: {
+                    success in
+                    self.removeSpinner()
+                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: self.HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                    self.view.window?.rootViewController = homeViewController
+                    self.view.window?.makeKeyAndVisible()
+                })
             }
         }
     }

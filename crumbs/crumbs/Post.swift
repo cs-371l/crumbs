@@ -25,6 +25,7 @@ class Post {
     var createdAgo: String {
         return date.timeAgoDisplay()
     }
+    var docRef: DocumentReference?
     
     init(creator: User, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = []) {
         self.title = title
@@ -53,6 +54,7 @@ class Post {
             likeCount: snapshot.get("likes") as! Int,
             viewCount: snapshot.get("views") as! Int
         )
+        self.docRef = snapshot.reference
     }
     
     func serialize(userRef: DocumentReference) -> [String: Any] {

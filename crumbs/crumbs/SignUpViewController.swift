@@ -58,8 +58,6 @@ class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
         self.confirmPasswordTextField.delegate = self
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
-        
-        // TODO: Date picker for DOB
         createDatePicker()
     }
     
@@ -82,7 +80,8 @@ class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
             "creation_timestamp": FieldValue.serverTimestamp(),
             "bio": "",
             "karma": 0,
-            "views": 0
+            "views": 0,
+            "liked_posts": []
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

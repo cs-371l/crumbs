@@ -19,7 +19,7 @@ extension UIImageView {
 
 class ProfileViewController: UIViewController {
     
-    var user:User = User(firebaseUser: Auth.auth().currentUser!)
+    var user: User = CUR_USER
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
     private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"

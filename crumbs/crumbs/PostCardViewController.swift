@@ -8,7 +8,11 @@
 import UIKit
 import FirebaseFirestore
 
-class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol TableManager {
+    func updateTable() -> Void
+}
+
+class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
     private final let ESTIMATED_ROW_HEIGHT = 1000
@@ -17,6 +21,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     var discoverActive = true
     var posts: [Post] = []
     
+    func updateTable() {
+        cardTable.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +78,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         // Going into post view, pass in the post.
         if segue.identifier == POST_VIEW_SEGUE, let nextVC = segue.destination as? PostViewController, let rowIndex = cardTable.indexPathForSelectedRow?.row  {
             nextVC.post = posts[rowIndex]
+            nextVC.tableManager = self
         }
     }
 

@@ -9,25 +9,36 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
+// Global User
+var CUR_USER: User!
+
 class User {
+    var id: String
+    var docRef: DocumentReference
     var username: String
     var biography: String
     var dateJoined: Date
     var karma: Int
     var views: Int
     var posts: [Post]
+    var likedPostIds: [DocumentReference]
     
-    convenience init(firebaseUser: FirebaseAuth.User) {
+    // Initialize based off of Firebase user.
+    convenience init(firebaseUser: FirebaseAuth.User, callback: @escaping (_ success: Bool) -> Void) {
         let db = Firestore.firestore()
         let username = ""
         let biography = ""
         let dateJoined = Date()
         let karma = 0
         let views = 0
+        
+
         self.init(username: username, biography: biography, dateJoined: dateJoined, karma: karma, views: views)
         db.collection("users").document(firebaseUser.uid).getDocument() { (snapshot, err) in
             if let err = err {
                 print("Error getting user \(err)")
+
+                callback(false)
             } else {
                 self.username = snapshot!.get("username") as! String
                 self.biography = snapshot!.get("bio") as! String
@@ -35,22 +46,30 @@ class User {
                 self.dateJoined = creationTimestamp.dateValue()
                 self.karma = snapshot!.get("karma") as! Int
                 self.views = snapshot!.get("views") as! Int
+                self.likedPostIds = snapshot!.get("liked_posts") as! [DocumentReference]
+                CUR_USER = self
+                
+                callback(true)
             }
         }
     }
-
+    
+    // Full in-memory initializiation (eagerly loaded).
+    // Note that this brings in all posts into memory.
     init(username: String, biography: String, dateJoined: Date, karma: Int, views: Int) {
-        
         self.username = username
         self.biography = biography
         self.dateJoined = dateJoined
         self.karma = karma
         self.views = views
         self.posts = []
+        self.likedPostIds = []
         
         let db = Firestore.firestore()
         let uid = Auth.auth().currentUser!.uid
+        self.id = uid
         let userRef = db.collection("users").document(uid)
+        self.docRef = userRef
         db.collection("posts").whereField("user", isEqualTo: userRef).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -60,11 +79,51 @@ class User {
         }
     }
     
+    // Lightweight initialization for new users -- stores in database.
+    init(uid: String, username: String, birthday: Date) {
+        self.id = uid
+        self.username = username
+        self.dateJoined = birthday
+        self.biography = ""
+        self.karma = 0
+        self.views = 0
+        self.posts = []
+        self.likedPostIds = []
+        
+        // Persist to Firestore.
+        let db = Firestore.firestore()
+        let ref = db.collection("users").document(self.id)
+        self.docRef = ref
+        ref.setData([
+            "username": self.username,
+            "birthday": Timestamp(date: self.dateJoined),
+            "creation_timestamp": FieldValue.serverTimestamp(),
+            "bio": self.biography,
+            "karma": self.karma,
+            "views": self.views,
+            "liked_posts": self.likedPostIds
+        ]) {
+            err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with username: \(self.username)")
+            }
+        }
+    }
+    
     func parseDocumentsToPosts(documents: [QueryDocumentSnapshot]) -> [Post] {
         var posts:[Post] = []
         for document in documents {
             let timestamp = document.get("timestamp") as! Timestamp
-            let post = Post(creator: self, description: document.get("content") as! String, title: document.get("title") as! String, date: timestamp.dateValue(), likeCount: document.get("likes") as! Int, viewCount: document.get("views") as! Int)
+            let post = Post(
+                creator: self,
+                description: document.get("content") as! String,
+                title: document.get("title") as! String,
+                date: timestamp.dateValue(),
+                likeCount: document.get("likes") as! Int,
+                viewCount: document.get("views") as! Int
+            )
             posts.append(post)
         }
         return posts
@@ -72,6 +131,18 @@ class User {
     
     func addPost(p: Post) {
         self.posts.append(p)
+    }
+    
+    func hasLikedPost(p: Post) -> Bool {
+        return self.likedPostIds.contains(where: {$0.documentID == p.docRef?.documentID})
+    }
+    
+    func addLikedPost(p: Post) -> Void {
+        self.likedPostIds.append(p.docRef!)
+    }
+    
+    func removedLikedPost(p: Post) {
+        self.likedPostIds = self.likedPostIds.filter {$0.documentID != p.docRef?.documentID}
     }
 }
 
