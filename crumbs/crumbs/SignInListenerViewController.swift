@@ -8,9 +8,9 @@
 import UIKit
 import FirebaseAuth
 
+let HOME_TAB_BAR_CONTROLLER_IDENTIFIER = "HomeTabBarController"
+
 class SignInListenerViewController: UIViewController {
-    
-    private final let HOME_TAB_BAR_CONTROLLER_IDENTIFIER = "HomeTabBarController"
     
     var authListener: AuthStateDidChangeListenerHandle!
 
@@ -32,7 +32,12 @@ class SignInListenerViewController: UIViewController {
                 CUR_USER = User(firebaseUser: user!, callback: {
                     success in
                     self.removeSpinner()
-                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: self.HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                    if !success {
+                        // TODO: handle failed sign in.
+                        print("Initialization of user failed.")
+                        return
+                    }
+                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
                     self.view.window?.rootViewController = homeViewController
                     self.view.window?.makeKeyAndVisible()
                 })

@@ -64,7 +64,6 @@ class PostViewCell : UITableViewCell {
 
     func assignAttributes(p: Post, user: User) {
         likeActive = user.hasLikedPost(p: p)
-        print(likeActive)
         likeButton.setImage(likeActive ? activeLike : inactiveLike, for: .normal)
         post = p
         handlePostUpdate()
@@ -187,7 +186,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Need to check if we have to update anything for
         // the user or the post.
         if postCell.likeActive != self.originalLikeState {
-            print(postCell.likeActive)
             updateLikeForUserAndPost(isLiking: postCell.likeActive)
         }
         self.tableManager.updateTable()

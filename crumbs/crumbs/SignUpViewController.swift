@@ -18,7 +18,7 @@ extension String {
    }
 }
 
-class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var dateOfBirthTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -72,25 +72,6 @@ class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    func storeUserInFirestore(uid: String, username: String, birthday: Date) {
-        let db = Firestore.firestore()
-        db.collection("users").document(uid).setData([
-            "username": username,
-            "birthday": Timestamp(date: self.datePicker.date),
-            "creation_timestamp": FieldValue.serverTimestamp(),
-            "bio": "",
-            "karma": 0,
-            "views": 0,
-            "liked_posts": []
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with username: \(username)")
-            }
-        }
-    }
-    
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         var validated = true
         usernameAlert.text = usernameEmptyAlert
@@ -122,6 +103,9 @@ class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
             validated = false
         }
         
+        // await create auth user
+        // 
+        
         
         if validated {
             let username = usernameTextField.text!
@@ -129,7 +113,19 @@ class SignUpViewController: SignInListenerViewController, UITextFieldDelegate {
                 if let error = error as NSError? {
                     self.createAccountAlert.text = "\(error.localizedDescription)"
                 } else {
-                    self.storeUserInFirestore(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date)
+                    self.showSpinner(onView: self.view)
+                    CUR_USER = User(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date) {
+                        success in
+                        self.removeSpinner()
+                        if !success {
+                            // TODO: handle failed sign in.
+                            print("Initialization of user failed.")
+                            return
+                        }
+                        let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                        self.view.window?.rootViewController = homeViewController
+                        self.view.window?.makeKeyAndVisible()
+                    }
                     self.createAccountAlert.text = "Success"
                 }
             }

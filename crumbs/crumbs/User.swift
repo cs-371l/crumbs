@@ -80,7 +80,7 @@ class User {
     }
     
     // Lightweight initialization for new users -- stores in database.
-    init(uid: String, username: String, birthday: Date) {
+    init(uid: String, username: String, birthday: Date, callback: @escaping (_ success: Bool) -> Void) {
         self.id = uid
         self.username = username
         self.dateJoined = birthday
@@ -106,8 +106,10 @@ class User {
             err in
             if let err = err {
                 print("Error adding document: \(err)")
+                callback(false)
             } else {
                 print("Document added with username: \(self.username)")
+                callback(true)
             }
         }
     }
