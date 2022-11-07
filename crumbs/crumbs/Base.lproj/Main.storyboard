@@ -691,13 +691,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="de9-ff-kYr">
+                                <rect key="frame" x="327.33333333333331" y="586.33333333333337" width="40.666666666666686" height="30.666666666666629"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="">
+                                    <imageReference key="image" image="message.circle.fill" catalog="system" symbolScale="default"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LRi-U9-rR6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" id="D80-y8-ZgN"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="de9-ff-kYr" secondAttribute="trailing" constant="20" id="ewr-kz-ctr"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="bottom" secondItem="LRi-U9-rR6" secondAttribute="bottom" id="lpf-2s-iez"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="top" secondItem="LRi-U9-rR6" secondAttribute="top" id="rn4-JN-CnD"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="bottom" secondItem="de9-ff-kYr" secondAttribute="bottom" constant="20" id="sd9-6v-i6m"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="trailing" secondItem="LRi-U9-rR6" secondAttribute="trailing" id="vkL-Ny-du8"/>
                         </constraints>
                     </view>
@@ -1278,6 +1287,7 @@ All I did was make the default label size larger than the content potentially co
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="gearshape.circle.fill" catalog="system" width="128" height="121"/>
         <image name="heart.circle" catalog="system" width="128" height="121"/>
+        <image name="message.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
