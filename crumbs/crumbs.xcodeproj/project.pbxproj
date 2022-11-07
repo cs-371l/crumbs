@@ -52,7 +52,11 @@
 		886D468728FF51F800CB59FB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468628FF51F800CB59FB /* Comment.swift */; };
 		886D468928FF542700CB59FB /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468828FF542700CB59FB /* Fixtures.swift */; };
 		886D468D28FF823700CB59FB /* PostCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468C28FF823700CB59FB /* PostCardViewController.swift */; };
-		88751CAC2917348A00C88B18 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88751CAB2917348A00C88B18 /* Loading.swift */; };
+		88751CAC2917348A00C88B18 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */; };
+		88A231842919C37F00755476 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231832919C37F00755476 /* ErrorMessage.swift */; };
+		88A231902919C44A00755476 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 88A2318F2919C44A00755476 /* FirebaseStorage */; };
+		88A231922919C57F00755476 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231912919C57F00755476 /* UIButtonExtensions.swift */; };
+		88A231942919C77000755476 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231932919C77000755476 /* UIImageExtensions.swift */; };
 		88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */; };
 		9C24794128FF429200AF9264 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24794028FF429200AF9264 /* ProfileViewController.swift */; };
 		9C24794328FF519E00AF9264 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24794228FF519E00AF9264 /* User.swift */; };
@@ -106,7 +110,10 @@
 		886D468628FF51F800CB59FB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		886D468828FF542700CB59FB /* Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 		886D468C28FF823700CB59FB /* PostCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardViewController.swift; sourceTree = "<group>"; };
-		88751CAB2917348A00C88B18 /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
+		88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		88A231832919C37F00755476 /* ErrorMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		88A231912919C57F00755476 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
+		88A231932919C77000755476 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9C24794028FF429200AF9264 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9C24794228FF519E00AF9264 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -120,6 +127,7 @@
 			files = (
 				6AFAD76628FFAEDF0048EB2F /* FirebaseAuth in Frameworks */,
 				6AFAD76828FFAEDF0048EB2F /* FirebaseFirestore in Frameworks */,
+				88A231902919C44A00755476 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +153,7 @@
 		6A292D4C28F385670068C727 /* crumbs */ = {
 			isa = PBXGroup;
 			children = (
+				88A231832919C37F00755476 /* ErrorMessage.swift */,
 				6AFAD76028FFADE60048EB2F /* PostCreationViewController.swift */,
 				6AFAD72C28FFADDD0048EB2F /* IQKeyboardManagerSwift */,
 				6A292D4D28F385670068C727 /* AppDelegate.swift */,
@@ -171,7 +180,9 @@
 				886D468628FF51F800CB59FB /* Comment.swift */,
 				886D468828FF542700CB59FB /* Fixtures.swift */,
 				886D468C28FF823700CB59FB /* PostCardViewController.swift */,
-				88751CAB2917348A00C88B18 /* Loading.swift */,
+				88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */,
+				88A231912919C57F00755476 /* UIButtonExtensions.swift */,
+				88A231932919C77000755476 /* UIImageExtensions.swift */,
 			);
 			path = crumbs;
 			sourceTree = "<group>";
@@ -258,6 +269,7 @@
 			packageProductDependencies = (
 				6AFAD76528FFAEDF0048EB2F /* FirebaseAuth */,
 				6AFAD76728FFAEDF0048EB2F /* FirebaseFirestore */,
+				88A2318F2919C44A00755476 /* FirebaseStorage */,
 			);
 			productName = crumbs;
 			productReference = 6A292D4A28F385670068C727 /* crumbs.app */;
@@ -328,11 +340,12 @@
 				6AFAD75528FFADDD0048EB2F /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				6AFAD74B28FFADDD0048EB2F /* IQPreviousNextView.swift in Sources */,
 				6AFAD75628FFADDD0048EB2F /* IQKeyboardManager.swift in Sources */,
+				88A231942919C77000755476 /* UIImageExtensions.swift in Sources */,
 				9C5E1FF428FF6E2E008A3DDB /* AboutViewController.swift in Sources */,
 				9C24794128FF429200AF9264 /* ProfileViewController.swift in Sources */,
 				6A34E9F328FF391D00699A74 /* SettingsViewController.swift in Sources */,
 				6AFAD75D28FFADDD0048EB2F /* IQUIView+Hierarchy.swift in Sources */,
-				88751CAC2917348A00C88B18 /* Loading.swift in Sources */,
+				88751CAC2917348A00C88B18 /* UIViewControllerExtensions.swift in Sources */,
 				6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */,
 				886D468528FE5AFD00CB59FB /* PostViewController.swift in Sources */,
 				6AFAD75428FFADDD0048EB2F /* IQKeyboardManager+Position.swift in Sources */,
@@ -340,8 +353,10 @@
 				6AFAD75828FFADDD0048EB2F /* IQKeyboardManager+OrientationNotification.swift in Sources */,
 				6AFAD75028FFADDD0048EB2F /* IQInvocation.swift in Sources */,
 				6AFAD74D28FFADDD0048EB2F /* IQBarButtonItem.swift in Sources */,
+				88A231842919C37F00755476 /* ErrorMessage.swift in Sources */,
 				6AFAD75B28FFADDD0048EB2F /* IQUIViewController+Additions.swift in Sources */,
 				6AFAD75228FFADDD0048EB2F /* IQKeyboardManagerConstantsInternal.swift in Sources */,
+				88A231922919C57F00755476 /* UIButtonExtensions.swift in Sources */,
 				6AFAD74C28FFADDD0048EB2F /* IQTitleBarButtonItem.swift in Sources */,
 				6AFAD75928FFADDD0048EB2F /* IQKeyboardManager+Toolbar.swift in Sources */,
 				6AFAD74F28FFADDD0048EB2F /* IQUIView+IQKeyboardToolbar.swift in Sources */,
@@ -601,6 +616,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6AFAD76428FFAEDF0048EB2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		88A2318F2919C44A00755476 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6AFAD76428FFAEDF0048EB2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

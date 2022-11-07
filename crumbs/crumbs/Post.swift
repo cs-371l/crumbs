@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import UIKit
 
 class Post {
     var creator : User
@@ -26,8 +27,10 @@ class Post {
         return date.timeAgoDisplay()
     }
     var docRef: DocumentReference?
+    var imageUrl: String?
+    var uiImage: UIImage? = nil
     
-    init(creator: User, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = []) {
+    init(creator: User, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = [], imageUrl: String? = nil) {
         self.title = title
         self.creator = creator
         self.description = description
@@ -35,6 +38,7 @@ class Post {
         self.likeCount = likeCount
         self.viewCount = viewCount
         self.comments = comments
+        self.imageUrl = imageUrl
     }
     
     convenience init(snapshot: QueryDocumentSnapshot) {
@@ -46,13 +50,15 @@ class Post {
             karma: 10,
             views: 30
         )
+
         self.init(
             creator: user,
             description: snapshot.get("content") as! String,
             title: snapshot.get("title") as! String,
             date: timestamp.dateValue(),
             likeCount: snapshot.get("likes") as! Int,
-            viewCount: snapshot.get("views") as! Int
+            viewCount: snapshot.get("views") as! Int,
+            imageUrl: snapshot.get("image_url") as! String?
         )
         self.docRef = snapshot.reference
     }
@@ -60,16 +66,21 @@ class Post {
     func serialize(userRef: DocumentReference) -> [String: Any] {
         // TODO: Include image URL in serialization
         // TODO: Link user properly
-        return [
+        var base = [
             "title": self.title,
             "content": self.description,
             "likes": self.likeCount,
             "views": self.viewCount,
             "comments": self.comments,
-            "image": "",
             "timestamp": Timestamp(date: self.date),
             "user": userRef
-        ]
+        ] as [String : Any]
+        
+        if self.imageUrl != nil {
+            base["image_url"] = self.imageUrl!
+        }
+        
+        return base
     }
     
 }
