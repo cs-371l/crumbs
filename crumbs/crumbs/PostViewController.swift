@@ -12,6 +12,7 @@ import FirebaseFirestore
 class PostViewCell : UITableViewCell {
     
     
+    @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
@@ -62,11 +63,18 @@ class PostViewCell : UITableViewCell {
         handlePostUpdate()
     }
 
-    func assignAttributes(p: Post, user: User) {
+    func assignAttributes(p: Post, user: User, image: UIImage?) {
+        postImage.layer.masksToBounds = true
         likeActive = user.hasLikedPost(p: p)
         likeButton.setImage(likeActive ? activeLike : inactiveLike, for: .normal)
         post = p
         handlePostUpdate()
+        // Check if there is a post image.
+        if image != nil {
+            let scaled = image?.scale(with: CGSize(width: 348, height: 250))
+            postImage.frame = CGRect(x: 0, y: 0, width: scaled!.size.width, height: scaled!.size.height)
+            postImage.image = scaled
+        }
     }
 }
 
@@ -94,10 +102,15 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
     private final let ESTIMATED_ROW_HEIGHT = 1000
     
-    var tableManager: TableManager!
+    var tableManager: TableManager?
 
     
     var originalLikeState: Bool!
+    var postImage: UIImage? = nil
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +121,28 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         postViewTable.rowHeight = UITableView.automaticDimension
         postViewTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         originalLikeState = CUR_USER.hasLikedPost(p: post)
+        
+        if post.uiImage != nil {
+            self.postImage = post.uiImage
+        }
+        
+        if post.uiImage == nil && post.imageUrl != nil {
+            self.showSpinner(onView: self.view)
+            getData(from: URL(string: post.imageUrl!)!) {
+                data, resp, error in
+                guard let data = data, error == nil else {
+                    self.showErrorAlert(title: "Error", message: "Unable to load post.")
+                    return
+                }
+                self.postImage = UIImage(data: data)
+                self.post.uiImage = self.postImage
+                self.removeSpinner()
+                DispatchQueue.main.async {
+                    self.postViewTable.reloadData()
+                }
+            }
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,7 +151,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         // First cell is the post. Assign attributes and prevent selection.
         if row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: POST_IDENTIFIER, for: indexPath) as! PostViewCell
-            cell.assignAttributes(p: post, user: CUR_USER)
+
+            cell.assignAttributes(p: post, user: CUR_USER, image: self.postImage)
             cell.selectionStyle = .none
             return cell
         }
@@ -188,7 +224,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         if postCell.likeActive != self.originalLikeState {
             updateLikeForUserAndPost(isLiking: postCell.likeActive)
         }
-        self.tableManager.updateTable()
+        
+        if self.tableManager == nil {
+            return
+        }
+        self.tableManager!.updateTable()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
