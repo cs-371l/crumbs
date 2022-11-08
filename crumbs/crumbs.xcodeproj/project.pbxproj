@@ -51,7 +51,6 @@
 		886D468328FE4CBB00CB59FB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468228FE4CBB00CB59FB /* Post.swift */; };
 		886D468528FE5AFD00CB59FB /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468428FE5AFD00CB59FB /* PostViewController.swift */; };
 		886D468728FF51F800CB59FB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468628FF51F800CB59FB /* Comment.swift */; };
-		886D468928FF542700CB59FB /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468828FF542700CB59FB /* Fixtures.swift */; };
 		886D468D28FF823700CB59FB /* PostCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468C28FF823700CB59FB /* PostCardViewController.swift */; };
 		88751CAC2917348A00C88B18 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */; };
 		88A231842919C37F00755476 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231832919C37F00755476 /* ErrorMessage.swift */; };
@@ -110,7 +109,6 @@
 		886D468228FE4CBB00CB59FB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		886D468428FE5AFD00CB59FB /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		886D468628FF51F800CB59FB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		886D468828FF542700CB59FB /* Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 		886D468C28FF823700CB59FB /* PostCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardViewController.swift; sourceTree = "<group>"; };
 		88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		88A231832919C37F00755476 /* ErrorMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				886D468428FE5AFD00CB59FB /* PostViewController.swift */,
 				6AB1F08D2919D81900F94C5C /* AddCommentViewController.swift */,
 				886D468628FF51F800CB59FB /* Comment.swift */,
-				886D468828FF542700CB59FB /* Fixtures.swift */,
 				886D468C28FF823700CB59FB /* PostCardViewController.swift */,
 				88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */,
 				88A231912919C57F00755476 /* UIButtonExtensions.swift */,
@@ -380,7 +377,6 @@
 				886D468728FF51F800CB59FB /* Comment.swift in Sources */,
 				886D467F28FA3D6000CB59FB /* FeedViewController.swift in Sources */,
 				6AFAD74A28FFADDD0048EB2F /* IQKeyboardManager+Internal.swift in Sources */,
-				886D468928FF542700CB59FB /* Fixtures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
