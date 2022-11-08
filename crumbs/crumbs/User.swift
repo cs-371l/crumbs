@@ -13,7 +13,7 @@ import FirebaseFirestore
 var CUR_USER: User!
 
 class User {
-    var id: String
+    var id: String?
     var docRef: DocumentReference
     var username: String
     var biography: String
@@ -23,7 +23,7 @@ class User {
     var posts: [Post]
     var likedPostIds: [DocumentReference]
     
-    // Initialize based off of Firebase user.
+    // Initialize based off of Firebase user. SETS THE CURRENT USER -- ONLY CALL FOR AUTHENTICATED USER.
     convenience init(firebaseUser: FirebaseAuth.User, callback: @escaping (_ success: Bool) -> Void) {
         let db = Firestore.firestore()
         let username = ""
@@ -40,18 +40,33 @@ class User {
 
                 callback(false)
             } else {
-                self.username = snapshot!.get("username") as! String
-                self.biography = snapshot!.get("bio") as! String
-                let creationTimestamp = snapshot!.get("creation_timestamp") as! Timestamp
-                self.dateJoined = creationTimestamp.dateValue()
-                self.karma = snapshot!.get("karma") as! Int
-                self.views = snapshot!.get("views") as! Int
-                self.likedPostIds = snapshot!.get("liked_posts") as! [DocumentReference]
+                self.assignFromSnapshot(snapshot: snapshot!)
                 CUR_USER = self
-                
                 callback(true)
             }
         }
+    }
+    
+    func assignFromSnapshot(snapshot: DocumentSnapshot) {
+        self.username = snapshot.get("username") as! String
+        self.biography = snapshot.get("bio") as! String
+        let creationTimestamp = snapshot.get("creation_timestamp") as! Timestamp
+        self.dateJoined = creationTimestamp.dateValue()
+        self.karma = snapshot.get("karma") as! Int
+        self.views = snapshot.get("views") as! Int
+        self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+    }
+    
+    init(snapshot: DocumentSnapshot) {
+        self.docRef = snapshot.reference
+        self.username = snapshot.get("username") as! String
+        self.biography = snapshot.get("bio") as! String
+        let creationTimestamp = snapshot.get("creation_timestamp") as! Timestamp
+        self.dateJoined = creationTimestamp.dateValue()
+        self.karma = snapshot.get("karma") as! Int
+        self.views = snapshot.get("views") as! Int
+        self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+        self.posts = []
     }
     
     // Full in-memory initializiation (eagerly loaded).
@@ -92,7 +107,7 @@ class User {
         
         // Persist to Firestore.
         let db = Firestore.firestore()
-        let ref = db.collection("users").document(self.id)
+        let ref = db.collection("users").document(uid)
         self.docRef = ref
         ref.setData([
             "username": self.username,

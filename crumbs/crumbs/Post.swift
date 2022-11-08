@@ -28,6 +28,8 @@ class Post {
     var imageUrl: String?
     var uiImage: UIImage? = nil
     
+    var user: User? = nil
+    
     init(
         creatorRef: DocumentReference,
         creatorUsername: String,

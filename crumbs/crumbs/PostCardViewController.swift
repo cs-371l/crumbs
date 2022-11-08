@@ -18,6 +18,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
+
     var discoverActive = true
     var posts: [Post] = []
     
