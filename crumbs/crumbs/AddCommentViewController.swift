@@ -6,20 +6,38 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class AddCommentViewController: UIViewController, UITextViewDelegate {
+    
+    var post: Post!
+    var postViewTable: UITableView!
 
     @IBOutlet weak var commentTextView: UITextView!
+    @IBOutlet weak var postTitleLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         commentTextView.delegate = self
         commentTextView.text = "Add comment"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Comment", style: .done, target: self, action: #selector(self.addComment))
+        commentTextView.textColor = UIColor.lightGray
+        postTitleLabel.text = self.post.title
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(self.addComment))
     }
     
     @objc func addComment() {
         let commentText = commentTextView.text!
-        
+        let comment = Comment(
+            comment: commentText,
+            upvotes: 0,
+            username: CUR_USER.username,
+            userRef: CUR_USER.docRef,
+            date: Date()
+        )
+        self.post.docRef?.collection("comments").addDocument(data: comment.serialize())
+        self.post.comments.append(comment)
+        self.postViewTable.reloadData()
+        self.navigationController?.popViewController(animated: true)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

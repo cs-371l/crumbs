@@ -88,7 +88,7 @@ class CommentCardCell : UITableViewCell {
     func assignAttributes(c: Comment) {
         upvotesLabel.text = String(c.upvotes)
         commentsLabel.text = c.comment
-        authorLabel.text = c.author
+        authorLabel.text = c.username
         createdLabel.text = c.timeAgo
     }
 }
@@ -99,6 +99,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var postViewTable: UITableView!
     @IBOutlet weak var addCommentButton: UIButton!
     
+    private final let POST_VIEW_TO_COMMENT_SEGUE = "PostViewToCommentSegue"
     private final let POST_IDENTIFIER = "PostIdentifier"
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
     private final let ESTIMATED_ROW_HEIGHT = 1000
@@ -146,8 +147,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
-        
+        self.populateComments()
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
@@ -164,6 +166,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
         cell.assignAttributes(c: post.comments[row - 1])
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -218,6 +221,26 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             CUR_USER.removedLikedPost(p: self.post)
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == POST_VIEW_TO_COMMENT_SEGUE, let nextVC = segue.destination as? AddCommentViewController {
+            nextVC.post = self.post
+            nextVC.postViewTable = self.postViewTable
+        }
+    }
+    
+    func populateComments() {
+        self.post.docRef?.collection("comments").getDocuments(completion: {
+            (querySnapshot, error) in
+            guard error == nil else {
+                print("Error getting comments: \(String(describing: error))")
+                return
+            }
+            
+            self.post.comments = querySnapshot!.documents.map {Comment(snapshot: $0)}
+            self.postViewTable.reloadData()
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {

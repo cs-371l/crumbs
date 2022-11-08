@@ -6,23 +6,45 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class Comment {
-    var creator : User
+    var userRef : DocumentReference
     var comment: String
     var upvotes: Int
-    var author: String {
-        return creator.username
-    }
+    var username: String
     var date: Date
     var timeAgo: String {
         return date.timeAgoDisplay()
     }
     
-    init(comment: String, upvotes: Int, creator: User, date: Date) {
+    init(comment: String, upvotes: Int, username: String, userRef: DocumentReference, date: Date) {
         self.comment = comment
         self.upvotes = upvotes
-        self.creator = creator
+        self.username = username
+        self.userRef = userRef
         self.date = date
+    }
+    
+    convenience init(snapshot: QueryDocumentSnapshot) {
+        let timestamp = snapshot.get("timestamp") as! Timestamp
+        
+        self.init(
+            comment: snapshot.get("content") as! String,
+            upvotes: snapshot.get("upvotes") as! Int,
+            username: snapshot.get("username") as! String,
+            userRef: snapshot.get("user") as! DocumentReference,
+            date: timestamp.dateValue()
+        )
+    }
+    
+    func serialize() -> [String: Any] {
+        return [
+            "content": self.comment,
+            "timestamp": Timestamp(date: self.date),
+            "upvotes": self.upvotes,
+            "user": self.userRef,
+            "username": self.username,
+        ] as [String : Any]
     }
 }
