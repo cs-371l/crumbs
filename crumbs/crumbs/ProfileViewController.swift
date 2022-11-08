@@ -13,14 +13,35 @@ class ProfileViewController: UIViewController {
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
     private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"
-
+    
+    
+    @IBOutlet weak var edit: UIButton!
+    
+    
+    
+    @IBAction func EditButton(_ sender: Any) {
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewDidLoad()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         username.text = user.username
-        biography.text = user.biography
+        bio.text = user.biography
         postsView.isHidden = true
         aboutView.isHidden = false
+        
+        if(user.username != CUR_USER.username){
+            edit.isHidden = true
+        } else {
+            edit.isHidden = false
+        }
         
     }
     
@@ -39,7 +60,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var username: UILabel!
     
-    @IBOutlet weak var biography: UILabel!
+    @IBOutlet weak var bio: UILabel!
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Going into post view, pass in the post.
