@@ -10,10 +10,8 @@ import FirebaseFirestore
 import UIKit
 
 class Post {
-    var creator : User
-    var author : String {
-        return creator.username
-    }
+    var creatorRef : DocumentReference
+    var author : String
     var description: String
     var title: String
     var date: Date
@@ -30,9 +28,20 @@ class Post {
     var imageUrl: String?
     var uiImage: UIImage? = nil
     
-    init(creator: User, description: String, title: String, date: Date, likeCount: Int, viewCount: Int, comments: [Comment] = [], imageUrl: String? = nil) {
+    init(
+        creatorRef: DocumentReference,
+        creatorUsername: String,
+        description: String,
+        title: String,
+        date: Date,
+        likeCount: Int,
+        viewCount: Int,
+        comments: [Comment] = [],
+        imageUrl: String? = nil
+    ) {
         self.title = title
-        self.creator = creator
+        self.creatorRef = creatorRef
+        self.author = creatorUsername
         self.description = description
         self.date = date
         self.likeCount = likeCount
@@ -43,16 +52,10 @@ class Post {
     
     convenience init(snapshot: QueryDocumentSnapshot) {
         let timestamp = snapshot.get("timestamp") as! Timestamp
-        let user = User(
-            username: "username",
-            biography: "biography",
-            dateJoined: timestamp.dateValue(),
-            karma: 10,
-            views: 30
-        )
 
         self.init(
-            creator: user,
+            creatorRef: snapshot.get("user") as! DocumentReference,
+            creatorUsername: snapshot.get("creator_username") as! String,
             description: snapshot.get("content") as! String,
             title: snapshot.get("title") as! String,
             date: timestamp.dateValue(),

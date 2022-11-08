@@ -37,9 +37,12 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     func populatePosts() {
         let db = Firestore.firestore()
         if !self.discoverActive {
-            self.posts = generatePostData()
+            self.posts = []
             self.cardTable.reloadData()
-            self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            
+            if self.posts.count > 0 {
+                self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            }
             return
         }
         db.collection("posts").getDocuments() { (querySnapshot, err) in
@@ -48,7 +51,10 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
             } else {
                 self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
                 self.cardTable.reloadData()
-                self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                
+                if self.posts.count > 0 {
+                    self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                }
             }
         }
     }

@@ -119,7 +119,8 @@ class User {
         for document in documents {
             let timestamp = document.get("timestamp") as! Timestamp
             let post = Post(
-                creator: self,
+                creatorRef: self.docRef,
+                creatorUsername: self.username,
                 description: document.get("content") as! String,
                 title: document.get("title") as! String,
                 date: timestamp.dateValue(),

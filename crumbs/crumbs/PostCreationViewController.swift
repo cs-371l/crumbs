@@ -95,12 +95,12 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
              }
          }
     
-    func uploadPost(post: Post, userRef: DocumentReference) {
+    func uploadPost(post: Post) {
             // Creating post.
             let db = Firestore.firestore()
             var ref: DocumentReference? = nil
             self.showSpinner(onView: self.view)
-            ref = db.collection("posts").addDocument(data: post.serialize(userRef: userRef)) { err in
+            ref = db.collection("posts").addDocument(data: post.serialize(userRef: post.creatorRef)) { err in
                 if let err = err {
                     self.showErrorAlert(title: "Error", message: "Failed to upload post.")
                     print(err.localizedDescription)
@@ -120,23 +120,12 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
         }
 
          @objc func postPressed() {
-             let db = Firestore.firestore()
              let titleTextStored = titleText.text!
              let descriptionTextStored = descriptionText.text!
-             let uid = Auth.auth().currentUser!.uid
-             let userRef = db.collection("users").document(uid)
-             
-             // TODO: Link current user to post
-             // TODO: Correctly set date joined, karma, and views
-             let user = User(
-                username: "username",
-                biography: "",
-                dateJoined: Date(),
-                karma: 10,
-                views: 1
-             )
+
              let post = Post(
-                creator: user,
+                creatorRef: CUR_USER.docRef,
+                creatorUsername: CUR_USER.username,
                 description: descriptionTextStored,
                 title: titleTextStored,
                 date: Date(),
@@ -165,11 +154,11 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                              return
                          }
                          post.imageUrl = url!.absoluteString
-                         self.uploadPost(post: post, userRef: userRef)
+                         self.uploadPost(post: post)
                      }
                  }
              } else {
-                 uploadPost(post: post, userRef: userRef)
+                 uploadPost(post: post)
              }
          }
 
