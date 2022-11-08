@@ -174,7 +174,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         if (!CUR_USER.hasViewedPost(p: self.post)){
-            print("got here")
             updateViewsForUserAndPost()
             post.viewCount += 1
         }
