@@ -49,6 +49,14 @@ class FeedViewController: UIViewController, TableManager {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToPostCreate))
+        
+        // check if dark mode
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: "Dark") {
+            UIApplication.shared.keyWindow?.rootViewController?.overrideUserInterfaceStyle = .dark
+        } else {
+            UIApplication.shared.keyWindow?.rootViewController?.overrideUserInterfaceStyle = .light
+        }
     }
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
