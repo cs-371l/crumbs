@@ -14,14 +14,40 @@ class ProfileViewController: UIViewController {
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
     private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"
-
+    
+    
+    @IBOutlet weak var edit: UIButton!
+    
+    
+    
+    @IBAction func EditButton(_ sender: Any) {
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewDidLoad()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+<<<<<<< HEAD
 
+=======
+        
+        image.setRounded()
+>>>>>>> 67e0f6d (finished implementation)
         username.text = user.username
         biography.text = user.biography
         postsView.isHidden = true
         aboutView.isHidden = false
+        
+        if(user.username != CUR_USER.username){
+            edit.isHidden = true
+        } else {
+            edit.isHidden = false
+        }
         
     }
     
