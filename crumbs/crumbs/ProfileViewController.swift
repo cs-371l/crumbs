@@ -8,15 +8,6 @@
 import UIKit
 import FirebaseAuth
 
-extension UIImageView {
-
-   func setRounded() {
-       let radius = self.frame.width / 2
-      self.layer.cornerRadius = radius
-      self.layer.masksToBounds = true
-   }
-}
-
 class ProfileViewController: UIViewController {
     
     var user: User = CUR_USER
@@ -27,7 +18,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        image.setRounded()
         username.text = user.username
         biography.text = user.biography
         postsView.isHidden = true
@@ -51,7 +41,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var username: UILabel!
     
     @IBOutlet weak var biography: UILabel!
-    @IBOutlet weak var image: UIImageView!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Going into post view, pass in the post.
