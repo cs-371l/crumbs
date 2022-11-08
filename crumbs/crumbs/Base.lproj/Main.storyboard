@@ -735,6 +735,7 @@
                     <navigationItem key="navigationItem" id="3Fr-Mi-b7v"/>
                     <connections>
                         <outlet property="PostViewTable" destination="PZ6-4J-nsy" id="elc-0i-38S"/>
+                        <outlet property="addCommentButton" destination="de9-ff-kYr" id="NjA-O7-BRF"/>
                         <outlet property="postViewTable" destination="PZ6-4J-nsy" id="hCZ-9L-IOm"/>
                     </connections>
                 </viewController>

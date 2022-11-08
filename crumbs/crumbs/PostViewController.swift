@@ -97,6 +97,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var post: Post!
     @IBOutlet weak var postViewTable: UITableView!
+    @IBOutlet weak var addCommentButton: UIButton!
     
     private final let POST_IDENTIFIER = "PostIdentifier"
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
@@ -117,6 +118,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         postViewTable.delegate = self
         postViewTable.dataSource = self
         postViewTable.tableHeaderView = UIView()
+        
+        let newImage = self.addCommentButton.currentImage?.scale(with: CGSize(width: 100, height: 100))
+        self.addCommentButton.setImage(newImage, for: .normal)
         
         postViewTable.rowHeight = UITableView.automaticDimension
         postViewTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
