@@ -113,6 +113,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                 viewControllerStack.remove(at: viewControllerStack.count - 2)
                 self.navigationController?.setViewControllers(viewControllerStack, animated: false)
                 print("Document added with ID: \(ref!.documentID)")
+                post.docRef = ref
                 DispatchQueue.main.async {
                     self.removeSpinner()
                 }
