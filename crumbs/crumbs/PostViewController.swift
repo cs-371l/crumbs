@@ -120,9 +120,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         postViewTable.dataSource = self
         postViewTable.tableHeaderView = UIView()
         
-        let newImage = self.addCommentButton.currentImage?.scale(with: CGSize(width: 100, height: 100))
-        self.addCommentButton.setImage(newImage, for: .normal)
-        
         postViewTable.rowHeight = UITableView.automaticDimension
         postViewTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         originalLikeState = CUR_USER.hasLikedPost(p: post)
