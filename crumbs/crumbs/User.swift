@@ -22,7 +22,9 @@ class User {
     var views: Int
     var posts: [Post]? = nil
     var likedPostIds: [DocumentReference]
+    var viewedPostIds: [DocumentReference]
     
+
     init(snapshot: DocumentSnapshot) {
         self.docRef = snapshot.reference
         self.username = snapshot.get("username") as! String
@@ -32,6 +34,7 @@ class User {
         self.karma = snapshot.get("karma") as! Int
         self.views = snapshot.get("views") as! Int
         self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+        self.viewedPostIds = snapshot.get("viewed_posts") as! [DocumentReference]
     }
     
     
@@ -64,6 +67,7 @@ class User {
         self.views = 0
         self.posts = []
         self.likedPostIds = []
+        self.viewedPostIds = []
         
         // Persist to Firestore.
         let db = Firestore.firestore()
@@ -76,7 +80,8 @@ class User {
             "bio": self.biography,
             "karma": self.karma,
             "views": self.views,
-            "liked_posts": self.likedPostIds
+            "liked_posts": self.likedPostIds,
+            "viewed_posts": self.viewedPostIds
         ]) {
             err in
             if let err = err {
@@ -100,6 +105,14 @@ class User {
     
     func addLikedPost(p: Post) -> Void {
         self.likedPostIds.append(p.docRef!)
+    }
+    
+    func addViewedPosts(p: Post) -> Void {
+        self.viewedPostIds.append(p.docRef!)
+    }
+    
+    func hasViewedPost(p: Post) -> Bool {
+        return self.viewedPostIds.contains(where: {$0.documentID == p.docRef?.documentID})
     }
     
     func removedLikedPost(p: Post) {
