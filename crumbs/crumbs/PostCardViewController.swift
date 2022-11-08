@@ -12,18 +12,30 @@ protocol TableManager {
     func updateTable() -> Void
 }
 
-class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TableManager {
+class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
+    
+    var query: Query!
 
     var discoverActive = true
     var posts: [Post] = []
     
     func updateTable() {
         cardTable.reloadData()
+    }
+    
+    func refreshView() {
+        self.cardTable.reloadData()
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        print("hit")
+        self.populatePosts()
+        refreshView()
     }
     
     override func viewDidLoad() {
@@ -33,10 +45,10 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.cardTable.rowHeight = UITableView.automaticDimension
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         self.populatePosts()
+        self.navigationController?.delegate = self
     }
     
     func populatePosts() {
-        let db = Firestore.firestore()
         if !self.discoverActive {
             self.posts = []
             self.cardTable.reloadData()
@@ -46,7 +58,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
             }
             return
         }
-        db.collection("posts").getDocuments() { (querySnapshot, err) in
+        query.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

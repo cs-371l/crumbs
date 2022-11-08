@@ -35,7 +35,7 @@ class PostTableViewCell : UITableViewCell {
     }
 }
 
-class FeedViewController: UIViewController {
+class FeedViewController: UIViewController, TableManager {
     
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
@@ -53,6 +53,10 @@ class FeedViewController: UIViewController {
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
         self.embeddedView.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
+        updateTable()
+    }
+    
+    func updateTable() {
         self.embeddedView.populatePosts()
     }
     
@@ -61,6 +65,11 @@ class FeedViewController: UIViewController {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
+            let database = Firestore.firestore()
+            let query = database.collection("posts")
+            nextVC.query = query
+        } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
+            nextVC.tableManager = self
         }
     }
     

@@ -15,11 +15,19 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        karma.text = String(user.karma)
+        self.karma.text = String(self.user.karma)
         // TODO: Calculate and display age
-        age.text = "1d"
-        views.text = String(user.views)
-        crumbsCreated.text = String(user.posts.count)
+        self.age.text = "1d"
+        self.views.text = String(self.user.views)
+        self.crumbsCreated.text = String(self.user.posts?.count ?? 0)
+    }
+    
+    func refreshView() {
+        self.karma.text = String(self.user.karma)
+        // TODO: Calculate and display age
+        self.age.text = "1d"
+        self.views.text = String(self.user.views)
+        self.crumbsCreated.text = String(self.user.posts?.count ?? 0)
     }
     
 

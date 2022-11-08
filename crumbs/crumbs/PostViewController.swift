@@ -66,6 +66,7 @@ class PostViewCell : UITableViewCell {
     }
     
     @objc func clickedOnProfile(sender: UITapGestureRecognizer) {
+        print("here")
         delegate.callSegueToProfile()
     }
 
@@ -128,7 +129,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     var postImage: UIImage? = nil
     
     func callSegueToProfile() {
-        
+        print("hitting")
         // Cached user.
         if post.user != nil {
             self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
@@ -147,12 +148,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             DispatchQueue.main.async {
                 self.removeSpinner()
+                let user = User(snapshot: snapshot!)
+                
+                self.post.user = user
+                self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
             }
-            
-            let user = User(snapshot: snapshot!)
-            
-            self.post.user = user
-            self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
         }
     }
     
@@ -182,10 +182,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.showErrorAlert(title: "Error", message: "Unable to load post.")
                     return
                 }
-                self.postImage = UIImage(data: data)
-                self.post.uiImage = self.postImage
-                self.removeSpinner()
                 DispatchQueue.main.async {
+                    self.postImage = UIImage(data: data)
+                    self.post.uiImage = self.postImage
+                    self.removeSpinner()
                     self.postViewTable.reloadData()
                 }
             }
@@ -291,6 +291,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == PROFILE_VIEW_SEGUE {
+            return self.post.user != nil
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -20,42 +20,8 @@ class User {
     var dateJoined: Date
     var karma: Int
     var views: Int
-    var posts: [Post]
+    var posts: [Post]? = nil
     var likedPostIds: [DocumentReference]
-    
-    // Initialize based off of Firebase user. SETS THE CURRENT USER -- ONLY CALL FOR AUTHENTICATED USER.
-    convenience init(firebaseUser: FirebaseAuth.User, callback: @escaping (_ success: Bool) -> Void) {
-        let db = Firestore.firestore()
-        let username = ""
-        let biography = ""
-        let dateJoined = Date()
-        let karma = 0
-        let views = 0
-        
-
-        self.init(username: username, biography: biography, dateJoined: dateJoined, karma: karma, views: views)
-        db.collection("users").document(firebaseUser.uid).getDocument() { (snapshot, err) in
-            if let err = err {
-                print("Error getting user \(err)")
-
-                callback(false)
-            } else {
-                self.assignFromSnapshot(snapshot: snapshot!)
-                CUR_USER = self
-                callback(true)
-            }
-        }
-    }
-    
-    func assignFromSnapshot(snapshot: DocumentSnapshot) {
-        self.username = snapshot.get("username") as! String
-        self.biography = snapshot.get("bio") as! String
-        let creationTimestamp = snapshot.get("creation_timestamp") as! Timestamp
-        self.dateJoined = creationTimestamp.dateValue()
-        self.karma = snapshot.get("karma") as! Int
-        self.views = snapshot.get("views") as! Int
-        self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
-    }
     
     init(snapshot: DocumentSnapshot) {
         self.docRef = snapshot.reference
@@ -66,30 +32,24 @@ class User {
         self.karma = snapshot.get("karma") as! Int
         self.views = snapshot.get("views") as! Int
         self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
-        self.posts = []
     }
     
-    // Full in-memory initializiation (eagerly loaded).
-    // Note that this brings in all posts into memory.
-    init(username: String, biography: String, dateJoined: Date, karma: Int, views: Int) {
-        self.username = username
-        self.biography = biography
-        self.dateJoined = dateJoined
-        self.karma = karma
-        self.views = views
-        self.posts = []
-        self.likedPostIds = []
-        
+    
+    func getPosts(callback: @escaping (_ success: Bool, _ data: [Post]?) -> Void) {
+        if self.posts != nil {
+            callback(true, self.posts)
+            return
+        }
+
         let db = Firestore.firestore()
-        let uid = Auth.auth().currentUser!.uid
-        self.id = uid
-        let userRef = db.collection("users").document(uid)
-        self.docRef = userRef
-        db.collection("posts").whereField("user", isEqualTo: userRef).getDocuments() { (querySnapshot, err) in
+        db.collection("posts").whereField("user", isEqualTo: self.docRef).getDocuments() {
+            (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
+                callback(false, nil)
             } else {
-                self.posts = self.parseDocumentsToPosts(documents: querySnapshot!.documents)
+                self.posts = querySnapshot!.documents.map { Post(snapshot: $0) }
+                callback(true, self.posts)
             }
         }
     }
@@ -129,26 +89,9 @@ class User {
         }
     }
     
-    func parseDocumentsToPosts(documents: [QueryDocumentSnapshot]) -> [Post] {
-        var posts:[Post] = []
-        for document in documents {
-            let timestamp = document.get("timestamp") as! Timestamp
-            let post = Post(
-                creatorRef: self.docRef,
-                creatorUsername: self.username,
-                description: document.get("content") as! String,
-                title: document.get("title") as! String,
-                date: timestamp.dateValue(),
-                likeCount: document.get("likes") as! Int,
-                viewCount: document.get("views") as! Int
-            )
-            posts.append(post)
-        }
-        return posts
-    }
-    
     func addPost(p: Post) {
-        self.posts.append(p)
+        guard self.posts != nil else { return }
+        self.posts!.append(p)
     }
     
     func hasLikedPost(p: Post) -> Bool {

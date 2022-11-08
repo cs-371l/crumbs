@@ -106,25 +106,27 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         // await create auth user
         // 
         
-        
+        self.showSpinner(onView: self.view)
         if validated {
             let username = usernameTextField.text!
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
                 if let error = error as NSError? {
                     self.createAccountAlert.text = "\(error.localizedDescription)"
                 } else {
-                    self.showSpinner(onView: self.view)
                     CUR_USER = User(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date) {
                         success in
-                        self.removeSpinner()
-                        if !success {
-                            // TODO: handle failed sign in.
-                            print("Initialization of user failed.")
-                            return
+                        
+                        DispatchQueue.main.async {
+                            self.removeSpinner()
+                            if !success {
+                                // TODO: handle failed sign in.
+                                print("Initialization of user failed.")
+                                return
+                            }
+                            let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                            self.view.window?.rootViewController = homeViewController
+                            self.view.window?.makeKeyAndVisible()
                         }
-                        let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
-                        self.view.window?.rootViewController = homeViewController
-                        self.view.window?.makeKeyAndVisible()
                     }
                     self.createAccountAlert.text = "Success"
                 }
