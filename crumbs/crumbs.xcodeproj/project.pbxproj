@@ -59,6 +59,7 @@
 		88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */; };
 		9C24794128FF429200AF9264 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24794028FF429200AF9264 /* ProfileViewController.swift */; };
 		9C24794328FF519E00AF9264 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24794228FF519E00AF9264 /* User.swift */; };
+		9C3EACDB2919E44A000DA859 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3EACDA2919E44A000DA859 /* EditProfileViewController.swift */; };
 		9C5E1FF428FF6E2E008A3DDB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5E1FF328FF6E2E008A3DDB /* AboutViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9C24794028FF429200AF9264 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9C24794228FF519E00AF9264 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9C3EACDA2919E44A000DA859 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		9C5E1FF328FF6E2E008A3DDB /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,6 +182,7 @@
 				88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */,
 				88A231912919C57F00755476 /* UIButtonExtensions.swift */,
 				88A231932919C77000755476 /* UIImageExtensions.swift */,
+				9C3EACDA2919E44A000DA859 /* EditProfileViewController.swift */,
 			);
 			path = crumbs;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				6AFAD74F28FFADDD0048EB2F /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				6AFAD75128FFADDD0048EB2F /* IQKeyboardManager+UIKeyboardNotification.swift in Sources */,
 				88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */,
+				9C3EACDB2919E44A000DA859 /* EditProfileViewController.swift in Sources */,
 				6AFAD75F28FFADDD0048EB2F /* IQKeyboardManager+UITextFieldViewNotification.swift in Sources */,
 				6A2E991129108F9A006D06DF /* SignOutListenerViewController.swift in Sources */,
 				6A292D5028F385670068C727 /* SceneDelegate.swift in Sources */,
