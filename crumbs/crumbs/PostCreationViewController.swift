@@ -12,7 +12,6 @@ import FirebaseStorage
 
 import CoreImage.CIFilterBuiltins
 
-
 class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageButton: UIButton!
@@ -84,7 +83,13 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
     func textViewDidBeginEditing(_ textView: UITextView) {
              if textView.textColor == UIColor.lightGray {
                  textView.text = nil
-                 textView.textColor = UIColor.black
+                 
+                 let defaults = UserDefaults.standard
+                 if defaults.bool(forKey: "Dark") {
+                     textView.textColor = UIColor.white
+                 } else {
+                     textView.textColor = UIColor.black
+                 }
              }
          }
 

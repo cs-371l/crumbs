@@ -45,7 +45,24 @@ class SettingsViewController: SignOutListenerViewController, UITableViewDelegate
             cell.settingLabel.textColor = UIColor.gray
             cell.settingLabel.text = "\(settingName) 1.0a"
         }
+        if settingName == "Dark Mode" {
+            let defaults = UserDefaults.standard
+            let isDark = defaults.bool(forKey: "Dark")
+            cell.settingSwitch.setOn(isDark, animated: true)
+            cell.settingSwitch.addTarget(self, action: #selector(self.themeSwitched), for: .valueChanged)
+        }
         return cell
+    }
+    
+    @objc func themeSwitched(darkSwitch: UISwitch!) {
+        let defaults = UserDefaults.standard
+        if darkSwitch.isOn {
+            UIApplication.shared.keyWindow?.rootViewController?.overrideUserInterfaceStyle = .dark
+            defaults.set(true, forKey: "Dark")
+        } else {
+            UIApplication.shared.keyWindow?.rootViewController?.overrideUserInterfaceStyle = .light
+            defaults.set(false, forKey: "Dark")
+        }
     }
     
     @IBAction func logOutPressed(_ sender: Any) {
