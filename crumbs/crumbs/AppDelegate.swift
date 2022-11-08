@@ -14,6 +14,31 @@ extension Date {
         formatter.unitsStyle = .full
         return formatter.localizedString(for: self, relativeTo: Date())
     }
+    
+    func timeFromNow() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
+    
+    func getColorFromDateAgo() -> UIColor {
+        let diff = Date().timeIntervalSince(self)
+        
+        let lowBound: TimeInterval = 60.0 * 60.0
+        let highBound: TimeInterval = 60.0 * 60.0 * 24.0 * 12.0
+        
+        print(diff)
+        if diff < lowBound {
+            return UIColor.systemGreen
+        }
+        
+        if diff < highBound {
+            return UIColor.orange
+        }
+        
+        return UIColor.magenta
+        
+    }
 }
 
 @main

@@ -25,7 +25,10 @@ class AboutViewController: UIViewController {
     func refreshView() {
         self.karma.text = String(self.user.karma)
         // TODO: Calculate and display age
-        self.age.text = "1d"
+        
+        self.age.adjustsFontSizeToFitWidth = true
+        self.age.minimumScaleFactor = 0.2
+        self.age.text = user.dateJoined.timeAgoDisplay().replacingOccurrences(of: "ago", with: "")
         self.views.text = String(self.user.views)
         self.crumbsCreated.text = String(self.user.posts?.count ?? 0)
     }

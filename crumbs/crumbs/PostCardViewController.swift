@@ -35,7 +35,6 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        print("hit")
         self.populatePosts()
         refreshView()
     }
