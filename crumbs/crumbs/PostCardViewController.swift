@@ -60,7 +60,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     }
     @objc private func refreshListData(_ sender: Any) {
         self.populatePosts() {
-            self.pullControl.endRefreshing()
+            DispatchQueue.main.async {
+                self.pullControl.endRefreshing()
+            }
         }
     }
     
