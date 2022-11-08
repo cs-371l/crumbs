@@ -66,7 +66,6 @@ class PostViewCell : UITableViewCell {
     }
     
     @objc func clickedOnProfile(sender: UITapGestureRecognizer) {
-        print("here")
         delegate.callSegueToProfile()
     }
 
@@ -129,7 +128,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     var postImage: UIImage? = nil
     
     func callSegueToProfile() {
-        print("hitting")
+
         // Cached user.
         if post.user != nil {
             self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)

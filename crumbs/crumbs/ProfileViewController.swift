@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
     
     
     @IBAction func EditButton(_ sender: Any) {
-        
+        // Pass, do nothing.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,12 +31,17 @@ class ProfileViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("loading view")
         username.text = user.username
         bio.text = user.biography
-        postsView.isHidden = true
-        aboutView.isHidden = false
-        self.showSpinner(onView: self.view)
+
+        if(segment.selectedSegmentIndex == 0){
+            aboutView.isHidden = false
+            postsView.isHidden = true
+        } else if (segment.selectedSegmentIndex == 1){
+            postsView.isHidden = false
+            aboutView.isHidden = true
+        }
         
         user.getPosts {
             success, posts in
@@ -45,7 +50,6 @@ class ProfileViewController: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                self.removeSpinner()
                 if self.embeddedPost != nil {
                     self.embeddedPost!.posts = self.user.posts!
                     self.embeddedPost!.refreshView()
@@ -70,12 +74,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var postsView: UIView!
     
     @IBAction func segmentSelect(_ sender: Any) {
-        postsView.isHidden = true
-        aboutView.isHidden = true
         if(segment.selectedSegmentIndex == 0){
             aboutView.isHidden = false
+            postsView.isHidden = true
         } else if (segment.selectedSegmentIndex == 1){
             postsView.isHidden = false
+            aboutView.isHidden = true
         }
     }
     @IBOutlet weak var segment: UISegmentedControl!

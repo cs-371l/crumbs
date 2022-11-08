@@ -11,6 +11,7 @@ import FirebaseFirestore
 
 class PostTableViewCell : UITableViewCell {
     
+    @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
@@ -32,6 +33,8 @@ class PostTableViewCell : UITableViewCell {
         viewsLabel.text = String(p.viewCount)
         
         activeLabel.text = p.createdAgo
+        statusIcon.image = statusIcon.image?.withRenderingMode(.alwaysTemplate)
+        statusIcon.tintColor = p.date.getColorFromDateAgo()
     }
 }
 
