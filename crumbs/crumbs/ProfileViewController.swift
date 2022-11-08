@@ -64,10 +64,44 @@ class ProfileViewController: UIViewController {
         
         if(user.username != CUR_USER.username){
             edit.isHidden = true
+            if(!CUR_USER.hasViewedProfile(u: user)){
+                user.views += 1
+                updateViewsForUser()
+            }
         } else {
             edit.isHidden = false
         }
         
+    }
+    
+    func updateViewsForUser() {
+        let db = Firestore.firestore()
+        db.runTransaction({
+            (transaction, errorPointer) -> Any? in
+            let currUserDocument: DocumentSnapshot
+            let otherUserDocument: DocumentSnapshot
+            do {
+                try currUserDocument = transaction.getDocument(CUR_USER.docRef)
+                try otherUserDocument = transaction.getDocument(self.user.docRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            let oldViews = otherUserDocument.data()?["views"] as! Int
+            var viewed = currUserDocument.data()?["viewed_profiles"] as! [DocumentReference]
+            viewed.append(self.user.docRef)
+            transaction.updateData(["views": oldViews + 1], forDocument: self.user.docRef)
+            transaction.updateData(
+                ["viewed_profiles": FieldValue.arrayUnion([self.user.docRef])], forDocument: CUR_USER.docRef)
+            return nil
+        }){(object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            }
+        }
+        
+        CUR_USER.addViewedProfile(u: self.user)
     }
     
     @IBOutlet weak var aboutView: UIView!
