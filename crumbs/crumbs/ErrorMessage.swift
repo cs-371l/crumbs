@@ -15,6 +15,8 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: completion))
         
         self.present(alert, animated: true, completion: nil)
-        self.removeSpinner()
+        DispatchQueue.main.async {
+            self.removeSpinner()
+        }
     }
 }

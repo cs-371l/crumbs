@@ -12,6 +12,7 @@ import FirebaseFirestore
 class PostViewCell : UITableViewCell {
     
     
+    @IBOutlet weak var profileStackView: UIStackView!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likesLabel: UILabel!
@@ -22,6 +23,7 @@ class PostViewCell : UITableViewCell {
     var post: Post!
     
     var likeActive: Bool = false
+    var delegate: PostCellDelegator!
     
     private final let activeLike = UIImage(systemName: "suit.heart.fill")
     private final let inactiveLike = UIImage(systemName: "suit.heart")
@@ -62,6 +64,10 @@ class PostViewCell : UITableViewCell {
         post.likeCount += likeActive ? 1 : -1
         handlePostUpdate()
     }
+    
+    @objc func clickedOnProfile(sender: UITapGestureRecognizer) {
+        delegate.callSegueToProfile()
+    }
 
     func assignAttributes(p: Post, user: User, image: UIImage?) {
         postImage.layer.masksToBounds = true
@@ -75,6 +81,13 @@ class PostViewCell : UITableViewCell {
             postImage.frame = CGRect(x: 0, y: 0, width: scaled!.size.width, height: scaled!.size.height)
             postImage.image = scaled
         }
+        
+        
+        // Enable clicks on the profile.
+        let profileGesture = UITapGestureRecognizer(target: self, action: #selector(clickedOnProfile))
+        profileStackView.isUserInteractionEnabled = true
+        profileStackView.addGestureRecognizer(profileGesture)
+        
     }
 }
 
@@ -93,7 +106,11 @@ class CommentCardCell : UITableViewCell {
     }
 }
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol PostCellDelegator {
+    func callSegueToProfile()
+}
+
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostCellDelegator {
     
     var post: Post!
     @IBOutlet weak var postViewTable: UITableView!
@@ -102,11 +119,42 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
     private final let ESTIMATED_ROW_HEIGHT = 1000
     
+    private final let PROFILE_VIEW_SEGUE = "PostToProfileSegue"
+    
     var tableManager: TableManager?
 
     
     var originalLikeState: Bool!
     var postImage: UIImage? = nil
+    
+    func callSegueToProfile() {
+        
+        // Cached user.
+        if post.user != nil {
+            self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
+            return
+        }
+        
+        // Fetch user.
+        self.showSpinner(onView: self.view)
+        
+        post.creatorRef.getDocument {
+            snapshot, error in
+            guard error == nil else {
+                self.showErrorAlert(title: "Error", message: "Unable to fetch user data")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.removeSpinner()
+            }
+            
+            let user = User(snapshot: snapshot!)
+            
+            self.post.user = user
+            self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
+        }
+    }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
@@ -154,6 +202,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
 
             cell.assignAttributes(p: post, user: CUR_USER, image: self.postImage)
             cell.selectionStyle = .none
+            cell.delegate = self
             return cell
         }
         
@@ -242,5 +291,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == PROFILE_VIEW_SEGUE {
+            if let nextViewController = segue.destination as? ProfileViewController {
+                nextViewController.user = self.post.user!
+            }
+        }
     }
 }
