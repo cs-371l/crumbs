@@ -685,11 +685,11 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
                                                             <rect key="frame" x="75.333333333333343" y="0.0" width="79" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
                                                                     <rect key="frame" x="0.0" y="-1" width="33.666666666666664" height="22.333333333333332"/>
                                                                     <imageReference key="image" image="eye.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
                                                                     <rect key="frame" x="37.666666666666657" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -801,19 +801,36 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="de9-ff-kYr">
+                                <rect key="frame" x="308" y="557" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="AB4-hD-zyq"/>
+                                    <constraint firstAttribute="width" constant="60" id="LfC-gb-64T"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="" cornerStyle="capsule">
+                                    <imageReference key="image" image="message.fill" catalog="system" symbolScale="large"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="eCZ-em-VXJ" kind="show" identifier="PostViewToCommentSegue" id="hJq-qH-eXo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LRi-U9-rR6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" id="D80-y8-ZgN"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="de9-ff-kYr" secondAttribute="trailing" constant="20" id="ewr-kz-ctr"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="bottom" secondItem="LRi-U9-rR6" secondAttribute="bottom" id="lpf-2s-iez"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="top" secondItem="LRi-U9-rR6" secondAttribute="top" id="rn4-JN-CnD"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="bottom" secondItem="de9-ff-kYr" secondAttribute="bottom" constant="20" id="sd9-6v-i6m"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="trailing" secondItem="LRi-U9-rR6" secondAttribute="trailing" id="vkL-Ny-du8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3Fr-Mi-b7v"/>
                     <connections>
                         <outlet property="PostViewTable" destination="PZ6-4J-nsy" id="elc-0i-38S"/>
+                        <outlet property="addCommentButton" destination="de9-ff-kYr" id="NjA-O7-BRF"/>
                         <outlet property="postViewTable" destination="PZ6-4J-nsy" id="hCZ-9L-IOm"/>
                         <segue destination="rE7-L5-Os6" kind="show" identifier="PostToProfileSegue" id="tc7-MB-fzW"/>
                     </connections>
@@ -821,6 +838,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IOB-1m-ZZ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3687" y="756"/>
+        </scene>
+        <!--Add Comment View Controller-->
+        <scene sceneID="CzM-59-0LD">
+            <objects>
+                <viewController id="eCZ-em-VXJ" customClass="AddCommentViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1XE-tD-b3F">
+                        <rect key="frame" x="0.0" y="0.0" width="388" height="637"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a comment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCy-87-8xo">
+                                <rect key="frame" x="20" y="44" width="171" height="28.666666666666671"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WQO-hn-rBc">
+                                <rect key="frame" x="20" y="92.666666666666686" width="348" height="524.33333333333326"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="3Xr-if-h9Z"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="3Xr-if-h9Z" firstAttribute="top" secondItem="oCy-87-8xo" secondAttribute="top" id="DUs-iF-3dB"/>
+                            <constraint firstItem="WQO-hn-rBc" firstAttribute="leading" secondItem="3Xr-if-h9Z" secondAttribute="leading" constant="20" id="Ec1-h4-5xz"/>
+                            <constraint firstItem="3Xr-if-h9Z" firstAttribute="bottom" secondItem="WQO-hn-rBc" secondAttribute="bottom" constant="20" id="NeA-dB-LLU"/>
+                            <constraint firstItem="WQO-hn-rBc" firstAttribute="top" secondItem="oCy-87-8xo" secondAttribute="bottom" constant="20" id="P9N-ec-k5d"/>
+                            <constraint firstItem="3Xr-if-h9Z" firstAttribute="trailing" secondItem="WQO-hn-rBc" secondAttribute="trailing" constant="20" id="ceU-3B-dVn"/>
+                            <constraint firstItem="oCy-87-8xo" firstAttribute="leading" secondItem="3Xr-if-h9Z" secondAttribute="leading" constant="20" id="ep2-qy-mgP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Kzc-j9-Rvm"/>
+                    <connections>
+                        <outlet property="commentTextView" destination="WQO-hn-rBc" id="LKC-Bj-azm"/>
+                        <outlet property="postTitleLabel" destination="oCy-87-8xo" id="BLl-k7-rDN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S3Q-aH-kFB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4903.7383177570091" y="1757.5593952483803"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="e8V-jD-d3l">
@@ -1432,6 +1493,7 @@ All I did was make the default label size larger than the content potentially co
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="gearshape.circle.fill" catalog="system" width="128" height="121"/>
         <image name="heart.circle" catalog="system" width="128" height="121"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
