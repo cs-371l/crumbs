@@ -141,7 +141,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                 title: titleTextStored,
                 date: Date(),
                 likeCount: 0,
-                viewCount: 1
+                viewCount: 0
              )
              
              // For now store in an images folder with universally unique
