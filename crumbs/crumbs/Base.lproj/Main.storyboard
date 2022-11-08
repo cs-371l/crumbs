@@ -734,7 +734,6 @@
                                             <outlet property="profileStackView" destination="Aio-TC-F21" id="NEQ-ey-b2e"/>
                                             <outlet property="titleLabel" destination="269-rc-TJo" id="KKU-gH-Esl"/>
                                             <outlet property="viewsLabel" destination="G8F-Tf-dg6" id="a0G-3L-Tej"/>
-                                            <segue destination="rE7-L5-Os6" kind="show" identifier="PostToProfileSegue" id="efP-MG-sA1"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CommentCardIdentifier" rowHeight="85" id="0FN-Nm-hoS" customClass="CommentCardCell" customModule="crumbs" customModuleProvider="target">
@@ -816,11 +815,12 @@
                     <connections>
                         <outlet property="PostViewTable" destination="PZ6-4J-nsy" id="elc-0i-38S"/>
                         <outlet property="postViewTable" destination="PZ6-4J-nsy" id="hCZ-9L-IOm"/>
+                        <segue destination="rE7-L5-Os6" kind="show" identifier="PostToProfileSegue" id="tc7-MB-fzW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IOB-1m-ZZ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3451" y="727"/>
+            <point key="canvasLocation" x="3687" y="756"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="e8V-jD-d3l">
@@ -1413,7 +1413,7 @@ All I did was make the default label size larger than the content potentially co
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lff-NI-xgJ"/>
-        <segue reference="efP-MG-sA1"/>
+        <segue reference="tc7-MB-fzW"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowtriangle.down.circle.fill" catalog="system" width="128" height="121"/>
