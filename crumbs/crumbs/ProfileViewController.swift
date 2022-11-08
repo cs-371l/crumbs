@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         username.text = user.username
-        biography.text = user.biography
+        bio.text = user.biography
         postsView.isHidden = true
         aboutView.isHidden = false
         
@@ -60,7 +60,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var username: UILabel!
     
-    @IBOutlet weak var biography: UILabel!
+    @IBOutlet weak var bio: UILabel!
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Going into post view, pass in the post.
