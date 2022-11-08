@@ -24,6 +24,8 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     var discoverActive = true
     var posts: [Post] = []
     
+    private var pullControl = UIRefreshControl()
+    
     func updateTable() {
         cardTable.reloadData()
     }
@@ -46,6 +48,19 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         self.populatePosts()
         self.navigationController?.delegate = self
+        
+        // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
+        pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            self.cardTable.refreshControl = pullControl
+        } else {
+            self.cardTable.addSubview(pullControl)
+        }
+    }
+    @objc private func refreshListData(_ sender: Any) {
+        self.populatePosts()
+        self.pullControl.endRefreshing()
     }
     
     func populatePosts() {
