@@ -66,7 +66,7 @@ class Post {
         self.docRef = snapshot.reference
     }
     
-    func serialize(userRef: DocumentReference) -> [String: Any] {
+    func serialize(userRef: DocumentReference, name: String) -> [String: Any] {
         // TODO: Include image URL in serialization
         // TODO: Link user properly
         var base = [
@@ -76,7 +76,8 @@ class Post {
             "views": self.viewCount,
             "comments": self.comments,
             "timestamp": Timestamp(date: self.date),
-            "user": userRef
+            "user": userRef,
+            "creator_username": name
         ] as [String : Any]
         
         if self.imageUrl != nil {

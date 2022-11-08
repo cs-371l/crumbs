@@ -100,7 +100,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
             let db = Firestore.firestore()
             var ref: DocumentReference? = nil
             self.showSpinner(onView: self.view)
-            ref = db.collection("posts").addDocument(data: post.serialize(userRef: post.creatorRef)) { err in
+            ref = db.collection("posts").addDocument(data: post.serialize(userRef: post.creatorRef, name: CUR_USER.username)) { err in
                 if let err = err {
                     self.showErrorAlert(title: "Error", message: "Failed to upload post.")
                     print(err.localizedDescription)
