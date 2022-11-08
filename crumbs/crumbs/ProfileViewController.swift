@@ -32,12 +32,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
 
-=======
-        
-        image.setRounded()
->>>>>>> 67e0f6d (finished implementation)
         username.text = user.username
         biography.text = user.biography
         postsView.isHidden = true
