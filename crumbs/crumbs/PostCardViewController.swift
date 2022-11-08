@@ -59,11 +59,12 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     @objc private func refreshListData(_ sender: Any) {
-        self.populatePosts()
-        self.pullControl.endRefreshing()
+        self.populatePosts() {
+            self.pullControl.endRefreshing()
+        }
     }
     
-    func populatePosts() {
+    func populatePosts(completion: (() -> Void)? = nil) {
         if !self.discoverActive {
             self.posts = []
             self.cardTable.reloadData()
@@ -83,6 +84,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                 if self.posts.count > 0 {
                     self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                 }
+            }
+            if completion != nil {
+                completion!()
             }
         }
     }
