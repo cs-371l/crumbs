@@ -1,4 +1,4 @@
-# crumbs alpha release
+# crumbs beta release
 
 ## Contributions: 
 ### Amog Iska (ai5895) - 20%
