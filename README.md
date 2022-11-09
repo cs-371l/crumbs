@@ -46,3 +46,11 @@ prioritize the following:
 We were not able to complete the change username feature because this required a significant database modification (since we store a more lightweight
 user model in other documents). So in order to avoid data consistency issues (i.e, a user changing their username and having the change appear in some
 places but not others), we decided to defer the username change to a later release.
+
+## Location to see posts
+
+Features -> Location -> Custom Location...
+
+Latittude: 31.286256
+
+Longitude: 95.736628
