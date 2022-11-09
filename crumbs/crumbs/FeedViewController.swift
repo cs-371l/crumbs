@@ -53,8 +53,7 @@ class FeedViewController: UIViewController, TableManager {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToPostCreate))
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create Post", style: .plain, target: self, action: #selector(goToPostCreate))
         // check if dark mode
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: "Dark") {
