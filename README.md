@@ -1,4 +1,4 @@
-# crumbs beta release
+# Crumbs Beta Release
 
 ## Contributions: 
 ### Amog Iska (ai5895) - 20%
@@ -35,8 +35,14 @@
 - Dark mode + saving user defaults
 
 ## Deviations:
-- Missing notifications
-- Missing 3rd party authentication login
-- Missing loading screen
-- Missing Last active/login
-- Missing change username
+
+We missed the following target features due to the fact that more critical features in our app took longer than expected, so we weren't able to
+prioritize the following:
+- Loading screen
+- 3rd party authentication
+- Last active/login
+
+
+We were not able to complete the change username feature because this required a significant database modification (since we store a more lightweight
+user model in other documents). So in order to avoid data consistency issues (i.e, a user changing their username and having the change appear in some
+places but not others), we decided to defer the username change to a later release.
