@@ -11,19 +11,29 @@ class AboutViewController: UIViewController {
 
     var user : User!
     
+    var posts: [Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.karma.text = String(self.user.karma)
+        self.karmaNum.text = String(getKarma())
+        //self.karmaNum.text = "10"
         // TODO: Calculate and display age
         self.age.text = "1d"
         self.views.text = String(self.user.views)
         self.crumbsCreated.text = String(self.user.posts?.count ?? 0)
     }
     
+    func getKarma() -> Int{
+        var tmp = 0
+        for p in posts{
+            tmp += p.likeCount
+        }
+        return tmp
+    }
+    
     func refreshView() {
-        self.karma.text = String(self.user.karma)
+        self.karmaNum.text = String(getKarma())
         // TODO: Calculate and display age
         
         self.age.adjustsFontSizeToFitWidth = true
@@ -36,6 +46,7 @@ class AboutViewController: UIViewController {
 
     @IBOutlet weak var karma: UILabel!
     
+    @IBOutlet weak var karmaNum: UILabel!
     @IBOutlet weak var crumbsCreated: UILabel!
     @IBOutlet weak var views: UILabel!
     @IBOutlet weak var age: UILabel!
