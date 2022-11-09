@@ -78,10 +78,8 @@ class ProfileViewController: UIViewController {
         let db = Firestore.firestore()
         db.runTransaction({
             (transaction, errorPointer) -> Any? in
-            let currUserDocument: DocumentSnapshot
             let otherUserDocument: DocumentSnapshot
             do {
-                try currUserDocument = transaction.getDocument(CUR_USER.docRef)
                 try otherUserDocument = transaction.getDocument(self.user.docRef)
             } catch let fetchError as NSError {
                 errorPointer?.pointee = fetchError
@@ -89,8 +87,6 @@ class ProfileViewController: UIViewController {
             }
             
             let oldViews = otherUserDocument.data()?["views"] as! Int
-            var viewed = currUserDocument.data()?["viewed_profiles"] as! [DocumentReference]
-            viewed.append(self.user.docRef)
             transaction.updateData(["views": oldViews + 1], forDocument: self.user.docRef)
             transaction.updateData(
                 ["viewed_profiles": FieldValue.arrayUnion([self.user.docRef])], forDocument: CUR_USER.docRef)
