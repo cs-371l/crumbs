@@ -101,7 +101,7 @@ class CommentCardCell : UITableViewCell {
     func assignAttributes(c: Comment) {
         upvotesLabel.text = String(c.upvotes)
         commentsLabel.text = c.comment
-        authorLabel.text = c.author
+        authorLabel.text = c.username
         createdLabel.text = c.timeAgo
     }
 }
@@ -114,7 +114,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var post: Post!
     @IBOutlet weak var postViewTable: UITableView!
+    @IBOutlet weak var addCommentButton: UIButton!
     
+    private final let POST_VIEW_TO_COMMENT_SEGUE = "PostViewToCommentSegue"
     private final let POST_IDENTIFIER = "PostIdentifier"
     private final let COMMENT_IDENTIFIER = "CommentCardIdentifier"
     private final let ESTIMATED_ROW_HEIGHT = 1000
@@ -194,7 +196,17 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
+        self.populateComments()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = indexPath.row
         
+        if row == post.commentCount + 1 {
+            return 100
+        }
+        
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -208,11 +220,17 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.selectionStyle = .none
             cell.delegate = self
             return cell
+        } else if row == post.commentCount + 1 {
+            let cell = UITableViewCell()
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.isUserInteractionEnabled = false
+            return cell
         }
         
         // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
         cell.assignAttributes(c: post.comments[row - 1])
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -302,6 +320,19 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func populateComments() {
+        self.post.docRef?.collection("comments").getDocuments(completion: {
+            (querySnapshot, error) in
+            guard error == nil else {
+                print("Error getting comments: \(String(describing: error))")
+                return
+            }
+            
+            self.post.comments = querySnapshot!.documents.map {Comment(snapshot: $0)}
+            self.postViewTable.reloadData()
+        })
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         let firstIndex = IndexPath(row: 0, section: 0)
         let postCell = postViewTable.cellForRow(at: firstIndex) as! PostViewCell
@@ -319,8 +350,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // +1 for the post.
-        return 1 + post.commentCount
+        // +1 for the post, +1 for the empty cell.
+        return 2 + post.commentCount
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -343,6 +374,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let nextViewController = segue.destination as? ProfileViewController {
                 nextViewController.user = self.post.user!
             }
+        }
+        if segue.identifier == POST_VIEW_TO_COMMENT_SEGUE, let nextVC = segue.destination as? AddCommentViewController {
+            nextVC.post = self.post
+            nextVC.postViewTable = self.postViewTable
         }
     }
 }

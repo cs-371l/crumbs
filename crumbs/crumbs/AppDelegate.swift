@@ -27,8 +27,6 @@ extension Date {
         
         let lowBound: TimeInterval = 60.0 * 60.0
         let highBound: TimeInterval = 60.0 * 60.0 * 24.0 * 12.0
-        
-        print(diff)
         if diff < lowBound {
             return UIColor.systemGreen
         }

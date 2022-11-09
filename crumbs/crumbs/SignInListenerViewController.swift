@@ -28,7 +28,6 @@ class SignInListenerViewController: UIViewController {
         self.authListener = Auth.auth().addStateDidChangeListener() {
             auth, user in
             guard user != nil else {
-                self.showErrorAlert(title: "Error", message: "Unable to sign in.")
                 return
             }
 
