@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 import FirebaseCore
 
 extension Date {
@@ -40,13 +41,16 @@ extension Date {
 }
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+    
+    let deviceLocationService = DeviceLocationService.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         // Framework for scrolling keyboard
         IQKeyboardManager.shared.enable = true
         // Override point for customization after application launch.
+        deviceLocationService.requestLocationUpdates()
         return true
     }
 
