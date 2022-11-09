@@ -80,6 +80,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                     self.posts = []
                     if followedPosts.count == 0 {
                         self.cardTable.reloadData()
+                        if completion != nil {
+                            completion!()
+                        }
                         return
                     }
                     db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments(){
@@ -93,6 +96,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                             if self.posts.count > 0 {
                                 self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                             }
+                        }
+                        if completion != nil {
+                            completion!()
                         }
                     }
                 } else {

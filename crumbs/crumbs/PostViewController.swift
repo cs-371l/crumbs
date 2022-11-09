@@ -113,6 +113,8 @@ protocol PostCellDelegator {
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostCellDelegator {
     
     var post: Post!
+    var followActive: Bool = false
+
     @IBOutlet weak var postViewTable: UITableView!
     
     private final let POST_IDENTIFIER = "PostIdentifier"
@@ -195,17 +197,26 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         
-        if CUR_USER.hasFollowedPost(p: self.post) {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowPressed))
+        followActive = CUR_USER.hasFollowedPost(p: self.post)
+        
+        // fix later
+        var buttonLabel: String {
+                // Compute the label based on button state
+            followActive ? "Unfollow" : "Follow"
+            }
+        
+        if !followActive {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(followPressed))
         } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(unfollowPressed))
         }
     }
     
     @objc func unfollowPressed() {
-        print("unfollow pressed")
         // change button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(unfollowPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
+        followActive = false
+
         // perform action
         let db = Firestore.firestore()
         db.runTransaction({
@@ -246,7 +257,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func followPressed() {
-        print("follow pressed")
+        followActive = true
         // change button
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowPressed))
         // perform action
@@ -394,11 +405,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if CUR_USER.hasFollowedPost(p: self.post) {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowPressed))
-        } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
-        }
+//        if CUR_USER.hasFollowedPost(p: self.post) {
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowPressed))
+//        } else {
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
