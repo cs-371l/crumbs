@@ -685,11 +685,11 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
                                                             <rect key="frame" x="75.333333333333343" y="0.0" width="79" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
                                                                     <rect key="frame" x="0.0" y="-1" width="33.666666666666664" height="22.333333333333332"/>
                                                                     <imageReference key="image" image="eye.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
                                                                     <rect key="frame" x="37.666666666666657" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -802,7 +802,7 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="de9-ff-kYr">
-                                <rect key="frame" x="348" y="792" width="60" height="60"/>
+                                <rect key="frame" x="338" y="782" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="AB4-hD-zyq"/>
                                     <constraint firstAttribute="width" constant="60" id="LfC-gb-64T"/>
@@ -820,10 +820,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="leading" secondItem="LRi-U9-rR6" secondAttribute="leading" id="D80-y8-ZgN"/>
-                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="de9-ff-kYr" secondAttribute="trailing" constant="20" id="ewr-kz-ctr"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="trailing" secondItem="de9-ff-kYr" secondAttribute="trailing" constant="30" id="ewr-kz-ctr"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="bottom" secondItem="LRi-U9-rR6" secondAttribute="bottom" id="lpf-2s-iez"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="top" secondItem="LRi-U9-rR6" secondAttribute="top" id="rn4-JN-CnD"/>
-                            <constraint firstItem="LRi-U9-rR6" firstAttribute="bottom" secondItem="de9-ff-kYr" secondAttribute="bottom" constant="20" id="sd9-6v-i6m"/>
+                            <constraint firstItem="LRi-U9-rR6" firstAttribute="bottom" secondItem="de9-ff-kYr" secondAttribute="bottom" constant="30" id="sd9-6v-i6m"/>
                             <constraint firstItem="PZ6-4J-nsy" firstAttribute="trailing" secondItem="LRi-U9-rR6" secondAttribute="trailing" id="vkL-Ny-du8"/>
                         </constraints>
                     </view>
