@@ -164,6 +164,8 @@ protocol PostCellDelegator {
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostCellDelegator {
     
     var post: Post!
+    var followActive: Bool = false
+
     @IBOutlet weak var postViewTable: UITableView!
     @IBOutlet weak var addCommentButton: UIButton!
     
@@ -248,16 +250,131 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         self.populateComments()
+        followActive = CUR_USER.hasFollowedPost(p: self.post)
+        // fix later
+        var buttonLabel: String {
+                // Compute the label based on button state
+            followActive ? "Unfollow" : "Follow"
+            }
+        
+        if !followActive {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(followPressed))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(unfollowPressed))
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let row = indexPath.row
+    override func viewWillAppear(_ animated: Bool) {
+        followActive = CUR_USER.hasFollowedPost(p: self.post)
+
+        // fix later
+        var buttonLabel: String {
+                // Compute the label based on button state
+            followActive ? "Unfollow" : "Follow"
+            }
         
-        if row == post.commentCount + 1 {
-            return 100
+        if !followActive {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(followPressed))
+        } else {
+            followPressed()
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(unfollowPressed))
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            let row = indexPath.row
+            
+            if row == post.commentCount + 1 {
+                return 100
+            }
+            
+            return UITableView.automaticDimension
+        }
+    
+    @objc func unfollowPressed() {
+        // change button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
+        followActive = false
+
+        // perform action
+        let db = Firestore.firestore()
+        db.runTransaction({
+            (transaction, errorPointer) -> Any? in
+            
+            guard self.post.docRef != nil else { return nil }
+            
+            let postDocument: DocumentSnapshot
+            let userDocument: DocumentSnapshot
+            do {
+                try postDocument = transaction.getDocument(self.post.docRef!)
+                try userDocument = transaction.getDocument(CUR_USER.docRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            var followed = userDocument.data()?["followed_posts"] as! [DocumentReference]
+            followed.append(self.post.docRef!)
+            
+            transaction.updateData(
+                [
+                    "followed_posts": FieldValue.arrayRemove([self.post.docRef!])],
+                forDocument: CUR_USER.docRef
+            )
+            DispatchQueue.main.async {
+                self.tableManager?.updateTable()
+            }
+            return nil
+        }){(object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            }
         }
         
-        return UITableView.automaticDimension
+        // For full parity between in-memory and database.
+        CUR_USER.removedFollwedPost(p: self.post)
+    }
+    
+    @objc func followPressed() {
+        followActive = true
+        // change button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowPressed))
+        // perform action
+        let db = Firestore.firestore()
+        db.runTransaction({
+            (transaction, errorPointer) -> Any? in
+            
+            guard self.post.docRef != nil else { return nil }
+            
+            let postDocument: DocumentSnapshot
+            let userDocument: DocumentSnapshot
+            do {
+                try postDocument = transaction.getDocument(self.post.docRef!)
+                try userDocument = transaction.getDocument(CUR_USER.docRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            var followed = userDocument.data()?["followed_posts"] as! [DocumentReference]
+            followed.append(self.post.docRef!)
+            
+            transaction.updateData(
+                [
+                    "followed_posts": FieldValue.arrayUnion([self.post.docRef!])],
+                forDocument: CUR_USER.docRef
+            )
+            DispatchQueue.main.async {
+                self.tableManager?.updateTable()
+            }
+            return nil
+        }){(object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            }
+        }
+        
+        // For full parity between in-memory and database.
+        CUR_USER.addFollwedPost(p: self.post)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

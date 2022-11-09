@@ -36,6 +36,7 @@ class AddCommentViewController: UIViewController, UITextViewDelegate {
         )
         self.post.docRef?.collection("comments").addDocument(data: comment.serialize())
         self.post.comments.append(comment)
+        CUR_USER.addFollwedPost(p: self.post)
         self.postViewTable.reloadData()
         self.navigationController?.popViewController(animated: true)
     }

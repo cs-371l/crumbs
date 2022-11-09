@@ -22,9 +22,9 @@ class User {
     var views: Int
     var posts: [Post]? = nil
     var likedPostIds: [DocumentReference]
+    var followedPostIds: [DocumentReference]
     var viewedPostIds: [DocumentReference]
     var viewedProfileIds: [DocumentReference]
-    
 
     init(snapshot: DocumentSnapshot) {
         self.docRef = snapshot.reference
@@ -35,10 +35,12 @@ class User {
         self.karma = snapshot.get("karma") as! Int
         self.views = snapshot.get("views") as! Int
         self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+        self.followedPostIds =
+        snapshot.get("followed_posts") as! [DocumentReference]
         self.viewedPostIds = snapshot.get("viewed_posts") as! [DocumentReference]
+        self.posts = []
         self.viewedProfileIds = snapshot.get("viewed_profiles") as! [DocumentReference]
     }
-    
     
     func getPosts(callback: @escaping (_ success: Bool, _ data: [Post]?) -> Void) {
         if self.posts != nil {
@@ -69,6 +71,7 @@ class User {
         self.views = 0
         self.posts = []
         self.likedPostIds = []
+        self.followedPostIds = []
         self.viewedPostIds = []
         self.viewedProfileIds = []
         
@@ -84,6 +87,7 @@ class User {
             "karma": self.karma,
             "views": self.views,
             "liked_posts": self.likedPostIds,
+            "followed_posts": self.followedPostIds,
             "viewed_posts": self.viewedPostIds,
             "viewed_profiles": self.viewedProfileIds
         ]) {
@@ -121,6 +125,18 @@ class User {
     
     func removedLikedPost(p: Post) {
         self.likedPostIds = self.likedPostIds.filter {$0.documentID != p.docRef?.documentID}
+    }
+    
+    func hasFollowedPost(p: Post) -> Bool {
+        return self.followedPostIds.contains(where: {$0.documentID == p.docRef?.documentID})
+    }
+    
+    func addFollwedPost(p: Post) -> Void {
+        self.followedPostIds.append(p.docRef!)
+    }
+    
+    func removedFollwedPost(p: Post) {
+        self.followedPostIds = self.followedPostIds.filter {$0.documentID != p.docRef?.documentID}
     }
     
     func addViewedProfile(u: User) -> Void{
