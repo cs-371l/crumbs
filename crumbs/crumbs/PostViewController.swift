@@ -200,7 +200,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         self.populateComments()
         followActive = CUR_USER.hasFollowedPost(p: self.post)
-        
         // fix later
         var buttonLabel: String {
                 // Compute the label based on button state
@@ -214,6 +213,22 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        followActive = CUR_USER.hasFollowedPost(p: self.post)
+
+        // fix later
+        var buttonLabel: String {
+                // Compute the label based on button state
+            followActive ? "Unfollow" : "Follow"
+            }
+        
+        if !followActive {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(followPressed))
+        } else {
+            followPressed()
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonLabel, style: .plain, target: self, action: #selector(unfollowPressed))
+        }
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             let row = indexPath.row
             

@@ -87,11 +87,12 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                         }
                         return
                     }
-                    db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments(){
+                    db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments() {
                         (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
                         } else {
+                            
                             self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
                             self.cardTable.reloadData()
                             
