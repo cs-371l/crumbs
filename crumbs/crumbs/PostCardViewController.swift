@@ -16,6 +16,7 @@ protocol TableManager {
 class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
+    
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
@@ -29,7 +30,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     
     func updateTable() {
         self.populatePosts()
-        cardTable.reloadData()
+        self.cardTable.reloadData()
     }
     
     func refreshView() {
@@ -54,6 +55,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
             self.cardTable.addSubview(pullControl)
         }
     }
+    
     @objc private func refreshListData(_ sender: Any) {
         self.populatePosts() {
             DispatchQueue.main.async {
@@ -106,7 +108,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         } else {
-            query.getDocuments() { (querySnapshot, err) in
+            query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
@@ -117,9 +119,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                         self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                     }
                 }
-                if completion != nil {
-                    completion!()
-                }
+            }
+            if completion != nil {
+                completion!()
             }
         }
     }
@@ -152,5 +154,4 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
             nextVC.tableManager = self
         }
     }
-
 }

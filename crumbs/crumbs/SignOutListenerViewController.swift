@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class SignOutListenerViewController: UIViewController {
+class SignOutListenerViewController: UIViewController, UINavigationControllerDelegate {
     
     private final let LOGIN_VIEW_IDENTIFIER = "LoginViewController"
     
@@ -16,6 +16,11 @@ class SignOutListenerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.delegate = self
+        listenToSignOutChange()
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         listenToSignOutChange()
     }
     
