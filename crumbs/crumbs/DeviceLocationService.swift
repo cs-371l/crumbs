@@ -50,8 +50,4 @@ class DeviceLocationService: NSObject, CLLocationManagerDelegate {
             manager.stopUpdatingLocation()
         }
     }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
-    }
 }
