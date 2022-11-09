@@ -20,6 +20,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
+    let deviceLocationService = DeviceLocationService.shared
     
     var query: Query!
 
@@ -57,6 +58,10 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc private func refreshListData(_ sender: Any) {
+        let database = Firestore.firestore()
+        let location = deviceLocationService.getLocation()!
+        let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
+        self.query = database.collection("posts").whereField("geohash", isEqualTo: geohash)
         self.populatePosts() {
             DispatchQueue.main.async {
                 self.pullControl.endRefreshing()
