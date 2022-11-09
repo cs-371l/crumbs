@@ -27,16 +27,21 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private var pullControl = UIRefreshControl()
     
     func updateTable() {
-        cardTable.reloadData()
+        self.sortList()
     }
     
     func refreshView() {
-        self.cardTable.reloadData()
+        self.sortList()
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         self.populatePosts()
         refreshView()
+    }
+    
+    func sortList() {
+        self.posts.sort(by: {$0.date > $1.date})
+        self.cardTable.reloadData()
     }
     
     override func viewDidLoad() {
@@ -47,7 +52,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         self.populatePosts()
         self.navigationController?.delegate = self
-        
+        self.sortList()
         // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
         pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
@@ -56,6 +61,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             self.cardTable.addSubview(pullControl)
         }
+        self.sortList()
     }
     @objc private func refreshListData(_ sender: Any) {
         self.populatePosts() {
@@ -68,8 +74,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     func populatePosts(completion: (() -> Void)? = nil) {
         if !self.discoverActive {
             self.posts = []
-            self.cardTable.reloadData()
-            
+            self.sortList()
             if self.posts.count > 0 {
                 self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }
@@ -80,7 +85,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                 print("Error getting documents: \(err)")
             } else {
                 self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
-                self.cardTable.reloadData()
+                self.sortList()
                 
                 if self.posts.count > 0 {
                     self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
