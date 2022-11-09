@@ -41,13 +41,12 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         let db = Firestore.firestore()
         // on follow tab
         if !self.discoverActive {
-            let userDoc = CUR_USER.docRef
             let ref = db.collection("users").document(CUR_USER.id!)
             self.userRef = db.document("users/\(ref)")
             ref.getDocument{ (document, error) in
                 if let document = document, document.exists {
                     let followedPosts = document.get("followed_posts") as! [DocumentReference]
-                    let documentIDs = followedPosts.map {$0.documentID}
+//                    let documentIDs = followedPosts.map {$0.documentID}
                     db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments(){
                         (querySnapshot, err) in
                         if let err = err {
