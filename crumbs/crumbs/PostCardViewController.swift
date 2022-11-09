@@ -27,7 +27,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private var pullControl = UIRefreshControl()
     
     func updateTable() {
-        cardTable.reloadData()
+        self.cardTable.reloadData()
     }
     
     func refreshView() {
@@ -69,13 +69,12 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         if !self.discoverActive {
             self.posts = []
             self.cardTable.reloadData()
-            
             if self.posts.count > 0 {
                 self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }
             return
         }
-        query.getDocuments() { (querySnapshot, err) in
+        query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
