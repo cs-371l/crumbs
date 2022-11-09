@@ -17,7 +17,6 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
 
         self.karmaNum.text = String(getKarma())
-        //self.karmaNum.text = "10"
         // TODO: Calculate and display age
         self.age.text = "1d"
         self.views.text = String(self.user.views)
