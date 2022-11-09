@@ -52,7 +52,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         self.populatePosts()
         self.navigationController?.delegate = self
-        self.sortList()
+        
         // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
         pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
@@ -61,7 +61,6 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             self.cardTable.addSubview(pullControl)
         }
-        self.sortList()
     }
     @objc private func refreshListData(_ sender: Any) {
         self.populatePosts() {
