@@ -97,12 +97,63 @@ class CommentCardCell : UITableViewCell {
     @IBOutlet weak var upvotesLabel: UILabel!
     @IBOutlet weak var createdLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var upvoteButton: UIButton!
+    @IBOutlet weak var downvoteButton: UIButton!
+    var comment: Comment!
     
-    func assignAttributes(c: Comment) {
+    // 1 = upvoted, -1, downvoted, 0 not interacted
+    var delta: Int!
+    var originalDelta: Int!
+    
+    
+    let enabledUpvote: UIImage = UIImage(systemName: "arrowtriangle.up.circle")!.withRenderingMode(.alwaysTemplate)
+    let disabledUpvote: UIImage = UIImage(systemName: "arrowtriangle.up.circle.fill")!.withRenderingMode(.alwaysTemplate)
+    let enabledDownvote: UIImage = UIImage(systemName: "arrowtriangle.down.circle")!.withRenderingMode(.alwaysTemplate)
+    let disabledDownvote: UIImage = UIImage(systemName: "arrowtriangle.down.circle.fill")!.withRenderingMode(.alwaysTemplate)
+
+    @IBAction func upvotePressed(_ sender: Any) {
+        if delta == 1 {
+            delta = 0
+            upvoteButton.setImage(enabledUpvote, for: .normal)
+            comment.upvotes -= 1
+            upvotesLabel.text = String(comment.upvotes)
+            return
+        }
+
+        upvoteButton.setImage(disabledUpvote, for: .normal)
+        downvoteButton.setImage(enabledDownvote, for: .normal)
+        
+        comment.upvotes += 1 - delta
+        upvotesLabel.text = String(comment.upvotes)
+        delta = 1
+    }
+    
+    @IBAction func downvotePressed(_ sender: Any) {
+        
+        if delta == -1 {
+            delta = 0
+            downvoteButton.setImage(enabledDownvote, for: .normal)
+            comment.upvotes += 1
+            upvotesLabel.text = String(comment.upvotes)
+            return
+        }
+        
+        downvoteButton.setImage(disabledDownvote, for: .normal)
+        upvoteButton.setImage(enabledUpvote, for: .normal)
+        
+        comment.upvotes -= delta + 1
+        delta = -1
+        upvotesLabel.text = String(comment.upvotes)
+    }
+
+    func assignAttributes(c: Comment, delta: Int) {
         upvotesLabel.text = String(c.upvotes)
         commentsLabel.text = c.comment
         authorLabel.text = c.username
         createdLabel.text = c.timeAgo
+        comment = c
+        self.delta = delta
+        self.originalDelta = delta
     }
 }
 
@@ -229,7 +280,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
-        cell.assignAttributes(c: post.comments[row - 1])
+        cell.assignAttributes(c: post.comments[row - 1], delta: 0)
         cell.selectionStyle = .none
         return cell
     }

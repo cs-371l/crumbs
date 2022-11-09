@@ -31,7 +31,6 @@ class ProfileViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("loading view")
         username.text = user.username
         bio.text = user.biography
 

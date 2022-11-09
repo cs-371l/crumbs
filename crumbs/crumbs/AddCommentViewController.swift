@@ -51,6 +51,11 @@ class AddCommentViewController: UIViewController, UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
+        }
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: "Dark") {
+            textView.textColor = UIColor.white
+        } else {
             textView.textColor = UIColor.black
         }
     }

@@ -685,11 +685,11 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
                                                             <rect key="frame" x="75.333333333333343" y="0.0" width="79" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
                                                                     <rect key="frame" x="0.0" y="-1" width="33.666666666666664" height="22.333333333333332"/>
                                                                     <imageReference key="image" image="eye.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
                                                                     <rect key="frame" x="37.666666666666657" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -750,7 +750,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDC-n6-Z47">
-                                                    <rect key="frame" x="20" y="31" width="339" height="20.333333333333329"/>
+                                                    <rect key="frame" x="20" y="31" width="340" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -762,33 +762,50 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="9ce-1A-pV3">
-                                                    <rect key="frame" x="379" y="11" width="28.666666666666686" height="58"/>
+                                                    <rect key="frame" x="368.33333333333331" y="4" width="45" height="71.333333333333329"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="arrowtriangle.up.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fVm-Cp-Cpf">
-                                                            <rect key="frame" x="0.0" y="0.99999999999999822" width="28.666666666666668" height="19"/>
-                                                        </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpY-wO-sBx">
+                                                            <rect key="frame" x="0.0" y="0.0" width="45" height="27"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="27" id="IpX-bw-26f"/>
+                                                                <constraint firstAttribute="width" constant="45" id="YZ5-ya-0Qd"/>
+                                                            </constraints>
+                                                            <state key="normal" title="Button"/>
+                                                            <buttonConfiguration key="configuration" style="plain" image="arrowtriangle.up.circle" catalog="system"/>
+                                                            <connections>
+                                                                <action selector="upvotePressed:" destination="0FN-Nm-hoS" eventType="touchUpInside" id="eWR-hs-Xfp"/>
+                                                            </connections>
+                                                        </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9N-mU-FyT">
-                                                            <rect key="frame" x="0.0" y="22.333333333333336" width="28.666666666666668" height="13.333333333333336"/>
+                                                            <rect key="frame" x="0.0" y="28.999999999999996" width="45" height="13.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="arrowtriangle.down.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="9LQ-3W-jru">
-                                                            <rect key="frame" x="0.0" y="38.666666666666664" width="28.666666666666668" height="19"/>
-                                                        </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n3V-m9-csC">
+                                                            <rect key="frame" x="0.0" y="44.333333333333336" width="45" height="27.000000000000007"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="27" id="ocE-AH-rLx"/>
+                                                            </constraints>
+                                                            <state key="normal" title="Button"/>
+                                                            <buttonConfiguration key="configuration" style="plain" image="arrowtriangle.down.circle" catalog="system"/>
+                                                            <connections>
+                                                                <action selector="downvotePressed:" destination="0FN-Nm-hoS" eventType="touchUpInside" id="Ay6-53-S06"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ZNH-W6-4Rv" firstAttribute="top" secondItem="Ezi-9M-VeZ" secondAttribute="top" constant="13" id="1EF-PT-Nvg"/>
                                                 <constraint firstItem="BwV-6H-rAk" firstAttribute="leading" secondItem="Ezi-9M-VeZ" secondAttribute="leading" constant="20" symbolic="YES" id="1xU-Fq-ZI8"/>
-                                                <constraint firstItem="9ce-1A-pV3" firstAttribute="top" secondItem="Ezi-9M-VeZ" secondAttribute="top" constant="11" id="546-iP-Yrn"/>
+                                                <constraint firstItem="9ce-1A-pV3" firstAttribute="top" secondItem="Ezi-9M-VeZ" secondAttribute="top" constant="4" id="3ee-xL-6Qa"/>
                                                 <constraint firstAttribute="bottom" secondItem="yDC-n6-Z47" secondAttribute="bottom" constant="33.666666666666671" id="9Gq-Rl-4cx"/>
-                                                <constraint firstAttribute="trailing" secondItem="b9N-mU-FyT" secondAttribute="trailing" constant="20.333333333333314" id="UMh-8C-wdC"/>
+                                                <constraint firstAttribute="trailing" secondItem="9ce-1A-pV3" secondAttribute="trailing" constant="14.666666666666686" id="Ltv-W2-Ihd"/>
                                                 <constraint firstItem="yDC-n6-Z47" firstAttribute="top" secondItem="BwV-6H-rAk" secondAttribute="bottom" constant="2" id="Wpr-Vn-hv3"/>
                                                 <constraint firstItem="ZNH-W6-4Rv" firstAttribute="leading" secondItem="BwV-6H-rAk" secondAttribute="trailing" constant="8" symbolic="YES" id="aby-mK-Dbu"/>
+                                                <constraint firstItem="b9N-mU-FyT" firstAttribute="leading" secondItem="yDC-n6-Z47" secondAttribute="trailing" constant="8.3333333333333144" id="byQ-Vk-QNE"/>
                                                 <constraint firstItem="BwV-6H-rAk" firstAttribute="top" secondItem="Ezi-9M-VeZ" secondAttribute="top" constant="11" id="deC-wh-HE8"/>
-                                                <constraint firstItem="9ce-1A-pV3" firstAttribute="leading" secondItem="yDC-n6-Z47" secondAttribute="trailing" constant="20" id="vsK-V4-kbP"/>
                                                 <constraint firstItem="yDC-n6-Z47" firstAttribute="leading" secondItem="Ezi-9M-VeZ" secondAttribute="leading" constant="20" symbolic="YES" id="zst-Sx-mXY"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -796,6 +813,8 @@
                                             <outlet property="authorLabel" destination="BwV-6H-rAk" id="8q8-Io-duF"/>
                                             <outlet property="commentsLabel" destination="yDC-n6-Z47" id="Pg0-Xt-9WE"/>
                                             <outlet property="createdLabel" destination="ZNH-W6-4Rv" id="xYR-F9-fqz"/>
+                                            <outlet property="downvoteButton" destination="n3V-m9-csC" id="zWJ-ug-Zam"/>
+                                            <outlet property="upvoteButton" destination="UpY-wO-sBx" id="yMT-Ix-KGI"/>
                                             <outlet property="upvotesLabel" destination="b9N-mU-FyT" id="p7I-xX-CiO"/>
                                         </connections>
                                     </tableViewCell>
@@ -837,7 +856,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IOB-1m-ZZ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3687" y="756"/>
+            <point key="canvasLocation" x="3686.9158878504672" y="755.50755939524845"/>
         </scene>
         <!--Add Comment View Controller-->
         <scene sceneID="CzM-59-0LD">
@@ -1483,8 +1502,8 @@ All I did was make the default label size larger than the content potentially co
         <segue reference="tc7-MB-fzW"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="arrowtriangle.down.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="arrowtriangle.up.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="arrowtriangle.down.circle" catalog="system" width="128" height="121"/>
+        <image name="arrowtriangle.up.circle" catalog="system" width="128" height="121"/>
         <image name="bubble.right.circle" catalog="system" width="128" height="121"/>
         <image name="circlebadge.fill" catalog="system" width="128" height="120"/>
         <image name="eye.circle" catalog="system" width="128" height="121"/>
