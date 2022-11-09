@@ -27,21 +27,16 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     private var pullControl = UIRefreshControl()
     
     func updateTable() {
-        self.sortList()
+        self.cardTable.reloadData()
     }
     
     func refreshView() {
-        self.sortList()
+        self.cardTable.reloadData()
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         self.populatePosts()
         refreshView()
-    }
-    
-    func sortList() {
-        self.posts.sort(by: {$0.date > $1.date})
-        self.cardTable.reloadData()
     }
     
     override func viewDidLoad() {
@@ -73,18 +68,18 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     func populatePosts(completion: (() -> Void)? = nil) {
         if !self.discoverActive {
             self.posts = []
-            self.sortList()
+            self.cardTable.reloadData()
             if self.posts.count > 0 {
                 self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }
             return
         }
-        query.getDocuments() { (querySnapshot, err) in
+        query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
-                self.sortList()
+                self.cardTable.reloadData()
                 
                 if self.posts.count > 0 {
                     self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
