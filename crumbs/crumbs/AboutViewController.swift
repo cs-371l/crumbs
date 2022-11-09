@@ -10,7 +10,6 @@ import UIKit
 class AboutViewController: UIViewController {
 
     var user : User!
-    
     var posts: [Post] = []
     
     override func viewDidLoad() {
@@ -41,9 +40,6 @@ class AboutViewController: UIViewController {
         self.views.text = String(self.user.views)
         self.crumbsCreated.text = String(self.user.posts?.count ?? 0)
     }
-    
-
-    @IBOutlet weak var karma: UILabel!
     
     @IBOutlet weak var karmaNum: UILabel!
     @IBOutlet weak var crumbsCreated: UILabel!
