@@ -199,6 +199,15 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.populateComments()
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = indexPath.row
+        
+        if row == post.commentCount + 1 {
+            return 100
+        }
+        
+        return UITableView.automaticDimension
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
@@ -210,6 +219,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.assignAttributes(p: post, user: CUR_USER, image: self.postImage)
             cell.selectionStyle = .none
             cell.delegate = self
+            return cell
+        } else if row == post.commentCount + 1 {
+            let cell = UITableViewCell()
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.isUserInteractionEnabled = false
             return cell
         }
         
@@ -306,13 +320,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == POST_VIEW_TO_COMMENT_SEGUE, let nextVC = segue.destination as? AddCommentViewController {
-            nextVC.post = self.post
-            nextVC.postViewTable = self.postViewTable
-        }
-    }
-    
     func populateComments() {
         self.post.docRef?.collection("comments").getDocuments(completion: {
             (querySnapshot, error) in
@@ -343,8 +350,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // +1 for the post.
-        return 1 + post.commentCount
+        // +1 for the post, +1 for the empty cell.
+        return 2 + post.commentCount
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -367,6 +374,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let nextViewController = segue.destination as? ProfileViewController {
                 nextViewController.user = self.post.user!
             }
+        }
+        if segue.identifier == POST_VIEW_TO_COMMENT_SEGUE, let nextVC = segue.destination as? AddCommentViewController {
+            nextVC.post = self.post
+            nextVC.postViewTable = self.postViewTable
         }
     }
 }
