@@ -20,6 +20,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
     
     private final let plus = UIImage(systemName: "plus")
     var imageToUpload: UIImage? = nil
+    var tableManager: TableManager!
     
     private let storage = Storage.storage().reference()
 
@@ -111,16 +112,20 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                     print(err.localizedDescription)
                     return
                 }
-                let postViewController = (self.storyboard?.instantiateViewController(withIdentifier: "PostViewController")) as! PostViewController
-                postViewController.post = post
-                self.navigationController?.pushViewController(postViewController, animated: true)
-                var viewControllerStack = self.navigationController!.viewControllers
-                viewControllerStack.remove(at: viewControllerStack.count - 2)
-                self.navigationController?.setViewControllers(viewControllerStack, animated: false)
-                print("Document added with ID: \(ref!.documentID)")
                 post.docRef = ref
                 DispatchQueue.main.async {
                     self.removeSpinner()
+                    
+                    let postViewController = (self.storyboard?.instantiateViewController(withIdentifier: "PostViewController")) as! PostViewController
+                    postViewController.post = post
+                    self.navigationController?.pushViewController(postViewController, animated: true)
+                    var viewControllerStack = self.navigationController!.viewControllers
+                    viewControllerStack.remove(at: viewControllerStack.count - 2)
+                    self.navigationController?.setViewControllers(viewControllerStack, animated: false)
+                    print("Document added with ID: \(ref!.documentID)")
+                    post.docRef = ref
+                    
+                    self.tableManager.updateTable()
                 }
             }
         }
@@ -136,7 +141,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                 title: titleTextStored,
                 date: Date(),
                 likeCount: 0,
-                viewCount: 1
+                viewCount: 0
              )
              
              // For now store in an images folder with universally unique

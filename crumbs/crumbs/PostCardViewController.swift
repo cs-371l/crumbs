@@ -7,23 +7,33 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 protocol TableManager {
     func updateTable() -> Void
 }
 
-class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TableManager {
+class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
     private final let ESTIMATED_ROW_HEIGHT = 1000
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
+    
+    var query: Query!
 
     var discoverActive = true
     var posts: [Post] = []
     
+    private var pullControl = UIRefreshControl()
+    
     func updateTable() {
+        self.populatePosts()
         cardTable.reloadData()
+    }
+    
+    func refreshView() {
+        self.cardTable.reloadData()
     }
     
     override func viewDidLoad() {
@@ -33,20 +43,45 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.cardTable.rowHeight = UITableView.automaticDimension
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
         self.populatePosts()
+        self.navigationController?.delegate = self
+        
+        // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
+        pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            self.cardTable.refreshControl = pullControl
+        } else {
+            self.cardTable.addSubview(pullControl)
+        }
+    }
+    @objc private func refreshListData(_ sender: Any) {
+        self.populatePosts() {
+            DispatchQueue.main.async {
+                self.pullControl.endRefreshing()
+            }
+        }
     }
     
     var userRef: DocumentReference!
 
-    func populatePosts() {
+    func populatePosts(completion: (() -> Void)? = nil) {
         let db = Firestore.firestore()
-        // on follow tab
         if !self.discoverActive {
-            let ref = db.collection("users").document(CUR_USER.id!)
+            let uid = Auth.auth().currentUser?.uid
+            let ref = db.collection("users").document(uid!)
             self.userRef = db.document("users/\(ref)")
             ref.getDocument{ (document, error) in
+                if let error = error {
+                    print("there is an error")
+                    return
+                }
                 if let document = document, document.exists {
                     let followedPosts = document.get("followed_posts") as! [DocumentReference]
-//                    let documentIDs = followedPosts.map {$0.documentID}
+                    self.posts = []
+                    if followedPosts.count == 0 {
+                        self.cardTable.reloadData()
+                        return
+                    }
                     db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments(){
                         (querySnapshot, err) in
                         if let err = err {
@@ -64,16 +99,20 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
                     print("Document does not exist in cache")
                 }
             }
-        }
-        db.collection("posts").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
-                self.cardTable.reloadData()
-                
-                if self.posts.count > 0 {
-                    self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+        } else {
+            query.getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
+                    self.cardTable.reloadData()
+                    
+                    if self.posts.count > 0 {
+                        self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    }
+                }
+                if completion != nil {
+                    completion!()
                 }
             }
         }

@@ -128,7 +128,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     var postImage: UIImage? = nil
     
     func callSegueToProfile() {
-        
+
         // Cached user.
         if post.user != nil {
             self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
@@ -147,12 +147,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             DispatchQueue.main.async {
                 self.removeSpinner()
+                let user = User(snapshot: snapshot!)
+                
+                self.post.user = user
+                self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
             }
-            
-            let user = User(snapshot: snapshot!)
-            
-            self.post.user = user
-            self.performSegue(withIdentifier: self.PROFILE_VIEW_SEGUE, sender: nil)
         }
     }
     
@@ -174,6 +173,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.postImage = post.uiImage
         }
         
+        if (!CUR_USER.hasViewedPost(p: self.post)){
+            updateViewsForUserAndPost()
+            post.viewCount += 1
+        }
+        
         if post.uiImage == nil && post.imageUrl != nil {
             self.showSpinner(onView: self.view)
             getData(from: URL(string: post.imageUrl!)!) {
@@ -182,10 +186,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.showErrorAlert(title: "Error", message: "Unable to load post.")
                     return
                 }
-                self.postImage = UIImage(data: data)
-                self.post.uiImage = self.postImage
-                self.removeSpinner()
                 DispatchQueue.main.async {
+                    self.postImage = UIImage(data: data)
+                    self.post.uiImage = self.postImage
+                    self.removeSpinner()
                     self.postViewTable.reloadData()
                 }
             }
@@ -227,7 +231,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                     "followed_posts": FieldValue.arrayRemove([self.post.docRef!])],
                 forDocument: CUR_USER.docRef
             )
-            self.tableManager?.updateTable()
+            DispatchQueue.main.async {
+                self.tableManager?.updateTable()
+            }
             return nil
         }){(object, error) in
             if let error = error {
@@ -268,7 +274,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                     "followed_posts": FieldValue.arrayUnion([self.post.docRef!])],
                 forDocument: CUR_USER.docRef
             )
-            self.tableManager?.updateTable()
+            DispatchQueue.main.async {
+                self.tableManager?.updateTable()
+            }
             return nil
         }){(object, error) in
             if let error = error {
@@ -297,6 +305,39 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
         cell.assignAttributes(c: post.comments[row - 1])
         return cell
+    }
+    
+    func updateViewsForUserAndPost() {
+        let db = Firestore.firestore()
+        db.runTransaction({
+            (transaction, errorPointer) -> Any? in
+            
+            guard self.post.docRef != nil else { return nil }
+            
+            let postDocument: DocumentSnapshot
+            let userDocument: DocumentSnapshot
+            do {
+                try postDocument = transaction.getDocument(self.post.docRef!)
+                try userDocument = transaction.getDocument(CUR_USER.docRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            let oldViews = postDocument.data()?["views"] as! Int
+            var viewed = userDocument.data()?["viewed_posts"] as! [DocumentReference]
+            viewed.append(CUR_USER.docRef)
+            transaction.updateData(["views": oldViews + 1], forDocument: self.post.docRef!)
+            transaction.updateData(
+                ["viewed_posts": FieldValue.arrayUnion([self.post.docRef!])], forDocument: CUR_USER.docRef)
+            return nil
+        }){(object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            }
+        }
+        
+        CUR_USER.addViewedPosts(p: self.post)
     }
     
     // Transaction to update both the number of likes on the post
@@ -369,6 +410,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             updateLikeForUserAndPost(isLiking: postCell.likeActive)
         }
         
+        
         if self.tableManager == nil {
             return
         }
@@ -386,6 +428,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == PROFILE_VIEW_SEGUE {
+            return self.post.user != nil
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

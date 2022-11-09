@@ -11,6 +11,7 @@ import FirebaseFirestore
 
 class PostTableViewCell : UITableViewCell {
     
+    @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
@@ -32,10 +33,12 @@ class PostTableViewCell : UITableViewCell {
         viewsLabel.text = String(p.viewCount)
         
         activeLabel.text = p.createdAgo
+        statusIcon.image = statusIcon.image?.withRenderingMode(.alwaysTemplate)
+        statusIcon.tintColor = p.date.getColorFromDateAgo()
     }
 }
 
-class FeedViewController: UIViewController {
+class FeedViewController: UIViewController, TableManager {
     
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
@@ -61,6 +64,10 @@ class FeedViewController: UIViewController {
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
         self.embeddedView.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
+        updateTable()
+    }
+    
+    func updateTable() {
         self.embeddedView.populatePosts()
     }
     
@@ -69,6 +76,11 @@ class FeedViewController: UIViewController {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
+            let database = Firestore.firestore()
+            let query = database.collection("posts")
+            nextVC.query = query
+        } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
+            nextVC.tableManager = self
         }
     }
     
