@@ -7,8 +7,9 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
-class LoginViewController: SignInListenerViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var appleButton: UIButton!
     @IBOutlet weak var passwordError: UILabel!
@@ -76,6 +77,7 @@ class LoginViewController: SignInListenerViewController, UITextFieldDelegate {
         }
         
         if !checkTextFieldEmpty(textField: usernameTextField) && !checkTextFieldEmpty(textField: passwordTextField) {
+            let db = Firestore.firestore()
                     Auth.auth().signIn(
                         withEmail: self.usernameTextField.text!,
                         password: self.passwordTextField.text!) {
@@ -84,6 +86,31 @@ class LoginViewController: SignInListenerViewController, UITextFieldDelegate {
                                 self.errorTextField.text! = "\(error.localizedDescription)"
                             } else {
                                 self.errorTextField.text = "Success"
+                                db.collection("users").document(authResult!.user.uid).getDocument() {
+                                    (snapshot, err) in
+                                    if let err = err {
+                                        self.showErrorAlert(title: "Error", message: "Unable to sign in.")
+                                        print(err.localizedDescription)
+                                        return
+                                    } else {
+                                        CUR_USER = User(snapshot: snapshot!)
+                                        
+                                        CUR_USER.getPosts {
+                                            success, posts in
+                                            if !success {
+                                                self.showErrorAlert(title: "Error", message: "Unable to load profile.")
+                                                return
+                                            }
+                                            DispatchQueue.main.async {
+                                                self.removeSpinner()
+                                            }
+                                            let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                                            self.view.window?.rootViewController = homeViewController
+                                            self.view.window?.makeKeyAndVisible()
+                                        }
+
+                                    }
+                                }
                             }
                         }
                 }

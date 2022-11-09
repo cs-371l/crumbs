@@ -11,17 +11,26 @@ import FirebaseFirestore
 
 let HOME_TAB_BAR_CONTROLLER_IDENTIFIER = "HomeTabBarController"
 
-class SignInListenerViewController: UIViewController {
+class SignInListenerViewController: UIViewController, UINavigationControllerDelegate {
     
     var authListener: AuthStateDidChangeListenerHandle!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         listenToSignInChange()
+        self.navigationController?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(self.authListener)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if !(viewController is LoginViewController) {
+            Auth.auth().removeStateDidChangeListener(self.authListener)
+        } else {
+            listenToSignInChange()
+        }
     }
     
     func listenToSignInChange() {

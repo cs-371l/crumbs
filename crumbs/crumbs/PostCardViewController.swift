@@ -11,6 +11,7 @@ import FirebaseAuth
 
 protocol TableManager {
     func updateTable() -> Void
+    func refreshTable() -> Void
 }
 
 class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
@@ -30,6 +31,9 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     
     func updateTable() {
         self.populatePosts()
+    }
+    
+    func refreshTable() {
         self.cardTable.reloadData()
     }
     

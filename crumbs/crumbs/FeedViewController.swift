@@ -68,7 +68,11 @@ class FeedViewController: UIViewController, TableManager {
     }
     
     func updateTable() {
-        self.embeddedView.populatePosts()
+        self.embeddedView.updateTable()
+    }
+    
+    func refreshTable() {
+        self.embeddedView.refreshTable()
     }
     
     

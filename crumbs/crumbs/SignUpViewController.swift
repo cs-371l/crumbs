@@ -104,28 +104,41 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
         
         // await create auth user
-        // 
-        
-        self.showSpinner(onView: self.view)
         if validated {
+            self.showSpinner(onView: self.view)
             let username = usernameTextField.text!
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
                 if let error = error as NSError? {
                     self.createAccountAlert.text = "\(error.localizedDescription)"
                 } else {
-                    CUR_USER = User(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date) {
+                    User(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date) {
                         success in
                         
-                        DispatchQueue.main.async {
-                            self.removeSpinner()
-                            if !success {
-                                // TODO: handle failed sign in.
-                                print("Initialization of user failed.")
+                        let db = Firestore.firestore()
+                        db.collection("users").document(authResult!.user.uid).getDocument() {
+                            (snapshot, err) in
+                            if let err = err {
+                                self.showErrorAlert(title: "Error", message: "Unable to sign in.")
+                                print(err.localizedDescription)
                                 return
+                            } else {
+                                CUR_USER = User(snapshot: snapshot!)
+                                
+                                CUR_USER.getPosts {
+                                    success, posts in
+                                    if !success {
+                                        self.showErrorAlert(title: "Error", message: "Unable to load profile.")
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.removeSpinner()
+                                        let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                                        self.view.window?.rootViewController = homeViewController
+                                        self.view.window?.makeKeyAndVisible()
+                                    }
+                                }
+
                             }
-                            let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
-                            self.view.window?.rootViewController = homeViewController
-                            self.view.window?.makeKeyAndVisible()
                         }
                     }
                     self.createAccountAlert.text = "Success"
