@@ -531,6 +531,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = crumbs/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to location for best app experience";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow access to location for best app experience";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to upload photo to post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -561,6 +562,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = crumbs/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to location for best app experience";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow access to location for best app experience";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to upload photo to post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

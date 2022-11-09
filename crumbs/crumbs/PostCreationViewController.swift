@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseStorage
 
 import CoreImage.CIFilterBuiltins
+import CoreLocation
 
 class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -134,6 +135,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
          @objc func postPressed() {
              let titleTextStored = titleText.text!
              let descriptionTextStored = descriptionText.text!
+             let location = deviceLocationService.getLocation()
 
              let post = Post(
                 creatorRef: CUR_USER.docRef,
@@ -142,7 +144,9 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                 title: titleTextStored,
                 date: Date(),
                 likeCount: 0,
-                viewCount: 0
+                viewCount: 0,
+                latitude: location!.coordinate.latitude,
+                longitude: location!.coordinate.longitude
              )
              
              // For now store in an images folder with universally unique

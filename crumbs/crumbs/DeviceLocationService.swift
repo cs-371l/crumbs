@@ -35,6 +35,10 @@ class DeviceLocationService: NSObject, CLLocationManagerDelegate {
             break
         }
     }
+    
+    func getLocation() -> CLLocation? {
+        return self.locationManager.location
+    }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {

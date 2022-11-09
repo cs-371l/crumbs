@@ -27,6 +27,8 @@ class Post {
     var docRef: DocumentReference?
     var imageUrl: String?
     var uiImage: UIImage? = nil
+    var latitude: Float64
+    var longitude: Float64
     
     var user: User? = nil
     
@@ -38,6 +40,8 @@ class Post {
         date: Date,
         likeCount: Int,
         viewCount: Int,
+        latitude: Float64,
+        longitude: Float64,
         comments: [Comment] = [],
         imageUrl: String? = nil
     ) {
@@ -50,6 +54,8 @@ class Post {
         self.viewCount = viewCount
         self.comments = comments
         self.imageUrl = imageUrl
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
     convenience init(snapshot: QueryDocumentSnapshot) {
@@ -63,6 +69,8 @@ class Post {
             date: timestamp.dateValue(),
             likeCount: snapshot.get("likes") as! Int,
             viewCount: snapshot.get("views") as! Int,
+            latitude: snapshot.get("latitude") as! Float64,
+            longitude: snapshot.get("longitude") as! Float64,
             imageUrl: snapshot.get("image_url") as! String?
         )
         self.docRef = snapshot.reference
@@ -76,6 +84,8 @@ class Post {
             "content": self.description,
             "likes": self.likeCount,
             "views": self.viewCount,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
             "comments": self.comments,
             "timestamp": Timestamp(date: self.date),
             "user": userRef,
