@@ -1208,7 +1208,7 @@
                     <connections>
                         <outlet property="age" destination="hDo-HS-a3a" id="Oyw-S3-G4P"/>
                         <outlet property="crumbsCreated" destination="sU9-dU-Zr4" id="Vja-gw-FCr"/>
-                        <outlet property="karma" destination="VSM-A3-PSW" id="ju7-Ee-JLX"/>
+                        <outlet property="karmaNum" destination="VSM-A3-PSW" id="Uxh-hT-C8D"/>
                         <outlet property="views" destination="TgD-iU-QDZ" id="aFG-U8-NBG"/>
                     </connections>
                 </viewController>

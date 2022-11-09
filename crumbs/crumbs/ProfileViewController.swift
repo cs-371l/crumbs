@@ -56,10 +56,12 @@ class ProfileViewController: UIViewController {
                 
                 if self.embeddedAbout != nil {
                     self.embeddedAbout!.user = self.user
+                    self.embeddedAbout!.posts = self.user.posts!
                     self.embeddedAbout!.refreshView()
                 }
             }
         }
+        
         
         if(user.username != CUR_USER.username){
             edit.isHidden = true
@@ -126,6 +128,7 @@ class ProfileViewController: UIViewController {
             self.embeddedPost = nextVC
         } else if segue.identifier == ABOUT_EMBED_SEGUE , let nextVC = segue.destination as? AboutViewController {
             nextVC.user = self.user
+            nextVC.posts = self.user.posts ?? []
             self.embeddedAbout = nextVC
         }
     }
