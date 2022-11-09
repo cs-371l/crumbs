@@ -21,7 +21,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     let signupSegueIdentifier = "SignUpPageSegue"
     let missingPasswordError = "Please enter a password."
-    let missingUsernameError = "Please enter a username."
+    let missingUsernameError = "Please enter an email."
     
     override func viewDidLoad() {
         super.viewDidLoad()

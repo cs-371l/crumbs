@@ -135,7 +135,8 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
          @objc func postPressed() {
              let titleTextStored = titleText.text!
              let descriptionTextStored = descriptionText.text!
-             let location = deviceLocationService.getLocation()
+             let location = deviceLocationService.getLocation()!
+             let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
 
              let post = Post(
                 creatorRef: CUR_USER.docRef,
@@ -145,8 +146,9 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
                 date: Date(),
                 likeCount: 0,
                 viewCount: 0,
-                latitude: location!.coordinate.latitude,
-                longitude: location!.coordinate.longitude
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                geohash: geohash
              )
              
              // For now store in an images folder with universally unique

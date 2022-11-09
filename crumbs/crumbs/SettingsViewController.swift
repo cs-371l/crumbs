@@ -43,7 +43,7 @@ class SettingsViewController: SignOutListenerViewController, UITableViewDelegate
         if settingName == "App Version" {
             cell.settingSwitch.isHidden = true
             cell.settingLabel.textColor = UIColor.gray
-            cell.settingLabel.text = "\(settingName) 1.0a"
+            cell.settingLabel.text = "\(settingName) Beta"
         }
         if settingName == "Dark Mode" {
             let defaults = UserDefaults.standard

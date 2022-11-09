@@ -48,11 +48,12 @@ class FeedViewController: UIViewController, TableManager {
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
     private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
     private var embeddedView: PostCardViewController!
+    
+    let deviceLocationService = DeviceLocationService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToPostCreate))
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create Post", style: .plain, target: self, action: #selector(goToPostCreate))
         // check if dark mode
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: "Dark") {
@@ -81,7 +82,9 @@ class FeedViewController: UIViewController, TableManager {
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
             let database = Firestore.firestore()
-            let query = database.collection("posts")
+            let location = deviceLocationService.getLocation()!
+            let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
+            let query = database.collection("posts").whereField("geohash", isEqualTo: geohash)
             nextVC.query = query
         } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
             nextVC.tableManager = self
