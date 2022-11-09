@@ -23,6 +23,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
     var tableManager: TableManager!
     
     private let storage = Storage.storage().reference()
+    private let deviceLocationService = DeviceLocationService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()

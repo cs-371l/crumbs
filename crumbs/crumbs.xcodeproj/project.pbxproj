@@ -18,6 +18,7 @@
 		6A2E991129108F9A006D06DF /* SignOutListenerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2E991029108F9A006D06DF /* SignOutListenerViewController.swift */; };
 		6A34E9F328FF391D00699A74 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E9F228FF391D00699A74 /* SettingsViewController.swift */; };
 		6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */; };
+		6AB1F094291B2EBD00F94C5C /* DeviceLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB1F093291B2EBD00F94C5C /* DeviceLocationService.swift */; };
 		6AFAD74928FFADDD0048EB2F /* IQTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAD72E28FFADDD0048EB2F /* IQTextView.swift */; };
 		6AFAD74A28FFADDD0048EB2F /* IQKeyboardManager+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAD72F28FFADDD0048EB2F /* IQKeyboardManager+Internal.swift */; };
 		6AFAD74B28FFADDD0048EB2F /* IQPreviousNextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAD73128FFADDD0048EB2F /* IQPreviousNextView.swift */; };
@@ -77,6 +78,7 @@
 		6A2E991029108F9A006D06DF /* SignOutListenerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutListenerViewController.swift; sourceTree = "<group>"; };
 		6A34E9F228FF391D00699A74 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		6AB1F093291B2EBD00F94C5C /* DeviceLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLocationService.swift; sourceTree = "<group>"; };
 		6AFAD72E28FFADDD0048EB2F /* IQTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQTextView.swift; sourceTree = "<group>"; };
 		6AFAD72F28FFADDD0048EB2F /* IQKeyboardManager+Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQKeyboardManager+Internal.swift"; sourceTree = "<group>"; };
 		6AFAD73128FFADDD0048EB2F /* IQPreviousNextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQPreviousNextView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		6A292D4C28F385670068C727 /* crumbs */ = {
 			isa = PBXGroup;
 			children = (
+				6AB1F093291B2EBD00F94C5C /* DeviceLocationService.swift */,
 				88A231832919C37F00755476 /* ErrorMessage.swift */,
 				6AFAD76028FFADE60048EB2F /* PostCreationViewController.swift */,
 				6AFAD72C28FFADDD0048EB2F /* IQKeyboardManagerSwift */,
@@ -362,6 +365,7 @@
 				6AFAD74F28FFADDD0048EB2F /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				6AFAD75128FFADDD0048EB2F /* IQKeyboardManager+UIKeyboardNotification.swift in Sources */,
 				88B52FE428F92A6C00A0BE08 /* LoginViewController.swift in Sources */,
+				6AB1F094291B2EBD00F94C5C /* DeviceLocationService.swift in Sources */,
 				9C3EACDB2919E44A000DA859 /* EditProfileViewController.swift in Sources */,
 				6AFAD75F28FFADDD0048EB2F /* IQKeyboardManager+UITextFieldViewNotification.swift in Sources */,
 				6A2E991129108F9A006D06DF /* SignOutListenerViewController.swift in Sources */,
@@ -526,6 +530,8 @@
 				DEVELOPMENT_TEAM = SXDY372T6M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = crumbs/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to location for best app experience";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to upload photo to post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -554,6 +560,8 @@
 				DEVELOPMENT_TEAM = SXDY372T6M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = crumbs/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to location for best app experience";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to upload photo to post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
