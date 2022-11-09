@@ -191,6 +191,44 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followPressed))
+    }
+    
+    @objc func followPressed() {
+        print("follow pressed")
+        let db = Firestore.firestore()
+        db.runTransaction({
+            (transaction, errorPointer) -> Any? in
+            
+            guard self.post.docRef != nil else { return nil }
+            
+            let postDocument: DocumentSnapshot
+            let userDocument: DocumentSnapshot
+            do {
+                try postDocument = transaction.getDocument(self.post.docRef!)
+                try userDocument = transaction.getDocument(CUR_USER.docRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            var followed = userDocument.data()?["followed_posts"] as! [DocumentReference]
+            followed.append(self.post.docRef!)
+            
+            transaction.updateData(
+                [
+                    "followed_posts": FieldValue.arrayUnion([self.post.docRef!])],
+                forDocument: CUR_USER.docRef
+            )
+            return nil
+        }){(object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            }
+        }
+        
+        // For full parity between in-memory and database.
+        CUR_USER.addFollwedPost(p: self.post)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

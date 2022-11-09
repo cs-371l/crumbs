@@ -22,6 +22,7 @@ class User {
     var views: Int
     var posts: [Post]
     var likedPostIds: [DocumentReference]
+    var followedPostIds: [DocumentReference]
     
     // Initialize based off of Firebase user. SETS THE CURRENT USER -- ONLY CALL FOR AUTHENTICATED USER.
     convenience init(firebaseUser: FirebaseAuth.User, callback: @escaping (_ success: Bool) -> Void) {
@@ -55,6 +56,8 @@ class User {
         self.karma = snapshot.get("karma") as! Int
         self.views = snapshot.get("views") as! Int
         self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+        self.followedPostIds =
+        snapshot.get("followed_posts") as! [DocumentReference]
     }
     
     init(snapshot: DocumentSnapshot) {
@@ -66,6 +69,8 @@ class User {
         self.karma = snapshot.get("karma") as! Int
         self.views = snapshot.get("views") as! Int
         self.likedPostIds = snapshot.get("liked_posts") as! [DocumentReference]
+        self.followedPostIds =
+        snapshot.get("followed_posts") as! [DocumentReference]
         self.posts = []
     }
     
@@ -79,6 +84,7 @@ class User {
         self.views = views
         self.posts = []
         self.likedPostIds = []
+        self.followedPostIds = []
         
         let db = Firestore.firestore()
         let uid = Auth.auth().currentUser!.uid
@@ -104,6 +110,7 @@ class User {
         self.views = 0
         self.posts = []
         self.likedPostIds = []
+        self.followedPostIds = []
         
         // Persist to Firestore.
         let db = Firestore.firestore()
@@ -116,7 +123,8 @@ class User {
             "bio": self.biography,
             "karma": self.karma,
             "views": self.views,
-            "liked_posts": self.likedPostIds
+            "liked_posts": self.likedPostIds,
+            "followed_posts": self.followedPostIds
         ]) {
             err in
             if let err = err {
@@ -161,6 +169,18 @@ class User {
     
     func removedLikedPost(p: Post) {
         self.likedPostIds = self.likedPostIds.filter {$0.documentID != p.docRef?.documentID}
+    }
+    
+    func hasFollowedPost(p: Post) -> Bool {
+        return self.followedPostIds.contains(where: {$0.documentID == p.docRef?.documentID})
+    }
+    
+    func addFollwedPost(p: Post) -> Void {
+        self.followedPostIds.append(p.docRef!)
+    }
+    
+    func removedFollwedPost(p: Post) {
+        self.followedPostIds = self.followedPostIds.filter {$0.documentID != p.docRef?.documentID}
     }
 }
 
