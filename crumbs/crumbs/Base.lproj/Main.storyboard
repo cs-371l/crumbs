@@ -1499,6 +1499,7 @@ All I did was make the default label size larger than the content potentially co
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="qWa-D0-cIE"/>
         <segue reference="lff-NI-xgJ"/>
         <segue reference="tc7-MB-fzW"/>
     </inferredMetricsTieBreakers>

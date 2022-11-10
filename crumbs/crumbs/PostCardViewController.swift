@@ -8,10 +8,17 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import CoreLocation
 
 protocol TableManager {
     func updateTable() -> Void
     func refreshTable() -> Void
+}
+
+extension Double {
+  func formatDistance(from originalUnit: UnitLength, to convertedUnit: UnitLength) -> String {
+      return Measurement(value: self, unit: originalUnit).converted(to: convertedUnit).formatted(.measurement(width: .abbreviated, usage: .general))
+  }
 }
 
 class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
@@ -155,6 +162,22 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == POST_VIEW_SEGUE, let rowIndex = cardTable.indexPathForSelectedRow?.row {
+            let post = posts[rowIndex]
+            let location = deviceLocationService.getLocation()!
+            let postLocation = CLLocation(latitude: post.latitude, longitude: post.longitude)
+            let distance = location.distance(from: postLocation)
+            if distance > 19 {
+                // 19 meter radius
+                self.showErrorAlert(title: "Post Restricted", message: "Post only viewable when near.  \(distance.formatDistance(from: .meters, to: .miles)) away")
+                return false
+            }
+            return true
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
