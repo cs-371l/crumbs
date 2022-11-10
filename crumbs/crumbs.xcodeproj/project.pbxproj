@@ -159,39 +159,16 @@
 		6A292D4C28F385670068C727 /* crumbs */ = {
 			isa = PBXGroup;
 			children = (
-				6AB1F093291B2EBD00F94C5C /* DeviceLocationService.swift */,
-				88A231832919C37F00755476 /* ErrorMessage.swift */,
-				6AFAD76028FFADE60048EB2F /* PostCreationViewController.swift */,
+				8817E6F7291DC243005930D8 /* storyboards */,
+				8817E6EF291DC07A005930D8 /* utils */,
+				8817E6EE291DC04D005930D8 /* models */,
+				8817E6ED291DBFB5005930D8 /* views */,
 				6AFAD72C28FFADDD0048EB2F /* IQKeyboardManagerSwift */,
 				6A292D4D28F385670068C727 /* AppDelegate.swift */,
 				6AFAD76228FFAE790048EB2F /* GoogleService-Info.plist */,
 				6A292D4F28F385670068C727 /* SceneDelegate.swift */,
-				6A292D5128F385670068C727 /* ViewController.swift */,
-				6A292D5328F385670068C727 /* Main.storyboard */,
-				6A34E9F228FF391D00699A74 /* SettingsViewController.swift */,
-				6A2E990C29107089006D06DF /* DeleteAccountViewController.swift */,
-				88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */,
-				6A2E990E29108A7B006D06DF /* SignInListenerViewController.swift */,
-				6A2E991029108F9A006D06DF /* SignOutListenerViewController.swift */,
-				6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */,
 				6A292D5628F385680068C727 /* Assets.xcassets */,
-				6A292D5828F385680068C727 /* LaunchScreen.storyboard */,
 				6A292D5B28F385680068C727 /* Info.plist */,
-				886D467E28FA3D6000CB59FB /* FeedViewController.swift */,
-				886D468028FE2B6400CB59FB /* HomeTabBarController.swift */,
-				886D468228FE4CBB00CB59FB /* Post.swift */,
-				9C24794028FF429200AF9264 /* ProfileViewController.swift */,
-				9C24794228FF519E00AF9264 /* User.swift */,
-				9C5E1FF328FF6E2E008A3DDB /* AboutViewController.swift */,
-				886D468428FE5AFD00CB59FB /* PostViewController.swift */,
-				6AB1F08D2919D81900F94C5C /* AddCommentViewController.swift */,
-				886D468628FF51F800CB59FB /* Comment.swift */,
-				886D468C28FF823700CB59FB /* PostCardViewController.swift */,
-				88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */,
-				88A231912919C57F00755476 /* UIButtonExtensions.swift */,
-				88A231932919C77000755476 /* UIImageExtensions.swift */,
-				9C3EACDA2919E44A000DA859 /* EditProfileViewController.swift */,
-				6AB1F099291B5E6000F94C5C /* Geohash.swift */,
 			);
 			path = crumbs;
 			sourceTree = "<group>";
@@ -257,6 +234,117 @@
 				6AFAD74728FFADDD0048EB2F /* IQNSArray+Sort.swift */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		8817E6ED291DBFB5005930D8 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				8817E6F6291DC162005930D8 /* comments */,
+				8817E6F5291DC12B005930D8 /* account */,
+				8817E6F4291DC10C005930D8 /* feed */,
+				8817E6F3291DC0EA005930D8 /* profile */,
+				8817E6F2291DC0D8005930D8 /* settings */,
+				8817E6F1291DC0BA005930D8 /* posts */,
+				6A292D5128F385670068C727 /* ViewController.swift */,
+				886D468028FE2B6400CB59FB /* HomeTabBarController.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		8817E6EE291DC04D005930D8 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				886D468228FE4CBB00CB59FB /* Post.swift */,
+				9C24794228FF519E00AF9264 /* User.swift */,
+				886D468628FF51F800CB59FB /* Comment.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		8817E6EF291DC07A005930D8 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				8817E6F0291DC095005930D8 /* extensions */,
+				88A231832919C37F00755476 /* ErrorMessage.swift */,
+				6AB1F093291B2EBD00F94C5C /* DeviceLocationService.swift */,
+				6AB1F099291B5E6000F94C5C /* Geohash.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		8817E6F0291DC095005930D8 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88A231932919C77000755476 /* UIImageExtensions.swift */,
+				88A231912919C57F00755476 /* UIButtonExtensions.swift */,
+				88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		8817E6F1291DC0BA005930D8 /* posts */ = {
+			isa = PBXGroup;
+			children = (
+				886D468428FE5AFD00CB59FB /* PostViewController.swift */,
+				6AFAD76028FFADE60048EB2F /* PostCreationViewController.swift */,
+				886D468C28FF823700CB59FB /* PostCardViewController.swift */,
+			);
+			path = posts;
+			sourceTree = "<group>";
+		};
+		8817E6F2291DC0D8005930D8 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				6A34E9F228FF391D00699A74 /* SettingsViewController.swift */,
+			);
+			path = settings;
+			sourceTree = "<group>";
+		};
+		8817E6F3291DC0EA005930D8 /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				9C24794028FF429200AF9264 /* ProfileViewController.swift */,
+				9C5E1FF328FF6E2E008A3DDB /* AboutViewController.swift */,
+				9C3EACDA2919E44A000DA859 /* EditProfileViewController.swift */,
+			);
+			path = profile;
+			sourceTree = "<group>";
+		};
+		8817E6F4291DC10C005930D8 /* feed */ = {
+			isa = PBXGroup;
+			children = (
+				886D467E28FA3D6000CB59FB /* FeedViewController.swift */,
+			);
+			path = feed;
+			sourceTree = "<group>";
+		};
+		8817E6F5291DC12B005930D8 /* account */ = {
+			isa = PBXGroup;
+			children = (
+				88B52FE328F92A6C00A0BE08 /* LoginViewController.swift */,
+				6A9DA6EE28F9280800B36BE6 /* SignUpViewController.swift */,
+				6A2E990C29107089006D06DF /* DeleteAccountViewController.swift */,
+				6A2E990E29108A7B006D06DF /* SignInListenerViewController.swift */,
+				6A2E991029108F9A006D06DF /* SignOutListenerViewController.swift */,
+			);
+			path = account;
+			sourceTree = "<group>";
+		};
+		8817E6F6291DC162005930D8 /* comments */ = {
+			isa = PBXGroup;
+			children = (
+				6AB1F08D2919D81900F94C5C /* AddCommentViewController.swift */,
+			);
+			path = comments;
+			sourceTree = "<group>";
+		};
+		8817E6F7291DC243005930D8 /* storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				6A292D5328F385670068C727 /* Main.storyboard */,
+				6A292D5828F385680068C727 /* LaunchScreen.storyboard */,
+			);
+			path = storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
