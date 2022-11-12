@@ -72,6 +72,22 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    // Only called once the user inputs have been validated.
+    // Sets the global user.
+    func authenticateAndSetValidatedUser() async -> Void {
+        do {
+            let username = usernameTextField.text!
+            let authenticatedUser = try await Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!)
+            let user = User(uid: authenticatedUser.user.uid, username: username, birthday: self.datePicker.date)
+            try await user.setDataInFirebase()
+            CUR_USER = try await 
+            CUR_USER = user
+        } catch {
+            print(error.localizedDescription)
+            self.showErrorAlert(title: "Error", message: "Unable to sign up user. Try again at a later time.")
+        }
+    }
+    
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         var validated = true
         usernameAlert.text = usernameEmptyAlert
@@ -103,45 +119,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             validated = false
         }
         
-        // await create auth user
         if validated {
             self.showSpinner(onView: self.view)
-            let username = usernameTextField.text!
-            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
-                if let error = error as NSError? {
-                    self.createAccountAlert.text = "\(error.localizedDescription)"
-                } else {
-                    User(uid: authResult!.user.uid, username: username, birthday: self.datePicker.date) {
-                        success in
-                        
-                        let db = Firestore.firestore()
-                        db.collection("users").document(authResult!.user.uid).getDocument() {
-                            (snapshot, err) in
-                            if let err = err {
-                                self.showErrorAlert(title: "Error", message: "Unable to sign in.")
-                                print(err.localizedDescription)
-                                return
-                            } else {
-                                CUR_USER = User(snapshot: snapshot!)
-                                
-                                CUR_USER.getPosts {
-                                    success, posts in
-                                    if !success {
-                                        self.showErrorAlert(title: "Error", message: "Unable to load profile.")
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.removeSpinner()
-                                        let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
-                                        self.view.window?.rootViewController = homeViewController
-                                        self.view.window?.makeKeyAndVisible()
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                    self.createAccountAlert.text = "Success"
+            Task {
+                await authenticateAndSetValidatedUser()
+                DispatchQueue.main.async {
+                    self.removeSpinner()
+                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: HOME_TAB_BAR_CONTROLLER_IDENTIFIER)
+                    self.view.window?.rootViewController = homeViewController
+                    self.view.window?.makeKeyAndVisible()
                 }
             }
         }
@@ -150,17 +136,20 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBAction func editingEnded(_ sender: Any) {
         let textField = sender as! UITextField
         let username = textField.text!
-        let db = Firestore.firestore()
-        db.collection("users").whereField("username", isEqualTo: username).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                if querySnapshot!.documents.count > 0 {
-                    self.usernameAlert.text = "Username taken"
-                    self.usernameAlert.isHidden = false
-                } else {
-                    self.usernameAlert.isHidden = true
+        
+        Task {
+            do {
+                let docs = try await User.getDocumentsFromUsername(username: username)
+                DispatchQueue.main.async {
+                    if !docs.isEmpty {
+                        self.usernameAlert.text = "Username taken"
+                        self.usernameAlert.isHidden = false
+                    } else {
+                        self.usernameAlert.isHidden = true
+                    }
                 }
+            } catch {
+                print(error)
             }
         }
     }
