@@ -13,7 +13,7 @@ import FirebaseFirestore
 var CUR_USER: User!
 
 class User {
-    var id: String?
+    var id: String
     var docRef: DocumentReference
     var username: String
     var biography: String
@@ -25,7 +25,11 @@ class User {
     var followedPostIds: [DocumentReference]
     var viewedPostIds: [DocumentReference]
     var viewedProfileIds: [DocumentReference]
-
+    var birthday: Date
+    
+    static let COLLECTION: String = "users"
+    
+    // Initializes from snapshot.
     init(snapshot: DocumentSnapshot) {
         self.docRef = snapshot.reference
         self.username = snapshot.get("username") as! String
@@ -40,7 +44,31 @@ class User {
         self.viewedPostIds = snapshot.get("viewed_posts") as! [DocumentReference]
         self.posts = []
         self.viewedProfileIds = snapshot.get("viewed_profiles") as! [DocumentReference]
+        self.id = docRef.documentID
+        self.birthday = (snapshot.get("birthday") as! Timestamp).dateValue()
     }
+    
+    // Lightweight initialization for new users -- empty documentReference.
+    init(uid: String, username: String, birthday: Date) {
+        self.id = uid
+        self.username = username
+        self.dateJoined = Timestamp().dateValue()
+        self.biography = ""
+        self.karma = 0
+        self.views = 0
+        self.posts = []
+        self.likedPostIds = []
+        self.followedPostIds = []
+        self.viewedPostIds = []
+        self.viewedProfileIds = []
+        self.birthday = birthday
+        
+        // Get a document reference.
+        let db = Firestore.firestore()
+        let ref = db.collection(User.COLLECTION).document(uid)
+        self.docRef = ref
+    }
+    
     
     func getPosts(callback: @escaping (_ success: Bool, _ data: [Post]?) -> Void) {
         if self.posts != nil {
@@ -61,28 +89,12 @@ class User {
         }
     }
     
-    // Lightweight initialization for new users -- stores in database.
-    init(uid: String, username: String, birthday: Date, callback: @escaping (_ success: Bool) -> Void) {
-        self.id = uid
-        self.username = username
-        self.dateJoined = birthday
-        self.biography = ""
-        self.karma = 0
-        self.views = 0
-        self.posts = []
-        self.likedPostIds = []
-        self.followedPostIds = []
-        self.viewedPostIds = []
-        self.viewedProfileIds = []
-        
-        // Persist to Firestore.
-        let db = Firestore.firestore()
-        let ref = db.collection("users").document(uid)
-        self.docRef = ref
-        ref.setData([
+    // Sets the data in firebase based on current state of user.
+    func setDataInFirebase() async throws -> Void {
+        return try await self.docRef.setData([
             "username": self.username,
             "birthday": Timestamp(date: self.dateJoined),
-            "creation_timestamp": FieldValue.serverTimestamp(),
+            "creation_timestamp": Timestamp(date: self.dateJoined),
             "bio": self.biography,
             "karma": self.karma,
             "views": self.views,
@@ -90,16 +102,20 @@ class User {
             "followed_posts": self.followedPostIds,
             "viewed_posts": self.viewedPostIds,
             "viewed_profiles": self.viewedProfileIds
-        ]) {
-            err in
-            if let err = err {
-                print("Error adding document: \(err)")
-                callback(false)
-            } else {
-                print("Document added with username: \(self.username)")
-                callback(true)
-            }
-        }
+        ])
+    }
+    
+    // Gets users based on username
+    static func getDocumentsFromUsername(username: String) async throws -> [DocumentSnapshot] {
+        let db = Firestore.firestore()
+        let snapshot = try await db.collection(COLLECTION).whereField("username", isEqualTo: username).getDocuments()
+        return snapshot.documents
+    }
+    
+    static func getUserFromId(uid: String) async throws -> DocumentSnapshot {
+        let db = Firestore.firestore()
+        
+        
     }
     
     func addPost(p: Post) {

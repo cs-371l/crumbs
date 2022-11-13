@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    @MainActor
     func showErrorAlert(title: String, message: String, completion: @escaping ((UIAlertAction) -> Void) = {_ in }) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         
