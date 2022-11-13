@@ -138,6 +138,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let username = textField.text!
         
         Task {
+            // Check for name uniqueness.
             do {
                 let docs = try await User.getDocumentsFromUsername(username: username)
                 DispatchQueue.main.async {
