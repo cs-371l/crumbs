@@ -93,7 +93,7 @@ class User {
     func setDataInFirebase() async throws -> Void {
         return try await self.docRef.setData([
             "username": self.username,
-            "birthday": Timestamp(date: self.dateJoined),
+            "birthday": Timestamp(date: self.birthday),
             "creation_timestamp": Timestamp(date: self.dateJoined),
             "bio": self.biography,
             "karma": self.karma,
@@ -111,13 +111,6 @@ class User {
         let snapshot = try await db.collection(COLLECTION).whereField("username", isEqualTo: username).getDocuments()
         return snapshot.documents
     }
-    
-    static func getUserFromId(uid: String) async throws -> DocumentSnapshot {
-        let db = Firestore.firestore()
-        
-        
-    }
-    
     func addPost(p: Post) {
         guard self.posts != nil else { return }
         self.posts!.append(p)

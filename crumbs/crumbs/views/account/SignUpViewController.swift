@@ -80,7 +80,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             let authenticatedUser = try await Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!)
             let user = User(uid: authenticatedUser.user.uid, username: username, birthday: self.datePicker.date)
             try await user.setDataInFirebase()
-            CUR_USER = try await 
             CUR_USER = user
         } catch {
             print(error.localizedDescription)
@@ -119,6 +118,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             validated = false
         }
         
+        // Validated, show spinner and authenticate/set user.
         if validated {
             self.showSpinner(onView: self.view)
             Task {
