@@ -161,7 +161,12 @@ protocol PostCellDelegator {
     func callSegueToProfile()
 }
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostCellDelegator {
+
+class PostViewController:
+    UIViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    PostCellDelegator {
     
     var post: Post!
     var followActive: Bool = false

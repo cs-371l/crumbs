@@ -8,13 +8,21 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import DZNEmptyDataSet
 
 protocol TableManager {
     func updateTable() -> Void
     func refreshTable() -> Void
 }
 
-class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate,TableManager {
+class PostCardViewController:
+    UIViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    UINavigationControllerDelegate,
+    DZNEmptyDataSetSource,
+    DZNEmptyDataSetDelegate,
+    TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
     
@@ -24,6 +32,8 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     let deviceLocationService = DeviceLocationService.shared
     
     var query: Query!
+
+    var emptyMessage: String?
 
     var discoverActive = true
     var posts: [Post] = []
@@ -51,6 +61,10 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         self.populatePosts()
         self.navigationController?.delegate = self
         
+        // For empty dataset.
+        self.cardTable.emptyDataSetSource = self
+        self.cardTable.emptyDataSetDelegate = self
+        
         // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
         pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
@@ -59,6 +73,23 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             self.cardTable.addSubview(pullControl)
         }
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "No Crumbs"
+        let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let placeholderStr = discoverActive ? "Move around to find some Crumbs or drop your own." : "Follow some Crumbs to see them here."
+        let str = emptyMessage ?? placeholderStr
+        let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
     }
     
     @objc private func refreshListData(_ sender: Any) {
@@ -74,6 +105,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     var userRef: DocumentReference!
+    
 
     func populatePosts(completion: (() -> Void)? = nil) {
         let db = Firestore.firestore()

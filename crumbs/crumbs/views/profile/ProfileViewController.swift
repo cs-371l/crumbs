@@ -126,6 +126,7 @@ class ProfileViewController: UIViewController {
             let db = Firestore.firestore()
             nextVC.query = db.collection("posts").whereField("user", isEqualTo: self.user.docRef)
             self.embeddedPost = nextVC
+            nextVC.emptyMessage = CUR_USER === self.user ? "You haven't made any Crumbs yet." : "This user has not made any Crumbs recently."
         } else if segue.identifier == ABOUT_EMBED_SEGUE , let nextVC = segue.destination as? AboutViewController {
             nextVC.user = self.user
             nextVC.posts = self.user.posts ?? []

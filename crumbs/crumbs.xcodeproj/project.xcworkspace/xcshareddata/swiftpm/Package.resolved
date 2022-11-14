@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "dznemptydataset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dzenbot/DZNEmptyDataSet",
+      "state" : {
+        "branch" : "master",
+        "revision" : "9bffa69a83a9fa58a14b3cf43cb6dd8a63774179"
+      }
+    },
+    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
