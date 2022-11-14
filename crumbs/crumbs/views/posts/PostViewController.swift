@@ -514,7 +514,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         if self.tableManager == nil {
             return
         }
-        self.tableManager!.updateTable()
+        self.tableManager!.refreshTable()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
