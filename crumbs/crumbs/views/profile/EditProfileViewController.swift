@@ -30,7 +30,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         biographyTextField.text = user.biography
         emailTextField.text = Auth.auth().currentUser?.email
         emailAlert.isHidden = true
-        profilePic.image = CUR_USER.uiImage
+        profilePic.image = CUR_USER.uiImage ?? UIImage(named: "empty-profile-2")
         self.profilePic.makeRounded()
     }
     @IBOutlet weak var profilePic: UIImageView!
