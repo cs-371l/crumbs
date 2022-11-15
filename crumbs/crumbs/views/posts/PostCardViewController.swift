@@ -9,6 +9,7 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
+import DZNEmptyDataSet
 
 protocol TableManager {
     func updateTable() -> Void
@@ -17,6 +18,7 @@ protocol TableManager {
 
 protocol PostPopulator {
     func populatePosts(completion: ((_ posts: [Post]) -> Void)?) -> Void
+    func emptyPlaceholderString() -> String
 }
 
 extension Double {
@@ -25,7 +27,14 @@ extension Double {
   }
 }
 
-class PostCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, TableManager {
+class PostCardViewController:
+    UIViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    UINavigationControllerDelegate,
+    DZNEmptyDataSetSource,
+    DZNEmptyDataSetDelegate,
+    TableManager {
 
     @IBOutlet weak var cardTable: UITableView!
     
@@ -35,6 +44,8 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     let deviceLocationService = DeviceLocationService.shared
     
     var delegate: PostPopulator!
+    var query: Query!
+
     var posts: [Post] = []
     
     private var pullControl = UIRefreshControl()
@@ -66,6 +77,10 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         }
         self.navigationController?.delegate = self
         
+        // For empty dataset.
+        self.cardTable.emptyDataSetSource = self
+        self.cardTable.emptyDataSetDelegate = self
+        
         // Taken from: https://stackoverflow.com/questions/24475792/how-to-use-pull-to-refresh-in-swift
         pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         pullControl.addTarget(self, action: #selector(refreshListData(_:)), for: .valueChanged)
@@ -74,6 +89,22 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             self.cardTable.addSubview(pullControl)
         }
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "No Crumbs"
+        let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = self.delegate.emptyPlaceholderString()
+        let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
     }
     
     @objc private func refreshListData(_ sender: Any) {
@@ -87,6 +118,7 @@ class PostCardViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     var userRef: DocumentReference!
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CARD_IDENTIFIER, for: indexPath) as! PostTableViewCell

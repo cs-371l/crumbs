@@ -7,10 +7,10 @@
 
 import UIKit
 
+
 class HomeTabBarController: UITabBarController {
     
     private final let DISCOVER_INDEX = 1
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectedIndex = DISCOVER_INDEX

@@ -10,6 +10,10 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class ProfileViewController: UIViewController, PostPopulator {
+    func emptyPlaceholderString() -> String {
+        return CUR_USER === self.user ? "You haven't made any Crumbs yet." : "This user has not made any Crumbs recently."
+    }
+    
     var user: User = CUR_USER
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
