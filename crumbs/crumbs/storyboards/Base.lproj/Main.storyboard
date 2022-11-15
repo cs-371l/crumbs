@@ -994,12 +994,6 @@
                                     <segue destination="a6W-Uu-ibI" kind="embed" identifier="ProfileToCardSegue" id="lff-NI-xgJ"/>
                                 </connections>
                             </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skE-2t-a7U">
-                                <rect key="frame" x="0.0" y="125" width="428" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoI-ec-Rba">
                                 <rect key="frame" x="179" y="256" width="70" height="31"/>
                                 <constraints>
