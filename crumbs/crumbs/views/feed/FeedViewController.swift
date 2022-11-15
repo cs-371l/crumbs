@@ -38,7 +38,7 @@ class PostTableViewCell : UITableViewCell {
     }
 }
 
-class FeedViewController: UIViewController, TableManager {
+class FeedViewController: UIViewController, TableManager, PostPopulator {
     
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
@@ -50,6 +50,7 @@ class FeedViewController: UIViewController, TableManager {
     private var embeddedView: PostCardViewController!
     
     let deviceLocationService = DeviceLocationService.shared
+    var discoverActive = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +65,7 @@ class FeedViewController: UIViewController, TableManager {
     }
 
     @IBAction func changedSegment(_ sender: UISegmentedControl) {
-        self.embeddedView.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
+        self.discoverActive = sender.selectedSegmentIndex == DISCOVER_IDX
         updateTable()
     }
     
@@ -81,13 +82,63 @@ class FeedViewController: UIViewController, TableManager {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             self.embeddedView = nextVC
-            let database = Firestore.firestore()
-            let location = deviceLocationService.getLocation()!
-            let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
-            let query = database.collection("posts").whereField("geohash", isEqualTo: geohash)
-            nextVC.query = query
+            nextVC.delegate = self
         } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
             nextVC.tableManager = self
+        }
+    }
+    
+    func emptyPlaceholderString() -> String {
+        return discoverActive ? "Move around to find some Crumbs or drop your own." : "Follow some Crumbs to see them here."
+    }
+    
+    func populatePosts(completion: ((_: [Post]) -> Void)?) {
+        let db = Firestore.firestore()
+        let location = deviceLocationService.getLocation()!
+        let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
+        
+        if discoverActive {
+            let query = db.collection("posts").whereField("geohash", isEqualTo: geohash)
+            query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    return
+                }
+                let posts = querySnapshot!.documents.map {Post(snapshot: $0)}
+                if completion != nil {
+                    completion!(posts)
+                }
+            }
+        } else {
+            CUR_USER.docRef.getDocument{ (document, error) in
+                if error != nil {
+                    print("there is an error")
+                    return
+                }
+                if let document = document, document.exists {
+                    let followedPosts = document.get("followed_posts") as! [DocumentReference]
+                    var posts: [Post] = []
+                    if followedPosts.count == 0 {
+                        if completion != nil {
+                            completion!(posts)
+                        }
+                        return
+                    }
+                    db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments() {
+                        (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            posts = querySnapshot!.documents.map {Post(snapshot: $0)}
+                        }
+                        if completion != nil {
+                            completion!(posts)
+                        }
+                    }
+                } else {
+                    print("Document does not exist in cache")
+                }
+            }
         }
     }
     
