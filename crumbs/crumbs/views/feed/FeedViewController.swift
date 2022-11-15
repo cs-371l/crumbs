@@ -47,6 +47,7 @@ class FeedViewController: UIViewController, TableManager {
 
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
     private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
+    private final let HEATMAP_SEGUE = "FeedToHeatmapSegue"
     private var embeddedView: PostCardViewController!
     
     let deviceLocationService = DeviceLocationService.shared
@@ -54,6 +55,9 @@ class FeedViewController: UIViewController, TableManager {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create Post", style: .plain, target: self, action: #selector(goToPostCreate))
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(goToHeatmap))
+
         // check if dark mode
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: "Dark") {
@@ -93,5 +97,9 @@ class FeedViewController: UIViewController, TableManager {
     
     @objc func goToPostCreate() {
         performSegue(withIdentifier: POST_CREATION_SEGUE, sender: self)
+    }
+    
+    @objc func goToHeatmap() {
+        performSegue(withIdentifier: HEATMAP_SEGUE, sender: self)
     }
 }
