@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController, PostPopulator {
         if(user.uiImage != nil){
             profilePic.image = user.uiImage
             self.profilePic.makeRounded()
-        } else if(user.imageUrl != nil){
+        } else if(user.imageUrl != nil && user.imageUrl != ""){
             //spinner doesnot seem to work for some reason but the profile pic loads really quick so need for spinner as of now.
             // self.showSpinner(onView: self.view)
             getData(from: URL(string: user.imageUrl!)!) {
@@ -59,6 +59,9 @@ class ProfileViewController: UIViewController, PostPopulator {
                     
                 }
             }
+        } else {
+            profilePic.image = UIImage(named: "empty-profile-2")
+            profilePic.makeRounded()
         }
     }
     
@@ -70,7 +73,7 @@ class ProfileViewController: UIViewController, PostPopulator {
         if(user.uiImage != nil){
             profilePic.image = user.uiImage
             self.profilePic.makeRounded()
-        } else if(user.imageUrl != nil){
+        } else if(user.imageUrl != nil && user.imageUrl != ""){
             //spinner doesnot seem to work for some reason but the profile pic loads really quick so need for spinner as of now.
             // self.showSpinner(onView: self.view)
             getData(from: URL(string: user.imageUrl!)!) {
@@ -87,6 +90,9 @@ class ProfileViewController: UIViewController, PostPopulator {
                     
                 }
             }
+        } else {
+            profilePic.image = UIImage(named: "empty-profile-2")
+            profilePic.makeRounded()
         }
         
         if(segment.selectedSegmentIndex == 0){

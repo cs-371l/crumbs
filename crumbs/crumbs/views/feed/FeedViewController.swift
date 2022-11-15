@@ -48,6 +48,7 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
     private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
+    private final let HEATMAP_SEGUE = "FeedToHeatmapSegue"
     private var embeddedView: PostCardViewController!
     
     let deviceLocationService = DeviceLocationService.shared
@@ -55,9 +56,9 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create Post", style: .plain, target: self, action: #selector(goToPostCreate))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(goToPostCreate))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Map           ", style: .plain, target: self, action: #selector(goToPostCreate))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(goToHeatmap))
         
         addNavBarImage()
         // check if dark mode
@@ -114,6 +115,8 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
             nextVC.delegate = self
         } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
             nextVC.tableManager = self
+        } else if segue.identifier == HEATMAP_SEGUE {
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
@@ -173,5 +176,9 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
     
     @objc func goToPostCreate() {
         performSegue(withIdentifier: POST_CREATION_SEGUE, sender: self)
+    }
+    
+    @objc func goToHeatmap() {
+        performSegue(withIdentifier: HEATMAP_SEGUE, sender: self)
     }
 }
