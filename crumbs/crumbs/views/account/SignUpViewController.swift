@@ -33,6 +33,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailAlert: UILabel!
     @IBOutlet weak var createAccountAlert: UILabel!
     
+    @IBOutlet weak var createAccountButton: UIButton!
     let usernameEmptyAlert = "Please enter a username"
     let passwordEmptyAlert = "Please enter a password"
     let confirmPasswordEmptyAlert = "Please confirm your password"
@@ -53,12 +54,52 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             dateOfBirthTextField:dateOfBirthAlert, emailTextField:emailAlert
         ]
         
+        
         self.emailTextField.delegate = self
         self.dateOfBirthTextField.delegate = self
         self.confirmPasswordTextField.delegate = self
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
         createDatePicker()
+        
+        // change button colors
+        createAccountButton.layer.cornerRadius = 5
+        createAccountButton.layer.borderWidth = 0
+        createAccountButton.backgroundColor = UIColorFromRGB(rgbValue: 0x5399dd)
+        createAccountButton.setTitleColor(UIColor.white, for: .normal)
+        
+        addNavBarImage()
+        // dummy button to center crumbs logo
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "       ", style: .plain, target: self, action: #selector(dummy))
+
+    }
+    
+    @objc func dummy() {
+        
+    }
+    
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    // adds crumbs logo to navbar
+    func addNavBarImage() {
+        let navController = navigationController!
+        let image = UIImage(named: "NavbarLogo.png") //Your logo url here
+        let imageView = UIImageView(image: image)
+        let bannerWidth = navController.navigationBar.frame.size.width
+        let bannerHeight = navController.navigationBar.frame.size.height
+        let bannerX = bannerWidth / 2 - (image?.size.width)! / 2
+        let bannerY = bannerHeight / 2 - (image?.size.height)! / 2
+        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+        imageView.contentMode = .scaleAspectFit
+         navigationItem.titleView = imageView
+        navController.view.addSubview(imageView)
     }
     
     // Called when 'return' key pressed
