@@ -67,14 +67,14 @@ public class HeatmapViewController: UIViewController {
         ]
         let data = try! JSONSerialization.data(withJSONObject: geojson, options: .prettyPrinted)
         let featureCollection = try! JSONDecoder().decode(FeatureCollection.self, from: data)
-        let geoJSONDataSourceIdentifier = "earthquake-source"
+        let geoJSONDataSourceIdentifier = "posts-source"
         
         // Create a GeoJSON data source.
         var geoJSONSource = GeoJSONSource()
         geoJSONSource.data = .featureCollection(featureCollection)
         
         // Create a line layer
-        var heatmapLayer = HeatmapLayer(id: "earthquake-heatmap-layer")
+        var heatmapLayer = HeatmapLayer(id: "posts-heatmap-layer")
         
         // Setting the source
         heatmapLayer.source = geoJSONDataSourceIdentifier
