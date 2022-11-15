@@ -10,9 +10,6 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class ProfileViewController: UIViewController, PostPopulator {
-    func emptyPlaceholderString() -> String {
-        return CUR_USER === self.user ? "You haven't made any Crumbs yet." : "This user has not made any Crumbs recently."
-    }
     
     var user: User = CUR_USER
     
@@ -133,6 +130,10 @@ class ProfileViewController: UIViewController, PostPopulator {
             nextVC.posts = self.user.posts ?? []
             self.embeddedAbout = nextVC
         }
+    }
+    
+    func emptyPlaceholderString() -> String {
+        return CUR_USER === self.user ? "You haven't made any Crumbs yet." : "This user has not made any Crumbs recently."
     }
     
     func populatePosts(completion: ((_: [Post]) -> Void)?) {

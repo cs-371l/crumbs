@@ -39,10 +39,6 @@ class PostTableViewCell : UITableViewCell {
 }
 
 class FeedViewController: UIViewController, TableManager, PostPopulator {
-    func emptyPlaceholderString() -> String {
-        return discoverActive ? "Move around to find some Crumbs or drop your own." : "Follow some Crumbs to see them here."
-    }
-    
     
     @IBOutlet weak var cardTable: UITableView!
     private final let DISCOVER_IDX = 0
@@ -90,6 +86,10 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
         } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
             nextVC.tableManager = self
         }
+    }
+    
+    func emptyPlaceholderString() -> String {
+        return discoverActive ? "Move around to find some Crumbs or drop your own." : "Follow some Crumbs to see them here."
     }
     
     func populatePosts(completion: ((_: [Post]) -> Void)?) {
