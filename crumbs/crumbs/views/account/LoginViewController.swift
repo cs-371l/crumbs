@@ -11,6 +11,8 @@ import FirebaseFirestore
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var appleButton: UIButton!
     @IBOutlet weak var passwordError: UILabel!
     @IBOutlet weak var usernameError: UILabel!
@@ -29,6 +31,40 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         setupAppleButton()
         setupErrors()
+        
+        // change button colors
+        loginButton.layer.cornerRadius = 5
+        loginButton.layer.borderWidth = 0
+        loginButton.backgroundColor = UIColorFromRGB(rgbValue: 0x5399dd)
+        loginButton.setTitleColor(UIColor.white, for: .normal)
+        
+        signupButton.layer.cornerRadius = 5
+        signupButton.layer.borderWidth = 0
+        signupButton.backgroundColor = UIColorFromRGB(rgbValue: 0x5399dd)
+        signupButton.setTitleColor(UIColor.white, for: .normal)
+    }
+    
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    // adds crumbs logo to navbar
+    func addNavBarImage() {
+            let navController = navigationController!
+            let image = UIImage(named: "NavbarLogo.png") //Your logo url here
+            let imageView = UIImageView(image: image)
+            let bannerWidth = navController.navigationBar.frame.size.width
+            let bannerHeight = navController.navigationBar.frame.size.height
+            let bannerX = bannerWidth / 2 - (image?.size.width)! / 2
+            let bannerY = bannerHeight / 2 - (image?.size.height)! / 2
+            imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+            imageView.contentMode = .scaleAspectFit
+            navigationItem.titleView = imageView
     }
     
     // Called when 'return' key pressed
