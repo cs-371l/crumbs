@@ -37,6 +37,28 @@ class ProfileViewController: UIViewController, PostPopulator {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bio.text = user.biography
+        if(user.uiImage != nil){
+            profilePic.image = user.uiImage
+            self.profilePic.makeRounded()
+        } else if(user.imageUrl != nil){
+            //spinner doesnot seem to work for some reason but the profile pic loads really quick so need for spinner as of now.
+            // self.showSpinner(onView: self.view)
+            getData(from: URL(string: user.imageUrl!)!) {
+                data, resp, error in
+                guard let data = data, error == nil else {
+                    self.showErrorAlert(title: "Error", message: "Unable to load post.")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.profilePic.image = UIImage(data: data)
+                    self.profilePic.makeRounded()
+                    self.user.uiImage = self.profilePic.image
+                    // self.removeSpinner()
+                    
+                }
+            }
+        }
     }
     
     override func viewDidLoad() {
