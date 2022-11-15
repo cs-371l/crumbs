@@ -4,7 +4,7 @@ class LaunchScreenManager {
 
     // MARK: - Properties
 
-    static let instance = LaunchScreenManager(animationDurationBase: 3.0)
+    static let instance = LaunchScreenManager(animationDurationBase: 3.5)
 
     var view: UIView?
     var parentView: UIView?

@@ -45,6 +45,7 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
     private final let FOLLOW_IDX = 1
     private final let CARD_IDENTIFIER = "PostCardIdentifier"
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     private final let POST_CARD_EMBED_SEGUE = "FeedToCardSegue"
     private final let POST_CREATION_SEGUE = "ToPostCreationSegue"
     private var embeddedView: PostCardViewController!
@@ -66,6 +67,17 @@ class FeedViewController: UIViewController, TableManager, PostPopulator {
         } else {
             UIApplication.shared.keyWindow?.rootViewController?.overrideUserInterfaceStyle = .light
         }
+        segmentedControl.selectedSegmentTintColor = UIColorFromRGB(rgbValue: 0x5399dd)
+//        segmentedControl.backgroundColor = UIColorFromRGB(rgbValue: 0x5399dd)
+    }
+    
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
     func addNavBarImage() {

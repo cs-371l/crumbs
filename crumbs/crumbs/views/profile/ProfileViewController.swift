@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController, PostPopulator {
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
     private final let ABOUT_EMBED_SEGUE = "ProfileToAboutSegue"
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     var embeddedAbout: AboutViewController?
     var embeddedPost: PostCardViewController?
     @IBOutlet weak var edit: UIButton!
@@ -65,6 +66,7 @@ class ProfileViewController: UIViewController, PostPopulator {
         super.viewDidLoad()
         username.text = user.username
         bio.text = user.biography
+        segmentedControl.selectedSegmentTintColor = UIColorFromRGB(rgbValue: 0x5399dd)
         if(user.uiImage != nil){
             profilePic.image = user.uiImage
             self.profilePic.makeRounded()
@@ -187,6 +189,15 @@ class ProfileViewController: UIViewController, PostPopulator {
     
     func emptyPlaceholderString() -> String {
         return CUR_USER === self.user ? "You haven't made any Crumbs yet." : "This user has not made any Crumbs recently."
+    }
+    
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
     func populatePosts(completion: ((_: [Post]) -> Void)?) {
