@@ -62,16 +62,25 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
             return
         }
         
-        imageButton.imageOverlay(
-            image: image,
-            backgroundColor: .white,
-            overlayBackgroundColor: .black.withAlphaComponent(0.7),
-            overlayImage: UIImage(systemName: "x.circle.fill")!.withTintColor(.red),
-            imageMargins: 30
-        )
-        
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: "Dark") {
+            imageButton.imageOverlay(
+                image: image,
+                backgroundColor: .black,
+                overlayBackgroundColor: .black.withAlphaComponent(0.7),
+                overlayImage: UIImage(systemName: "x.circle.fill")!.withTintColor(.red),
+                imageMargins: 30
+            )
+        } else {
+            imageButton.imageOverlay(
+                image: image,
+                backgroundColor: .white,
+                overlayBackgroundColor: .black.withAlphaComponent(0.7),
+                overlayImage: UIImage(systemName: "x.circle.fill")!.withTintColor(.red),
+                imageMargins: 30
+            )
+        }
         imageToUpload = image
-        
     }
 
     @IBAction func imageButtonPressed(_ sender: Any) {

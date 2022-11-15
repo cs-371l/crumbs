@@ -17,10 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EmD-RT-CN2">
-                                <rect key="frame" x="20" y="108" width="100" height="48"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EmD-RT-CN2">
+                                <rect key="frame" x="19" y="128" width="100" height="48"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="40"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.36527674880654298" green="0.57003607131315848" blue="0.86289372647198548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="utG-hm-2wt">
@@ -79,8 +79,8 @@
                                     <constraint firstAttribute="width" constant="130" id="Isc-nc-DOq"/>
                                     <constraint firstAttribute="height" constant="40" id="ycY-QJ-BI6"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Login"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6xb-6l-ZGB"/>
                                 </connections>
@@ -117,8 +117,8 @@
                                     <constraint firstAttribute="width" constant="130" id="Cgg-2l-N6G"/>
                                     <constraint firstAttribute="height" constant="40" id="fYz-FR-NA7"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Sign up"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Sign up"/>
                                 <connections>
                                     <action selector="signUpPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WIG-bg-4o1"/>
                                 </connections>
@@ -129,20 +129,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="LogoOnly" translatesAutoresizingMaskIntoConstraints="NO" id="vyI-iu-mOw">
+                                <rect key="frame" x="59" y="38" width="310" height="88"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="utG-hm-2wt" firstAttribute="top" secondItem="17J-S7-hdU" secondAttribute="bottom" constant="2" id="2vF-P9-H8p"/>
                             <constraint firstItem="oKU-oX-sdy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="766-Ot-4Yt"/>
+                            <constraint firstItem="EmD-RT-CN2" firstAttribute="top" secondItem="vyI-iu-mOw" secondAttribute="bottom" constant="2" id="9Wa-qL-PAC"/>
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="top" secondItem="jZz-JE-46k" secondAttribute="bottom" constant="2" id="EUM-WU-MeA"/>
                             <constraint firstItem="Owd-uq-D2z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="EdU-B5-OgD"/>
                             <constraint firstItem="oKU-oX-sdy" firstAttribute="top" secondItem="Wtv-5D-1Pu" secondAttribute="bottom" constant="20" id="EgA-Cj-90s"/>
+                            <constraint firstItem="vyI-iu-mOw" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GpC-2o-7O5"/>
                             <constraint firstItem="zK4-1B-B3R" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="HVR-yb-PoM"/>
-                            <constraint firstItem="EmD-RT-CN2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="IAP-ZB-YBt"/>
                             <constraint firstItem="17J-S7-hdU" firstAttribute="leading" secondItem="utG-hm-2wt" secondAttribute="leading" id="JcZ-5K-bf6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="vyI-iu-mOw" secondAttribute="top" constant="59" id="K7t-jf-Izl"/>
                             <constraint firstItem="EmD-RT-CN2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Opo-xu-Ww5"/>
                             <constraint firstItem="Owd-uq-D2z" firstAttribute="top" secondItem="tfV-VQ-53a" secondAttribute="bottom" constant="2" id="QgW-Ix-spN"/>
                             <constraint firstItem="Wtv-5D-1Pu" firstAttribute="top" secondItem="zK4-1B-B3R" secondAttribute="bottom" constant="17" id="RGw-Sa-fWY"/>
+                            <constraint firstItem="EmD-RT-CN2" firstAttribute="top" secondItem="vyI-iu-mOw" secondAttribute="bottom" constant="-12" id="T1x-B4-goO"/>
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="T4a-Xx-LKf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Wtv-5D-1Pu" secondAttribute="bottom" constant="192" id="U0e-ef-2zj"/>
                             <constraint firstItem="gW5-xa-il9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Vj8-se-q6n"/>
@@ -151,16 +158,20 @@
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="leading" secondItem="utG-hm-2wt" secondAttribute="leading" id="aCk-Zb-aiU"/>
                             <constraint firstItem="zVq-tl-fja" firstAttribute="top" secondItem="tfV-VQ-53a" secondAttribute="bottom" constant="76" id="bXw-4Q-IcE"/>
                             <constraint firstItem="jZz-JE-46k" firstAttribute="leading" secondItem="tfV-VQ-53a" secondAttribute="leading" id="bp5-fp-c4T"/>
-                            <constraint firstItem="17J-S7-hdU" firstAttribute="top" secondItem="EmD-RT-CN2" secondAttribute="bottom" constant="34" id="efa-fc-wSz"/>
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="top" secondItem="utG-hm-2wt" secondAttribute="bottom" constant="49" id="h0u-HV-frD"/>
                             <constraint firstItem="zVq-tl-fja" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="hvK-Jy-pvI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EmD-RT-CN2" secondAttribute="trailing" constant="308" id="j7G-uf-Se8"/>
                             <constraint firstItem="Wtv-5D-1Pu" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ker-5z-CHE"/>
+                            <constraint firstItem="17J-S7-hdU" firstAttribute="top" secondItem="EmD-RT-CN2" secondAttribute="bottom" constant="14" id="nKR-iX-ADc"/>
                             <constraint firstItem="tfV-VQ-53a" firstAttribute="trailing" secondItem="utG-hm-2wt" secondAttribute="trailing" id="nUV-lx-6cZ"/>
+                            <constraint firstItem="vyI-iu-mOw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="59" id="neG-EC-Du6"/>
                             <constraint firstItem="jwL-Bx-75h" firstAttribute="top" secondItem="gW5-xa-il9" secondAttribute="bottom" constant="35" id="o3z-sJ-Qcz"/>
                             <constraint firstItem="utG-hm-2wt" firstAttribute="top" secondItem="17J-S7-hdU" secondAttribute="bottom" constant="2" id="o8R-5N-qls"/>
                             <constraint firstItem="zK4-1B-B3R" firstAttribute="top" secondItem="jwL-Bx-75h" secondAttribute="bottom" constant="14" id="qht-kA-qj0"/>
+                            <constraint firstItem="utG-hm-2wt" firstAttribute="top" secondItem="17J-S7-hdU" secondAttribute="bottom" constant="2" id="rCv-Up-USJ"/>
+                            <constraint firstItem="utG-hm-2wt" firstAttribute="top" secondItem="vyI-iu-mOw" secondAttribute="bottom" constant="83" id="t2H-Cl-tAZ"/>
                             <constraint firstItem="gW5-xa-il9" firstAttribute="top" secondItem="zVq-tl-fja" secondAttribute="bottom" constant="26" id="tF1-fY-FDS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vyI-iu-mOw" secondAttribute="trailing" constant="59" id="tXJ-lB-OFt"/>
                             <constraint firstItem="jZz-JE-46k" firstAttribute="top" secondItem="rKn-zw-zFF" secondAttribute="bottom" constant="14" id="vZx-vx-MvV"/>
                             <constraint firstItem="jwL-Bx-75h" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ysN-tQ-omj"/>
                             <constraint firstItem="rKn-zw-zFF" firstAttribute="top" secondItem="utG-hm-2wt" secondAttribute="bottom" constant="2" id="zPo-CS-FED"/>
@@ -170,8 +181,10 @@
                     <connections>
                         <outlet property="appleButton" destination="gW5-xa-il9" id="vWI-A5-uXQ"/>
                         <outlet property="errorTextField" destination="oKU-oX-sdy" id="xV7-K5-o6v"/>
+                        <outlet property="loginButton" destination="zVq-tl-fja" id="eJJ-Di-NjH"/>
                         <outlet property="passwordError" destination="Owd-uq-D2z" id="I5c-0R-HoZ"/>
                         <outlet property="passwordTextField" destination="tfV-VQ-53a" id="JLR-Pg-TjF"/>
+                        <outlet property="signupButton" destination="Wtv-5D-1Pu" id="MLZ-0K-68w"/>
                         <outlet property="usernameError" destination="rKn-zw-zFF" id="LJr-TT-Ox7"/>
                         <outlet property="usernameTextField" destination="utG-hm-2wt" id="4eY-9O-pf9"/>
                         <segue destination="N0M-aa-Pv4" kind="show" identifier="SignUpPageSegue" id="CYS-kQ-Ri1"/>
@@ -179,7 +192,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8" y="86"/>
+            <point key="canvasLocation" x="7.009345794392523" y="85.529157667386613"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="GZD-i9-sJk">
@@ -192,7 +205,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3z-Kf-p4D">
                                 <rect key="frame" x="20" y="108" width="180" height="48"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="40"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.37200266399999998" green="0.58053226160000004" blue="0.87878236440000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your account:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnC-o2-a6b">
@@ -317,8 +330,8 @@
                                     <constraint firstAttribute="width" constant="160" id="KEB-ZO-cb5"/>
                                     <constraint firstAttribute="height" constant="40" id="xVN-qE-oKB"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Create Account"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Create Account"/>
                                 <connections>
                                     <action selector="createAccountButtonPressed:" destination="N0M-aa-Pv4" eventType="touchUpInside" id="S1A-JN-kiq"/>
                                 </connections>
@@ -389,6 +402,7 @@
                         <outlet property="confirmPasswordAlert" destination="QbT-Zn-U7Z" id="F79-c5-G0k"/>
                         <outlet property="confirmPasswordTextField" destination="fTu-XH-dI4" id="F7A-De-Xhd"/>
                         <outlet property="createAccountAlert" destination="Ur2-GX-fCx" id="oGl-kh-dD8"/>
+                        <outlet property="createAccountButton" destination="NCf-ZO-Uet" id="lM2-fz-YVp"/>
                         <outlet property="dateOfBirthAlert" destination="tqi-4Y-Xlb" id="LUJ-lJ-EDI"/>
                         <outlet property="dateOfBirthTextField" destination="asA-h6-TGg" id="JhZ-Cn-lQh"/>
                         <outlet property="emailAlert" destination="3Nj-zH-Vcc" id="kTi-el-i6f"/>
@@ -702,11 +716,11 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Wq8-4s-u17">
                                                             <rect key="frame" x="75.333333333333343" y="0.0" width="79" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db8-TD-31s">
                                                                     <rect key="frame" x="0.0" y="-1" width="33.666666666666664" height="22.333333333333332"/>
                                                                     <imageReference key="image" image="eye.fill" catalog="system" symbolScale="large"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8F-Tf-dg6">
                                                                     <rect key="frame" x="37.666666666666657" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -1515,10 +1529,11 @@ All I did was make the default label size larger than the content potentially co
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Uif-ea-oa4"/>
+        <segue reference="lff-NI-xgJ"/>
         <segue reference="tc7-MB-fzW"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="LogoOnly" width="399" height="372"/>
         <image name="arrowtriangle.down.circle" catalog="system" width="128" height="121"/>
         <image name="arrowtriangle.up.circle" catalog="system" width="128" height="121"/>
         <image name="bubble.right.circle" catalog="system" width="128" height="121"/>

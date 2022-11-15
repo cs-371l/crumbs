@@ -8,11 +8,23 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import CoreLocation
 import DZNEmptyDataSet
 
 protocol TableManager {
     func updateTable() -> Void
     func refreshTable() -> Void
+}
+
+protocol PostPopulator {
+    func populatePosts(completion: ((_ posts: [Post]) -> Void)?) -> Void
+    func emptyPlaceholderString() -> String
+}
+
+extension Double {
+  func formatDistance(from originalUnit: UnitLength, to convertedUnit: UnitLength) -> String {
+      return Measurement(value: self, unit: originalUnit).converted(to: convertedUnit).formatted(.measurement(width: .abbreviated, usage: .general))
+  }
 }
 
 class PostCardViewController:
@@ -31,17 +43,18 @@ class PostCardViewController:
     private final let POST_VIEW_SEGUE = "FeedToPostSegue"
     let deviceLocationService = DeviceLocationService.shared
     
+    var delegate: PostPopulator!
     var query: Query!
 
-    var emptyMessage: String?
-
-    var discoverActive = true
     var posts: [Post] = []
     
     private var pullControl = UIRefreshControl()
     
     func updateTable() {
-        self.populatePosts()
+        self.delegate.populatePosts() { posts in
+            self.posts = posts
+            self.refreshTable()
+        }
     }
     
     func refreshTable() {
@@ -58,7 +71,10 @@ class PostCardViewController:
         self.cardTable.dataSource = self
         self.cardTable.rowHeight = UITableView.automaticDimension
         self.cardTable.estimatedRowHeight = CGFloat(ESTIMATED_ROW_HEIGHT)
-        self.populatePosts()
+        self.delegate.populatePosts() { posts in
+            self.posts = posts
+            self.refreshTable()
+        }
         self.navigationController?.delegate = self
         
         // For empty dataset.
@@ -82,8 +98,7 @@ class PostCardViewController:
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let placeholderStr = discoverActive ? "Move around to find some Crumbs or drop your own." : "Follow some Crumbs to see them here."
-        let str = emptyMessage ?? placeholderStr
+        let str = self.delegate.emptyPlaceholderString()
         let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         return NSAttributedString(string: str, attributes: attrs)
     }
@@ -93,11 +108,9 @@ class PostCardViewController:
     }
     
     @objc private func refreshListData(_ sender: Any) {
-        let database = Firestore.firestore()
-        let location = deviceLocationService.getLocation()!
-        let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
-        self.query = database.collection("posts").whereField("geohash", isEqualTo: geohash)
-        self.populatePosts() {
+        self.delegate.populatePosts() { posts in
+            self.posts = posts
+            self.refreshTable()
             DispatchQueue.main.async {
                 self.pullControl.endRefreshing()
             }
@@ -106,67 +119,6 @@ class PostCardViewController:
     
     var userRef: DocumentReference!
     
-
-    func populatePosts(completion: (() -> Void)? = nil) {
-        let db = Firestore.firestore()
-        if !self.discoverActive {
-            let uid = Auth.auth().currentUser?.uid
-            let ref = db.collection("users").document(uid!)
-            self.userRef = db.document("users/\(ref)")
-            ref.getDocument{ (document, error) in
-                if let error = error {
-                    print("there is an error")
-                    return
-                }
-                if let document = document, document.exists {
-                    let followedPosts = document.get("followed_posts") as! [DocumentReference]
-                    self.posts = []
-                    if followedPosts.count == 0 {
-                        self.cardTable.reloadData()
-                        if completion != nil {
-                            completion!()
-                        }
-                        return
-                    }
-                    db.collection("posts").whereField(FieldPath.documentID(), in: followedPosts).getDocuments() {
-                        (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            
-                            self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
-                            self.cardTable.reloadData()
-                            
-                            if self.posts.count > 0 {
-                                self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                            }
-                        }
-                        if completion != nil {
-                            completion!()
-                        }
-                    }
-                } else {
-                    print("Document does not exist in cache")
-                }
-            }
-        } else {
-            query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    self.posts = querySnapshot!.documents.map {Post(snapshot: $0)}
-                    self.cardTable.reloadData()
-                    
-                    if self.posts.count > 0 {
-                        self.cardTable.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                    }
-                }
-            }
-            if completion != nil {
-                completion!()
-            }
-        }
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CARD_IDENTIFIER, for: indexPath) as! PostTableViewCell
@@ -187,6 +139,22 @@ class PostCardViewController:
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == POST_VIEW_SEGUE, let rowIndex = cardTable.indexPathForSelectedRow?.row {
+            let post = posts[rowIndex]
+            let location = deviceLocationService.getLocation()!
+            let postLocation = CLLocation(latitude: post.latitude, longitude: post.longitude)
+            let distance = location.distance(from: postLocation)
+            if distance > 19 && post.author != CUR_USER.username {
+                // 19 meter radius
+                self.showErrorAlert(title: "Post Restricted", message: "Post only viewable when near.  \(distance.formatDistance(from: .meters, to: .miles)) away")
+                return false
+            }
+            return true
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
