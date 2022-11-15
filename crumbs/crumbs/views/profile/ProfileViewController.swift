@@ -9,6 +9,15 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
+extension UIImageView {
+    
+    func makeRounded() {
+        let radius = self.frame.width / 2
+              self.layer.cornerRadius = radius
+              self.layer.masksToBounds = true
+    }
+}
+
 class ProfileViewController: UIViewController {
     var user: User = CUR_USER
     
@@ -20,6 +29,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var edit: UIButton!
     
     
+    @IBOutlet weak var profilePic: UIImageView!
     
     @IBAction func EditButton(_ sender: Any) {
         // Pass, do nothing.
@@ -29,11 +39,33 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         viewDidLoad()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         username.text = user.username
         bio.text = user.biography
-
+        if(user.uiImage != nil){
+            profilePic.image = user.uiImage
+            self.profilePic.makeRounded()
+        } else if(user.imageUrl != nil){
+            //spinner doesnot seem to work for some reason but the profile pic loads really quick so need for spinner as of now.
+            // self.showSpinner(onView: self.view)
+            getData(from: URL(string: user.imageUrl!)!) {
+                data, resp, error in
+                guard let data = data, error == nil else {
+                    self.showErrorAlert(title: "Error", message: "Unable to load post.")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.profilePic.image = UIImage(data: data)
+                    self.profilePic.makeRounded()
+                    self.user.uiImage = self.profilePic.image
+                    // self.removeSpinner()
+                    
+                }
+            }
+        }
+        
         if(segment.selectedSegmentIndex == 0){
             aboutView.isHidden = false
             postsView.isHidden = true
