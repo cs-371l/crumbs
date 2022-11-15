@@ -38,7 +38,6 @@ class User {
         self.followedPostIds =
         snapshot.get("followed_posts") as! [DocumentReference]
         self.viewedPostIds = snapshot.get("viewed_posts") as! [DocumentReference]
-        self.posts = []
         self.viewedProfileIds = snapshot.get("viewed_profiles") as! [DocumentReference]
     }
     

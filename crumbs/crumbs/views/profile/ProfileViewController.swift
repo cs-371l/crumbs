@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, PostPopulator {
     var user: User = CUR_USER
     
     private final let POST_CARD_EMBED_SEGUE = "ProfileToCardSegue"
@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewDidLoad()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,13 +122,27 @@ class ProfileViewController: UIViewController {
         // Going into post view, pass in the post.
         if segue.identifier == POST_CARD_EMBED_SEGUE, let nextVC = segue.destination as? PostCardViewController {
             nextVC.posts = self.user.posts ?? []
-            let db = Firestore.firestore()
-            nextVC.query = db.collection("posts").whereField("user", isEqualTo: self.user.docRef)
+            nextVC.delegate = self
             self.embeddedPost = nextVC
         } else if segue.identifier == ABOUT_EMBED_SEGUE , let nextVC = segue.destination as? AboutViewController {
             nextVC.user = self.user
             nextVC.posts = self.user.posts ?? []
             self.embeddedAbout = nextVC
+        }
+    }
+    
+    func populatePosts(completion: ((_: [Post]) -> Void)?) {
+        let db = Firestore.firestore()
+        let query = db.collection("posts").whereField("user", isEqualTo: self.user.docRef)
+        query.order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            }
+            let posts = querySnapshot!.documents.map {Post(snapshot: $0)}
+            if completion != nil {
+                completion!(posts)
+            }
         }
     }
 
