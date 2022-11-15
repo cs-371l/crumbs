@@ -92,6 +92,8 @@ class FeedViewController: UIViewController, TableManager {
             nextVC.query = query
         } else if segue.identifier == POST_CREATION_SEGUE, let nextVC = segue.destination as? PostCreationViewController {
             nextVC.tableManager = self
+        } else if segue.identifier == HEATMAP_SEGUE {
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
