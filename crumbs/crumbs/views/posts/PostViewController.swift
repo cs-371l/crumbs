@@ -9,6 +9,11 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
+public func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+    URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+}
+
+
 class PostViewCell : UITableViewCell {
     
     
@@ -215,9 +220,6 @@ class PostViewController:
         }
     }
     
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
