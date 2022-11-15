@@ -619,11 +619,28 @@
                     <navigationItem key="navigationItem" id="hFM-uU-pIM"/>
                     <connections>
                         <segue destination="uyo-nh-6hF" kind="show" identifier="ToPostCreationSegue" id="DQW-H8-EI5"/>
+                        <segue destination="MPp-qd-wgf" kind="show" identifier="FeedToHeatmapSegue" id="iyz-KQ-mvR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jDe-GP-22C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1945.7943925233644" y="1445.5723542116632"/>
+        </scene>
+        <!--Heatmap View Controller-->
+        <scene sceneID="qDp-JS-wBC">
+            <objects>
+                <viewController id="MPp-qd-wgf" customClass="HeatmapViewController" customModule="crumbs" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2da-Tz-nhw">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Vne-gw-7uK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MhU-EY-EMj"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hl9-K7-rns" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3212" y="1448"/>
         </scene>
         <!--Post View Controller-->
         <scene sceneID="6w8-dC-0Wl">
@@ -982,7 +999,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoI-ec-Rba">
-                                <rect key="frame" x="280" y="106" width="60" height="30"/>
+                                <rect key="frame" x="179" y="256" width="70" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="13Q-hW-y7J"/>
                                     <constraint firstAttribute="width" constant="60" id="yos-FJ-Nuh"/>

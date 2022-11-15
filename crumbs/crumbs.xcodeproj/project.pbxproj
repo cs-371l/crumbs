@@ -48,6 +48,7 @@
 		6AFAD76628FFAEDF0048EB2F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6AFAD76528FFAEDF0048EB2F /* FirebaseAuth */; };
 		6AFAD76828FFAEDF0048EB2F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6AFAD76728FFAEDF0048EB2F /* FirebaseFirestore */; };
 		883D4E72292098AC007B8E66 /* DZNEmptyDataSet in Frameworks */ = {isa = PBXBuildFile; productRef = 883D4E71292098AC007B8E66 /* DZNEmptyDataSet */; };
+		88552ACE292347FB00C4C475 /* HeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88552ACD292347FB00C4C475 /* HeatmapViewController.swift */; };
 		88552AE1292376E000C4C475 /* LightboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88552AD1292376E000C4C475 /* LightboxController.swift */; };
 		88552AE2292376E000C4C475 /* LayoutConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88552AD3292376E000C4C475 /* LayoutConfigurable.swift */; };
 		88552AE3292376E000C4C475 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88552AD4292376E000C4C475 /* UIView+Gradient.swift */; };
@@ -75,6 +76,7 @@
 		886D468728FF51F800CB59FB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468628FF51F800CB59FB /* Comment.swift */; };
 		886D468D28FF823700CB59FB /* PostCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886D468C28FF823700CB59FB /* PostCardViewController.swift */; };
 		88751CAC2917348A00C88B18 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88751CAB2917348A00C88B18 /* UIViewControllerExtensions.swift */; };
+		88A1FB9A2923447E007BD8FF /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 88A1FB992923447E007BD8FF /* MapboxMaps */; };
 		88A231842919C37F00755476 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231832919C37F00755476 /* ErrorMessage.swift */; };
 		88A231902919C44A00755476 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 88A2318F2919C44A00755476 /* FirebaseStorage */; };
 		88A231922919C57F00755476 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A231912919C57F00755476 /* UIButtonExtensions.swift */; };
@@ -130,6 +132,7 @@
 		6AFAD74828FFADDD0048EB2F /* IQKeyboardManager+UITextFieldViewNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQKeyboardManager+UITextFieldViewNotification.swift"; sourceTree = "<group>"; };
 		6AFAD76028FFADE60048EB2F /* PostCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCreationViewController.swift; sourceTree = "<group>"; };
 		6AFAD76228FFAE790048EB2F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		88552ACD292347FB00C4C475 /* HeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapViewController.swift; sourceTree = "<group>"; };
 		88552AD1292376E000C4C475 /* LightboxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightboxController.swift; sourceTree = "<group>"; };
 		88552AD3292376E000C4C475 /* LayoutConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConfigurable.swift; sourceTree = "<group>"; };
 		88552AD4292376E000C4C475 /* UIView+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 				6AFAD76628FFAEDF0048EB2F /* FirebaseAuth in Frameworks */,
 				6AFAD76828FFAEDF0048EB2F /* FirebaseFirestore in Frameworks */,
 				88A231902919C44A00755476 /* FirebaseStorage in Frameworks */,
+				88A1FB9A2923447E007BD8FF /* MapboxMaps in Frameworks */,
 				88552AFA2923789100C4C475 /* SDWebImageMapKit in Frameworks */,
 				88552AF82923789100C4C475 /* SDWebImage in Frameworks */,
 			);
@@ -283,6 +287,7 @@
 		8817E6ED291DBFB5005930D8 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				88552ACC292347E200C4C475 /* heatmap */,
 				8817E6F6291DC162005930D8 /* comments */,
 				8817E6F5291DC12B005930D8 /* account */,
 				8817E6F4291DC10C005930D8 /* feed */,
@@ -392,6 +397,14 @@
 			path = storyboards;
 			sourceTree = "<group>";
 		};
+		88552ACC292347E200C4C475 /* heatmap */ = {
+			isa = PBXGroup;
+			children = (
+				88552ACD292347FB00C4C475 /* HeatmapViewController.swift */,
+			);
+			path = heatmap;
+      sourceTree = "<group>";
+		};
 		88552ACF2923769200C4C475 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +484,7 @@
 				6AFAD76728FFAEDF0048EB2F /* FirebaseFirestore */,
 				88A2318F2919C44A00755476 /* FirebaseStorage */,
 				883D4E71292098AC007B8E66 /* DZNEmptyDataSet */,
+				88A1FB992923447E007BD8FF /* MapboxMaps */,
 				88552AF72923789100C4C475 /* SDWebImage */,
 				88552AF92923789100C4C475 /* SDWebImageMapKit */,
 			);
@@ -505,6 +519,7 @@
 			packageReferences = (
 				6AFAD76428FFAEDF0048EB2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				883D4E70292098AC007B8E66 /* XCRemoteSwiftPackageReference "DZNEmptyDataSet" */,
+				88A1FB982923447E007BD8FF /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
 				88552AF62923789100C4C475 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 6A292D4B28F385670068C727 /* Products */;
@@ -562,6 +577,7 @@
 				9C24794128FF429200AF9264 /* ProfileViewController.swift in Sources */,
 				6A34E9F328FF391D00699A74 /* SettingsViewController.swift in Sources */,
 				6AFAD75D28FFADDD0048EB2F /* IQUIView+Hierarchy.swift in Sources */,
+				88552ACE292347FB00C4C475 /* HeatmapViewController.swift in Sources */,
 				88751CAC2917348A00C88B18 /* UIViewControllerExtensions.swift in Sources */,
 				6A9DA6EF28F9280800B36BE6 /* SignUpViewController.swift in Sources */,
 				886D468528FE5AFD00CB59FB /* PostViewController.swift in Sources */,
@@ -837,6 +853,14 @@
 				kind = branch;
 			};
 		};
+		88A1FB982923447E007BD8FF /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios/";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		88552AF62923789100C4C475 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
@@ -862,6 +886,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 883D4E70292098AC007B8E66 /* XCRemoteSwiftPackageReference "DZNEmptyDataSet" */;
 			productName = DZNEmptyDataSet;
+		};
+		88A1FB992923447E007BD8FF /* MapboxMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88A1FB982923447E007BD8FF /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
+			productName = MapboxMaps;
 		};
 		88552AF72923789100C4C475 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
