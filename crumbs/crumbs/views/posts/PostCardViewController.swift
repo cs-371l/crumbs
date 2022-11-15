@@ -76,6 +76,7 @@ class PostCardViewController:
             self.refreshTable()
         }
         self.navigationController?.delegate = self
+        pullControl.layer.zPosition = -1
         
         // For empty dataset.
         self.cardTable.emptyDataSetSource = self

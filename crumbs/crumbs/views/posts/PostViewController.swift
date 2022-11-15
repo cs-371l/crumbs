@@ -73,6 +73,11 @@ class PostViewCell : UITableViewCell {
     @objc func clickedOnProfile(sender: UITapGestureRecognizer) {
         delegate.callSegueToProfile()
     }
+    
+    @objc func clickedOnImage(sender: UITapGestureRecognizer) {
+        guard postImage.image != nil else { return }
+        self.delegate.presentLightbox()
+    }
 
     func assignAttributes(p: Post, user: User, image: UIImage?) {
         postImage.layer.masksToBounds = true
@@ -82,9 +87,10 @@ class PostViewCell : UITableViewCell {
         handlePostUpdate()
         // Check if there is a post image.
         if image != nil {
-            let scaled = image?.scale(with: CGSize(width: 348, height: 250))
-            postImage.frame = CGRect(x: 0, y: 0, width: scaled!.size.width, height: scaled!.size.height)
-            postImage.image = scaled
+            postImage.contentMode = .scaleAspectFill
+            postImage.image = image
+        } else {
+            postImage.frame = CGRect(x:0, y: 0, width:0, height:0)
         }
         
         
@@ -93,6 +99,9 @@ class PostViewCell : UITableViewCell {
         profileStackView.isUserInteractionEnabled = true
         profileStackView.addGestureRecognizer(profileGesture)
         
+        let imageGesture = UITapGestureRecognizer(target: self, action: #selector(clickedOnImage))
+        postImage.isUserInteractionEnabled = true
+        postImage.addGestureRecognizer(imageGesture)
     }
 }
 
@@ -164,6 +173,7 @@ class CommentCardCell : UITableViewCell {
 
 protocol PostCellDelegator {
     func callSegueToProfile()
+    func presentLightbox()
 }
 
 
@@ -171,6 +181,8 @@ class PostViewController:
     UIViewController,
     UITableViewDelegate,
     UITableViewDataSource,
+    LightboxControllerPageDelegate,
+    LightboxControllerDismissalDelegate,
     PostCellDelegator {
     
     var post: Post!
@@ -296,6 +308,28 @@ class PostViewController:
             
             return UITableView.automaticDimension
         }
+    
+    func lightboxControllerWillDismiss(_ controller: LightboxController) {
+        // pass
+    }
+    
+    func lightboxController(_ controller: LightboxController, didMoveToPage page: Int) {
+        // pass
+    }
+    func presentLightbox() {
+        let images = [LightboxImage(image: postImage!)]
+        let controller = LightboxController(images: images)
+        
+        // Set delegates.
+        controller.pageDelegate = self
+        controller.dismissalDelegate = self
+
+        // Use dynamic background.
+        controller.dynamicBackground = true
+
+        // Present your controller.
+        self.present(controller, animated: true, completion: nil)
+    }
     
     @objc func unfollowPressed() {
         // change button
