@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import UIKit
 
 // Global User
 var CUR_USER: User!
@@ -25,6 +26,8 @@ class User {
     var followedPostIds: [DocumentReference]
     var viewedPostIds: [DocumentReference]
     var viewedProfileIds: [DocumentReference]
+    var imageUrl: String?
+    var uiImage: UIImage? = nil
 
     init(snapshot: DocumentSnapshot) {
         self.docRef = snapshot.reference
@@ -39,6 +42,7 @@ class User {
         snapshot.get("followed_posts") as! [DocumentReference]
         self.viewedPostIds = snapshot.get("viewed_posts") as! [DocumentReference]
         self.viewedProfileIds = snapshot.get("viewed_profiles") as! [DocumentReference]
+        self.imageUrl = snapshot.get("image_url") as! String?
     }
     
     func getPosts(callback: @escaping (_ success: Bool, _ data: [Post]?) -> Void) {
@@ -73,6 +77,7 @@ class User {
         self.followedPostIds = []
         self.viewedPostIds = []
         self.viewedProfileIds = []
+        self.imageUrl = ""
         
         // Persist to Firestore.
         let db = Firestore.firestore()
@@ -88,7 +93,8 @@ class User {
             "liked_posts": self.likedPostIds,
             "followed_posts": self.followedPostIds,
             "viewed_posts": self.viewedPostIds,
-            "viewed_profiles": self.viewedProfileIds
+            "viewed_profiles": self.viewedProfileIds,
+            "image_url": self.imageUrl!
         ]) {
             err in
             if let err = err {
