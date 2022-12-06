@@ -104,4 +104,68 @@ class Post {
         return base
     }
     
+    private func getDeltaForComment(
+        comment: DocumentReference,
+        upvotedRefs: [DocumentReference],
+        downvotedRefs: [DocumentReference]
+    ) -> Int {
+        for upvotedRef in upvotedRefs {
+            if upvotedRef.documentID == comment.documentID {
+                return 1
+            }
+        }
+        
+        for downvotedRef in downvotedRefs {
+            if downvotedRef.documentID == comment.documentID {
+                return -1
+            }
+        }
+        return 0
+    }
+    
+    func getCommentDeltaDoc(user: DocumentReference) async throws -> DocumentReference {
+        let db = Firestore.firestore()
+        let query = db.collection("comment_upvotes").whereField("post", isEqualTo: self.docRef!).whereField("user", isEqualTo: user)
+        
+        let results = try await query.getDocuments()
+        if !results.documents.isEmpty {
+            return results.documents[0].reference
+        }
+        
+        var base = [
+            "post": self.docRef!,
+            "user": user,
+            "upvoted": [] as [DocumentReference],
+            "downvoted": [] as [DocumentReference]
+        ] as [String : Any]
+        
+        let ref = db.collection("comment_upvotes").document()
+        try await ref.setData(base)
+        
+        return ref
+        
+        
+    }
+    
+    // Returns state delta for each comment in order for posts -- for example
+    // [1, 0, -1] => upvote for comment 1, no state for comment 2, downvote for comment 3.
+    func getCommentDeltaForUser(upvoteRelation: DocumentReference) async throws -> [Int] {
+        var deltas: [Int] = []
+        
+        let doc = try await upvoteRelation.getDocument()
+        let upvotedReferences: [DocumentReference] = doc.get("upvoted") as! [DocumentReference]
+        let downvotedReferences: [DocumentReference] = doc.get("downvoted") as! [DocumentReference]
+        
+        for comment in self.comments {
+            deltas.append(
+                getDeltaForComment(
+                    comment: comment.docRef,
+                    upvotedRefs: upvotedReferences,
+                    downvotedRefs: downvotedReferences
+                )
+            )
+        }
+        return deltas
+    }
+    
 }

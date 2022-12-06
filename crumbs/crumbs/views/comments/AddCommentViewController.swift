@@ -27,14 +27,15 @@ class AddCommentViewController: UIViewController, UITextViewDelegate {
     
     @objc func addComment() {
         let commentText = commentTextView.text!
+        let ref = self.post.docRef?.collection("comments").document()
         let comment = Comment(
             comment: commentText,
             upvotes: 0,
             username: CUR_USER.username,
             userRef: CUR_USER.docRef,
-            date: Date()
+            date: Date(), docRef: ref!
         )
-        self.post.docRef?.collection("comments").addDocument(data: comment.serialize())
+        ref!.setData(comment.serialize())
         self.post.comments.append(comment)
         CUR_USER.addFollwedPost(p: self.post)
         self.postViewTable.reloadData()

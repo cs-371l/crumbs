@@ -16,7 +16,6 @@ public func getData(from url: URL, completion: @escaping (Data?, URLResponse?, E
 
 class PostViewCell : UITableViewCell {
     
-    
     @IBOutlet weak var profileStackView: UIStackView!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
@@ -118,6 +117,7 @@ class CommentCardCell : UITableViewCell {
     // 1 = upvoted, -1, downvoted, 0 not interacted
     var delta: Int!
     var originalDelta: Int!
+    var delegate: PostCommentDelegator!
     
     
     let enabledUpvote: UIImage = UIImage(systemName: "arrowtriangle.up.circle")!.withRenderingMode(.alwaysTemplate)
@@ -126,14 +126,23 @@ class CommentCardCell : UITableViewCell {
     let disabledDownvote: UIImage = UIImage(systemName: "arrowtriangle.down.circle.fill")!.withRenderingMode(.alwaysTemplate)
 
     @IBAction func upvotePressed(_ sender: Any) {
+        // Already liked, removing like.
         if delta == 1 {
+            delegate.removeFromUpvote(c: comment)
             delta = 0
             upvoteButton.setImage(enabledUpvote, for: .normal)
             comment.upvotes -= 1
             upvotesLabel.text = String(comment.upvotes)
             return
         }
-
+        
+        if delta == 0 {
+            delegate.addToUpvote(c: comment)
+        } else if delta == -1 {
+            delegate.removeFromDownvote(c: comment)
+            delegate.addToUpvote(c: comment)
+        }
+        
         upvoteButton.setImage(disabledUpvote, for: .normal)
         downvoteButton.setImage(enabledDownvote, for: .normal)
         
@@ -144,12 +153,21 @@ class CommentCardCell : UITableViewCell {
     
     @IBAction func downvotePressed(_ sender: Any) {
         
+        // Already disliked, removing dislike.
         if delta == -1 {
+            delegate.removeFromDownvote(c: comment)
             delta = 0
             downvoteButton.setImage(enabledDownvote, for: .normal)
             comment.upvotes += 1
             upvotesLabel.text = String(comment.upvotes)
             return
+        }
+        
+        if delta == 0 {
+            delegate.addToDownvote(c: comment)
+        } else if delta == 1 {
+            delegate.removeFromUpvote(c: comment)
+            delegate.addToDownvote(c: comment)
         }
         
         downvoteButton.setImage(disabledDownvote, for: .normal)
@@ -158,6 +176,16 @@ class CommentCardCell : UITableViewCell {
         comment.upvotes -= delta + 1
         delta = -1
         upvotesLabel.text = String(comment.upvotes)
+    }
+    
+    func displayForDelta(delta: Int) {
+        if self.delta == 1 {
+            downvoteButton.setImage(enabledDownvote, for: .normal)
+            upvoteButton.setImage(disabledUpvote, for: .normal)
+        } else if self.delta == -1 {
+            downvoteButton.setImage(disabledDownvote, for: .normal)
+            upvoteButton.setImage(enabledUpvote, for: .normal)
+        }
     }
 
     func assignAttributes(c: Comment, delta: Int) {
@@ -168,12 +196,22 @@ class CommentCardCell : UITableViewCell {
         comment = c
         self.delta = delta
         self.originalDelta = delta
+        displayForDelta(delta: delta)
     }
 }
 
+// Provides link for functionality between post cell and view controller.
 protocol PostCellDelegator {
     func callSegueToProfile()
     func presentLightbox()
+}
+
+// Provides link for functionality between comments and view controller.
+protocol PostCommentDelegator {
+    func removeFromUpvote(c: Comment)
+    func removeFromDownvote(c: Comment)
+    func addToUpvote(c: Comment)
+    func addToDownvote(c: Comment)
 }
 
 
@@ -183,7 +221,8 @@ class PostViewController:
     UITableViewDataSource,
     LightboxControllerPageDelegate,
     LightboxControllerDismissalDelegate,
-    PostCellDelegator {
+    PostCellDelegator,
+    PostCommentDelegator {
     
     var post: Post!
     var followActive: Bool = false
@@ -199,6 +238,8 @@ class PostViewController:
     private final let PROFILE_VIEW_SEGUE = "PostToProfileSegue"
     
     var tableManager: TableManager?
+    var commentDeltas: [Int] = []
+    var commentDeltasDoc: DocumentReference!
 
     
     var originalLikeState: Bool!
@@ -232,6 +273,46 @@ class PostViewController:
         }
     }
     
+    // Initializes and sets image data.
+    private func initializeImageData() async throws -> UIImage? {
+        guard post.uiImage == nil && post.imageUrl != nil else {
+            return nil
+        }
+        let (data, _) = try await URLSession.shared.data(from: URL(string: post.imageUrl!)!)
+        
+        return UIImage(data: data)
+    }
+    
+    // Initializes comments delta data.
+    private func initializeCommentsDeltaData() async throws {
+        let doc = try await self.post.getCommentDeltaDoc(user: CUR_USER.docRef)
+        let deltas = try await self.post.getCommentDeltaForUser(upvoteRelation: doc)
+        self.commentDeltas = deltas
+        self.commentDeltasDoc = doc
+    }
+    
+    private func loadData() {
+        
+        self.showSpinner(onView: self.view)
+        Task {
+            async let imageDataPromise: UIImage? = initializeImageData()
+            async let commentsDeltaPromise: Void = initializeCommentsDeltaData()
+            
+            let image: UIImage? = try await imageDataPromise
+            try await commentsDeltaPromise
+            
+            
+            DispatchQueue.main.async {
+                self.removeSpinner()
+                if image != nil {
+                    self.post.uiImage = image
+                    self.postImage = image
+                }
+                self.postViewTable.reloadData()
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -251,23 +332,7 @@ class PostViewController:
             updateViewsForUserAndPost()
             post.viewCount += 1
         }
-        
-        if post.uiImage == nil && post.imageUrl != nil {
-            self.showSpinner(onView: self.view)
-            getData(from: URL(string: post.imageUrl!)!) {
-                data, resp, error in
-                guard let data = data, error == nil else {
-                    self.showErrorAlert(title: "Error", message: "Unable to load post.")
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.postImage = UIImage(data: data)
-                    self.post.uiImage = self.postImage
-                    self.removeSpinner()
-                    self.postViewTable.reloadData()
-                }
-            }
-        }
+        loadData()
         self.populateComments()
         followActive = CUR_USER.hasFollowedPost(p: self.post)
         // fix later
@@ -316,6 +381,7 @@ class PostViewController:
     func lightboxController(_ controller: LightboxController, didMoveToPage page: Int) {
         // pass
     }
+
     func presentLightbox() {
         let images = [LightboxImage(image: postImage!)]
         let controller = LightboxController(images: images)
@@ -329,6 +395,46 @@ class PostViewController:
 
         // Present your controller.
         self.present(controller, animated: true, completion: nil)
+    }
+    
+    private func updateUpvotes(c: Comment) async throws {
+        try await c.docRef.updateData([
+            "upvotes": c.upvotes
+        ])
+    }
+    
+    // Delegator functions for Comments.
+    func removeFromUpvote(c: Comment) {
+        Task {
+            try await commentDeltasDoc.updateData([
+                "upvoted": FieldValue.arrayRemove([c.docRef])
+            ])
+            try await updateUpvotes(c: c)
+        }
+    }
+    func removeFromDownvote(c: Comment) {
+        Task {
+            try await commentDeltasDoc.updateData([
+                "downvoted": FieldValue.arrayRemove([c.docRef])
+            ])
+            try await updateUpvotes(c: c)
+        }
+    }
+    func addToUpvote(c: Comment) {
+        Task {
+            try await commentDeltasDoc.updateData([
+                "upvoted": FieldValue.arrayUnion([c.docRef])
+            ])
+            try await updateUpvotes(c: c)
+        }
+    }
+    func addToDownvote(c: Comment) {
+        Task {
+            try await commentDeltasDoc.updateData([
+                "downvoted": FieldValue.arrayUnion([c.docRef])
+            ])
+            try await updateUpvotes(c: c)
+        }
     }
     
     @objc func unfollowPressed() {
@@ -438,8 +544,13 @@ class PostViewController:
         
         // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
-        cell.assignAttributes(c: post.comments[row - 1], delta: 0)
+        var delta = 0
+        if row - 1 < commentDeltas.count {
+            delta = commentDeltas[row - 1]
+        }
+        cell.assignAttributes(c: post.comments[row - 1], delta: delta)
         cell.selectionStyle = .none
+        cell.delegate = self
         return cell
     }
     
