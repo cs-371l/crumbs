@@ -40,7 +40,7 @@ Features -> Location -> Custom Location...
 | Loading Screen      | Camera animation starting screen when loading into the app       | Beta   | Beta   | None  | Philo - 100 |
 | Login Page          | Users can login using email and password    | Alpha   | Alpha   | Did not implement Apple account login  | Kevin/Tristan/Philo - 40/40/20 |
 | Sign-up Page    | Users can sign-up for an account, has many checks to create a valid account     | Alpha   | Alpha   | None  |  Tristan/Kevin - 70/30 |
-| Settings Page    | Change account information, delete account, turn on/off notifications, dark mode    | Alpha   | Beta   | Do not have notifications implemented becuase the notifications that are desired for this app are remote, which requires a paid Apple Developer account  | Tristan/Philo - 80/20 |
+| Settings Page    | Change account information, delete account, turn on/off notifications, dark mode    | Alpha   | Beta   | Do not have notifications implemented becuase the notifications that are desired for this app are remote, which requires a paid Apple Developer account  | Tristan/Philo/Amog - 20/20/60 |
 | Home Page      | Initial screen when users open the app. Discover feed that shows posts in close proximity of user. Follow feed that shows posts that the user has followed.      | Alpha   | Alpha   | None  | Kevin/Tristan - 50/50 |
 | Post View Page     | Shows post details, comments, likes, views  | Alpha   | Alpha  | No threaded comments due to difficulty  | Kevin - 100 |
 | User Page      | Shows user's username, karma, number of posts, date account was created , and bio. Links to created posts | Alpha  | Beta/Final   | None  | Kevin/Amog/Tristan - 40/40/20 |
