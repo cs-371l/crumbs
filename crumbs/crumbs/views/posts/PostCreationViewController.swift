@@ -22,7 +22,6 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
     private final let plus = UIImage(systemName: "plus")
     var imageToUpload: UIImage? = nil
     var tableManager: TableManager!
-    var editedText = false
     
     private let storage = Storage.storage().reference()
     private let deviceLocationService = DeviceLocationService.shared
@@ -93,10 +92,10 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
         }
     }
     
-        func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
              if textView.textColor == UIColor.lightGray {
                  textView.text = nil
-                 editedText = true
+                 
                  let defaults = UserDefaults.standard
                  if defaults.bool(forKey: "Dark") {
                      textView.textColor = UIColor.white
@@ -108,7 +107,6 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
 
          func textViewDidEndEditing(_ textView: UITextView) {
              if textView.text.isEmpty {
-                 editedText = false
                  textView.text = "Share your thoughts!"
                  descriptionText.textColor = UIColor.lightGray
              }
@@ -145,7 +143,7 @@ class PostCreationViewController: UIViewController, UITextViewDelegate, UITextFi
 
          @objc func postPressed() {
              let titleTextStored = titleText.text!
-             let descriptionTextStored = editedText ? descriptionText.text! : ""
+             let descriptionTextStored = descriptionText.text!
              let location = deviceLocationService.getLocation()!
              let geohash = Geohash.encode(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: .nineteenMeters)
 
