@@ -19,10 +19,14 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     private let storage = Storage.storage().reference()
     @IBOutlet weak var username: UILabel!
     
+    @IBOutlet weak var passwordButtonOutlet: UIButton!
+    @IBOutlet weak var passwordAlert: UILabel!
     @IBOutlet weak var emailAlert: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var biographyTextField: UITextField!
     var imageToUpload: UIImage? = nil
+    @IBOutlet weak var passwordPrompt: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         biographyTextField.text = user.biography
         emailTextField.text = Auth.auth().currentUser?.email
         emailAlert.isHidden = true
+        passwordAlert.isHidden = true
+        passwordPrompt.isHidden = true
+        passwordTextField.isHidden = true
+        passwordButtonOutlet.isHidden = true
         profilePic.image = CUR_USER.uiImage ?? UIImage(named: "empty-profile-2")
         self.profilePic.makeRounded()
     }
@@ -99,11 +107,49 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBAction func editEmailButton(_ sender: Any) {
         if emailTextField.text!.isValidEmail {
             emailAlert.isHidden = true
-            Auth.auth().currentUser?.updateEmail(to: emailTextField.text!)
+            passwordPrompt.isHidden = false
+            passwordTextField.isHidden = false
+            passwordButtonOutlet.isHidden = false
+            passwordAlert.isHidden = true
         } else {
             emailAlert.isHidden = false
+            passwordPrompt.isHidden = true
+            passwordTextField.isHidden = true
+            passwordButtonOutlet.isHidden = true
+            passwordAlert.isHidden = true
             emailTextField.text = Auth.auth().currentUser?.email
         }     
+    }
+    
+    
+    @IBAction func passwordButton(_ sender: Any) {
+        guard let password = passwordTextField.text, password != "" else {
+            passwordAlert.text =  "Please enter your password"
+            passwordAlert.isHidden = false
+            return
+        }
+        
+        let user = Auth.auth().currentUser
+        let credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: password)
+        
+        user?.reauthenticate(with: credential) {
+            result, error  in
+            if error != nil {
+                // TODO: Check if error is truly the result of incorrect password
+                self.passwordAlert.text = "Wrong password"
+                self.passwordAlert.textColor = UIColor.red
+                self.passwordAlert.isHidden = false
+            } else {
+                
+                user?.updateEmail(to: self.emailTextField.text!) { (error) in
+                                    // email updated
+                    self.passwordAlert.text = "Sucessfully Updated Email"
+                    self.passwordAlert.textColor = UIColor.black
+                    self.passwordAlert.isHidden = false
+
+                    }
+            }
+        }
     }
     
     
