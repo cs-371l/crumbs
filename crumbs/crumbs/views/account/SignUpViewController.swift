@@ -61,30 +61,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
         createDatePicker()
-        
-        addNavBarImage()
-        // dummy button to center crumbs logo
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "       ", style: .plain, target: self, action: #selector(dummy))
 
-    }
-    
-    @objc func dummy() {
-        
-    }
-    
-    // adds crumbs logo to navbar
-    func addNavBarImage() {
-        let navController = navigationController!
-        let image = UIImage(named: "NavbarLogo.png") //Your logo url here
-        let imageView = UIImageView(image: image)
-        let bannerWidth = navController.navigationBar.frame.size.width
-        let bannerHeight = navController.navigationBar.frame.size.height
-        let bannerX = bannerWidth / 2 - (image?.size.width)! / 2
-        let bannerY = bannerHeight / 2 - (image?.size.height)! / 2
-        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-        imageView.contentMode = .scaleAspectFit
-         navigationItem.titleView = imageView
-        navController.view.addSubview(imageView)
     }
     
     // Called when 'return' key pressed

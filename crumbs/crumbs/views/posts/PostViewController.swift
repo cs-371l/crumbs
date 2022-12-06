@@ -67,6 +67,7 @@ class PostViewCell : UITableViewCell {
         )
         post.likeCount += likeActive ? 1 : -1
         handlePostUpdate()
+        delegate.updateLikeState(likeState: likeActive)
     }
     
     @objc func clickedOnProfile(sender: UITapGestureRecognizer) {
@@ -101,6 +102,7 @@ class PostViewCell : UITableViewCell {
         let imageGesture = UITapGestureRecognizer(target: self, action: #selector(clickedOnImage))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(imageGesture)
+        delegate.updateLikeState(likeState: likeActive)
     }
 }
 
@@ -118,6 +120,7 @@ class CommentCardCell : UITableViewCell {
     var delta: Int!
     var originalDelta: Int!
     var delegate: PostCommentDelegator!
+    var row: Int!
     
     
     let enabledUpvote: UIImage = UIImage(systemName: "arrowtriangle.up.circle")!.withRenderingMode(.alwaysTemplate)
@@ -133,6 +136,7 @@ class CommentCardCell : UITableViewCell {
             upvoteButton.setImage(enabledUpvote, for: .normal)
             comment.upvotes -= 1
             upvotesLabel.text = String(comment.upvotes)
+            delegate.setDelta(row: row, delta: delta)
             return
         }
         
@@ -149,6 +153,7 @@ class CommentCardCell : UITableViewCell {
         comment.upvotes += 1 - delta
         upvotesLabel.text = String(comment.upvotes)
         delta = 1
+        delegate.setDelta(row: row, delta: delta)
     }
     
     @IBAction func downvotePressed(_ sender: Any) {
@@ -160,6 +165,7 @@ class CommentCardCell : UITableViewCell {
             downvoteButton.setImage(enabledDownvote, for: .normal)
             comment.upvotes += 1
             upvotesLabel.text = String(comment.upvotes)
+            delegate.setDelta(row: row, delta: delta)
             return
         }
         
@@ -176,6 +182,7 @@ class CommentCardCell : UITableViewCell {
         comment.upvotes -= delta + 1
         delta = -1
         upvotesLabel.text = String(comment.upvotes)
+        delegate.setDelta(row: row, delta: delta)
     }
     
     func displayForDelta(delta: Int) {
@@ -185,6 +192,9 @@ class CommentCardCell : UITableViewCell {
         } else if self.delta == -1 {
             downvoteButton.setImage(disabledDownvote, for: .normal)
             upvoteButton.setImage(enabledUpvote, for: .normal)
+        } else {
+            upvoteButton.setImage(enabledUpvote, for: .normal)
+            downvoteButton.setImage(enabledDownvote, for: .normal)
         }
     }
 
@@ -204,6 +214,7 @@ class CommentCardCell : UITableViewCell {
 protocol PostCellDelegator {
     func callSegueToProfile()
     func presentLightbox()
+    func updateLikeState(likeState: Bool)
 }
 
 // Provides link for functionality between comments and view controller.
@@ -212,6 +223,7 @@ protocol PostCommentDelegator {
     func removeFromDownvote(c: Comment)
     func addToUpvote(c: Comment)
     func addToDownvote(c: Comment)
+    func setDelta(row: Int, delta: Int)
 }
 
 
@@ -243,8 +255,17 @@ class PostViewController:
 
     
     var originalLikeState: Bool!
+    var currentLikeState: Bool = false
     var postImage: UIImage? = nil
     
+    func updateLikeState(likeState: Bool) {
+        currentLikeState = likeState
+    }
+    
+    func setDelta(row: Int, delta: Int) {
+        commentDeltas[row] = delta
+    }
+
     func callSegueToProfile() {
 
         // Cached user.
@@ -531,9 +552,9 @@ class PostViewController:
         if row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: POST_IDENTIFIER, for: indexPath) as! PostViewCell
 
+            cell.delegate = self
             cell.assignAttributes(p: post, user: CUR_USER, image: self.postImage)
             cell.selectionStyle = .none
-            cell.delegate = self
             return cell
         } else if row == post.commentCount + 1 {
             let cell = UITableViewCell()
@@ -544,11 +565,15 @@ class PostViewController:
         
         // Remaining cells are comments.
         let cell = tableView.dequeueReusableCell(withIdentifier: COMMENT_IDENTIFIER, for: indexPath) as! CommentCardCell
-        var delta = 0
-        if row - 1 < commentDeltas.count {
-            delta = commentDeltas[row - 1]
+        cell.row = row - 1
+        let sortedComments = post.comments.sorted {
+            $0.date < $1.date
         }
-        cell.assignAttributes(c: post.comments[row - 1], delta: delta)
+        // Edge case for adding comment.
+        if row - 1 == commentDeltas.count {
+            commentDeltas.append(0)
+        }
+        cell.assignAttributes(c: sortedComments[row - 1], delta: commentDeltas[row - 1])
         cell.selectionStyle = .none
         cell.delegate = self
         return cell
@@ -654,12 +679,8 @@ class PostViewController:
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        let firstIndex = IndexPath(row: 0, section: 0)
-        let postCell = postViewTable.cellForRow(at: firstIndex) as! PostViewCell
-        // Need to check if we have to update anything for
-        // the user or the post.
-        if postCell.likeActive != self.originalLikeState {
-            updateLikeForUserAndPost(isLiking: postCell.likeActive)
+        if self.currentLikeState != self.originalLikeState {
+            updateLikeForUserAndPost(isLiking: self.currentLikeState)
         }
         
         

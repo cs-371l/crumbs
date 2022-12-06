@@ -59,6 +59,10 @@ class Post {
         self.latitude = latitude
         self.longitude = longitude
         self.geohash = geohash
+        
+        self.comments = self.comments.sorted {
+            $0.date < $1.date
+        }
     }
     
     convenience init(snapshot: QueryDocumentSnapshot) {
@@ -149,6 +153,7 @@ class Post {
     
     // Returns state delta for each comment in order for posts -- for example
     // [1, 0, -1] => upvote for comment 1, no state for comment 2, downvote for comment 3.
+    // Sorted order based on dates.
     func getCommentDeltaForUser(upvoteRelation: DocumentReference) async throws -> [Int] {
         var deltas: [Int] = []
         
@@ -156,7 +161,10 @@ class Post {
         let upvotedReferences: [DocumentReference] = doc.get("upvoted") as! [DocumentReference]
         let downvotedReferences: [DocumentReference] = doc.get("downvoted") as! [DocumentReference]
         
-        for comment in self.comments {
+        let sortedComments = self.comments.sorted {
+            $0.date < $1.date
+        }
+        for comment in sortedComments {
             deltas.append(
                 getDeltaForComment(
                     comment: comment.docRef,

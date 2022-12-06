@@ -13,7 +13,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var appleButton: UIButton!
     @IBOutlet weak var passwordError: UILabel!
     @IBOutlet weak var usernameError: UILabel!
 
@@ -29,7 +28,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        setupAppleButton()
         setupErrors()
     }
     
@@ -99,9 +97,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         password: self.passwordTextField.text!) {
                             authResult, error in
                             if let error = error as NSError? {
-                                self.errorTextField.text! = "\(error.localizedDescription)"
+                                self.showErrorAlert(title: "Error", message: "\(error.localizedDescription)")
                             } else {
-                                self.errorTextField.text = "Success"
                                 db.collection("users").document(authResult!.user.uid).getDocument() {
                                     (snapshot, err) in
                                     if let err = err {
@@ -132,13 +129,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
     }
     
-    // Setups the apple button with correct logo and tint.
-    private func setupAppleButton() {
-        // Right inset needed for spacing between text and logo.
-        let logo = UIImage(systemName: "applelogo")!.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -6))
-        appleButton.setImage(logo, for: .normal)
-        appleButton.tintColor = UIColor.systemGray2
-    }
     
     // Triggers segue to the sign up page.
     @IBAction func signUpPressed(_ sender: Any) {
